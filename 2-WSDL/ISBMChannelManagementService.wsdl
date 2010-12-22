@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+  xmlns:tns="http://www.openoandm.org/xml/ISBM/"
+  xmlns:s="http://www.w3.org/2001/XMLSchema"
+  xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+  targetNamespace="http://www.openoandm.org/xml/ISBM/"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.openoandm.org/xml/ISBM/" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+      <s:import namespace="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" schemaLocation="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" />     
+      <s:element name="AssignSecurityTokens">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="channelURI" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" ref="wsse:SecurityTokenReference" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="AssignSecurityTokensResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="AssignSecurityTokensResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateChannel">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="channelURI" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="channelType" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" ref="wsse:SecurityTokenReference" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CreateChannelResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CreateChannelResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteChannel">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="channelURI" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" ref="wsse:SecurityTokenReference" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="DeleteChannelResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DeleteChannelResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveSecurityTokens">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="channelURI" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" ref="wsse:SecurityTokenReference" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveSecurityTokensResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RemoveSecurityTokensResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="AssignSecurityTokensSoapIn">
+    <wsdl:part name="parameters" element="tns:AssignSecurityTokens" />
+  </wsdl:message>
+  <wsdl:message name="AssignSecurityTokensSoapOut">
+    <wsdl:part name="parameters" element="tns:AssignSecurityTokensResponse" />
+  </wsdl:message>
+  <wsdl:message name="CreateChannelSoapIn">
+    <wsdl:part name="parameters" element="tns:CreateChannel" />
+  </wsdl:message>
+  <wsdl:message name="CreateChannelSoapOut">
+    <wsdl:part name="parameters" element="tns:CreateChannelResponse" />
+  </wsdl:message>
+  <wsdl:message name="DeleteChannelSoapIn">
+    <wsdl:part name="parameters" element="tns:DeleteChannel" />
+  </wsdl:message>
+  <wsdl:message name="DeleteChannelSoapOut">
+    <wsdl:part name="parameters" element="tns:DeleteChannelResponse" />
+  </wsdl:message>
+  <wsdl:message name="RemoveSecurityTokensSoapIn">
+    <wsdl:part name="parameters" element="tns:RemoveSecurityTokens" />
+  </wsdl:message>
+  <wsdl:message name="RemoveSecurityTokensSoapOut">
+    <wsdl:part name="parameters" element="tns:RemoveSecurityTokensResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ISBMChannelManagementServiceSoap">
+    <wsdl:operation name="AssignSecurityTokens">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Assigns security tokens to a channel. Return an error if the channel ID does not match an existing channel.</wsdl:documentation>
+      <wsdl:input message="tns:AssignSecurityTokensSoapIn" />
+      <wsdl:output message="tns:AssignSecurityTokensSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="CreateChannel">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Creates an ISBM channel.  If the channel already exists, then the ID is returned.</wsdl:documentation>
+      <wsdl:input message="tns:CreateChannelSoapIn" />
+      <wsdl:output message="tns:CreateChannelSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="DeleteChannel">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Deletes an ISBM channel.</wsdl:documentation>
+      <wsdl:input message="tns:DeleteChannelSoapIn" />
+      <wsdl:output message="tns:DeleteChannelSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveSecurityTokens">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Removes security tokens from a channel.</wsdl:documentation>
+      <wsdl:input message="tns:RemoveSecurityTokensSoapIn" />
+      <wsdl:output message="tns:RemoveSecurityTokensSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ISBMChannelManagementServiceSoap" type="tns:ISBMChannelManagementServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="AssignSecurityTokens">
+      <soap:operation soapAction="http://www.openoandm.org/xml/ISBM/AssignSecurityTokens" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateChannel">
+      <soap:operation soapAction="http://www.openoandm.org/xml/ISBM/CreateChannel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteChannel">
+      <soap:operation soapAction="http://www.openoandm.org/xml/ISBM/DeleteChannel" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveSecurityTokens">
+      <soap:operation soapAction="http://www.openoandm.org/xml/ISBM/RemoveSecurityTokens" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ISBMChannelManagementServiceSoap12" type="tns:ISBMChannelManagementServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="AssignSecurityTokens">
+      <soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/AssignSecurityTokens" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateChannel">
+      <soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/CreateChannel" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="DeleteChannel">
+      <soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/DeleteChannel" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveSecurityTokens">
+      <soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/RemoveSecurityTokens" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ISBMChannelManagementService">
+    <wsdl:port name="ISBMChannelManagementServiceSoap" binding="tns:ISBMChannelManagementServiceSoap">
+      <soap:address location="http://localhost:49283/ISBMChannelManagementService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ISBMChannelManagementServiceSoap12" binding="tns:ISBMChannelManagementServiceSoap12">
+      <soap12:address location="http://localhost:49283/ISBMChannelManagementService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

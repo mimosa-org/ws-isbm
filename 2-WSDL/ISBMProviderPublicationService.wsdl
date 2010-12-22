@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+  xmlns:tns="http://www.openoandm.org/xml/ISBM/"
+  xmlns:s="http://www.w3.org/2001/XMLSchema"
+  xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+  targetNamespace="http://www.openoandm.org/xml/ISBM/"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.openoandm.org/xml/ISBM/" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+      <s:import namespace="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" schemaLocation="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" />     
+      <s:element name="ClosePublication">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="channelSessionID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ClosePublicationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ClosePublicationResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OpenPublication">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="channelURI" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" ref="wsse:SecurityTokenReference" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OpenPublicationResponse">
+        <s:complexType>
+          <s:sequence>
+          	<s:element minOccurs="0" maxOccurs="1"
+          		name="OpenPublicationResult" type="s:string" />
+          	<s:element minOccurs="0" maxOccurs="1" name="channelSessionID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PublicationMessage">
+          <s:complexType>
+              <s:sequence>
+                <s:any minOccurs="1" maxOccurs="1"  namespace="##any" processContents="lax" />
+              </s:sequence>
+          </s:complexType>
+      </s:element>      
+      <s:element name="PostPublication">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="channelSessionID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="unbounded" name="topic" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" ref="tns:PublicationMessage" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PostPublicationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="PostPublicationResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveAllPublications">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="channelSessionID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemoveAllPublicationsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RemoveAllPublicationsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemovePublication">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="channelSessionID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="messageID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RemovePublicationResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="RemovePublicationResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="ClosePublicationSoapIn">
+    <wsdl:part name="parameters" element="tns:ClosePublication" />
+  </wsdl:message>
+  <wsdl:message name="ClosePublicationSoapOut">
+    <wsdl:part name="parameters" element="tns:ClosePublicationResponse" />
+  </wsdl:message>
+  <wsdl:message name="OpenPublicationSoapIn">
+    <wsdl:part name="parameters" element="tns:OpenPublication" />
+  </wsdl:message>
+  <wsdl:message name="OpenPublicationSoapOut">
+    <wsdl:part name="parameters" element="tns:OpenPublicationResponse" />
+  </wsdl:message>
+  <wsdl:message name="PostPublicationSoapIn">
+    <wsdl:part name="parameters" element="tns:PostPublication" />
+  </wsdl:message>
+  <wsdl:message name="PostPublicationSoapOut">
+    <wsdl:part name="parameters" element="tns:PostPublicationResponse" />
+  </wsdl:message>
+  <wsdl:message name="RemoveAllPublicationsSoapIn">
+    <wsdl:part name="parameters" element="tns:RemoveAllPublications" />
+  </wsdl:message>
+  <wsdl:message name="RemoveAllPublicationsSoapOut">
+    <wsdl:part name="parameters" element="tns:RemoveAllPublicationsResponse" />
+  </wsdl:message>
+  <wsdl:message name="RemovePublicationSoapIn">
+    <wsdl:part name="parameters" element="tns:RemovePublication" />
+  </wsdl:message>
+  <wsdl:message name="RemovePublicationSoapOut">
+    <wsdl:part name="parameters" element="tns:RemovePublicationResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ISBMProviderPublicationServiceSoap">
+    <wsdl:operation name="ClosePublication">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Closes a publication channel from posting of messages.</wsdl:documentation>
+      <wsdl:input message="tns:ClosePublicationSoapIn" />
+      <wsdl:output message="tns:ClosePublicationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="OpenPublication">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Determines if a publication Channel exists and returns the channel ID. Opens the publication channel for posting of publication messages.</wsdl:documentation>
+      <wsdl:input message="tns:OpenPublicationSoapIn" />
+      <wsdl:output message="tns:OpenPublicationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PostPublication">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Posts a publication message to a publication channel.</wsdl:documentation>
+      <wsdl:input message="tns:PostPublicationSoapIn" />
+      <wsdl:output message="tns:PostPublicationSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemoveAllPublications">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Removes all publications from a publication channel.</wsdl:documentation>
+      <wsdl:input message="tns:RemoveAllPublicationsSoapIn" />
+      <wsdl:output message="tns:RemoveAllPublicationsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="RemovePublication">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Remove a specific publicaiton message from a channel.</wsdl:documentation>
+      <wsdl:input message="tns:RemovePublicationSoapIn" />
+      <wsdl:output message="tns:RemovePublicationSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ISBMProviderPublicationServiceSoap" type="tns:ISBMProviderPublicationServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ClosePublication">
+      <soap:operation soapAction="http://www.openoandm.org/xml/ISBM/ClosePublication" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OpenPublication">
+      <soap:operation soapAction="http://www.openoandm.org/xml/ISBM/OpenPublication" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PostPublication">
+      <soap:operation soapAction="http://www.openoandm.org/xml/ISBM/PostPublication" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveAllPublications">
+      <soap:operation soapAction="http://www.openoandm.org/xml/ISBM/RemoveAllPublications" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemovePublication">
+      <soap:operation soapAction="http://www.openoandm.org/xml/ISBM/RemovePublication" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ISBMProviderPublicationServiceSoap12" type="tns:ISBMProviderPublicationServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ClosePublication">
+      <soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/ClosePublication" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OpenPublication">
+      <soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/OpenPublication" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PostPublication">
+      <soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/PostPublication" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemoveAllPublications">
+      <soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/RemoveAllPublications" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="RemovePublication">
+      <soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/RemovePublication" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ISBMProviderPublicationService">
+    <wsdl:port name="ISBMProviderPublicationServiceSoap" binding="tns:ISBMProviderPublicationServiceSoap">
+      <soap:address location="http://localhost:49283/ISBMProviderPublicationService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ISBMProviderPublicationServiceSoap12" binding="tns:ISBMProviderPublicationServiceSoap12">
+      <soap12:address location="http://localhost:49283/ISBMProviderPublicationService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

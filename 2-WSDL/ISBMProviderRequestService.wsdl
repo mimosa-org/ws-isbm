@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/"
+  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+  xmlns:tns="http://www.openoandm.org/xml/ISBM/"
+  xmlns:s="http://www.w3.org/2001/XMLSchema"
+  xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+  targetNamespace="http://www.openoandm.org/xml/ISBM/"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.openoandm.org/xml/ISBM/" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
+      <s:import namespace="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" schemaLocation="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" />     
+      <s:element name="CloseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="channelSessionID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="CloseResponseResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CloseResponseResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OpenResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="channelURI" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" ref="wsse:SecurityTokenReference" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="OpenResponseResponse">
+        <s:complexType>
+          <s:sequence>
+          	<s:element minOccurs="0" maxOccurs="1"
+          		name="OpenResponseResult" type="s:string" />
+          	<s:element minOccurs="0" maxOccurs="1" name="channelSessionID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="RequestMessage">
+          <s:complexType>
+              <s:sequence>
+                <s:any minOccurs="1" maxOccurs="1"  namespace="##any" processContents="lax" />
+              </s:sequence>
+          </s:complexType>
+      </s:element>      
+      <s:element name="ResponseMessage">
+          <s:complexType>
+              <s:sequence>
+                <s:any minOccurs="1" maxOccurs="1"  namespace="##any" processContents="lax" />
+              </s:sequence>
+          </s:complexType>
+      </s:element>                  
+      <s:element name="PostResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="channelID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="requestMessageID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" ref="tns:ResponseMessage" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="PostResponseResponse">
+        <s:complexType>
+          <s:sequence>
+          	<s:element minOccurs="0" maxOccurs="1"
+          		name="PostResponseResult" type="s:string" />
+          	<s:element minOccurs="0" maxOccurs="1" name="messageID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReadRequest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="channelID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="lastMessageID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ReadRequestResponse">
+        <s:complexType>
+          <s:sequence>
+          	<s:element minOccurs="0" maxOccurs="1"
+          		name="ReadRequestResult" type="s:string" />
+          	<s:element minOccurs="0" maxOccurs="1" ref="tns:RequestMessage" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SubscribeRequest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="channelURI" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" ref="wsse:SecurityTokenReference" />
+            <s:element minOccurs="0" maxOccurs="1" name="listenerURI" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="unbounded" name="topic" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SubscribeRequestResponse">
+        <s:complexType>
+          <s:sequence>
+          <s:sequence>
+          	<s:element minOccurs="0" maxOccurs="1"
+          		name="SubscribeRequestResult" type="s:string" />
+          	<s:element minOccurs="0" maxOccurs="1"
+          		name="channelSessionID" type="s:string" />
+          	<s:element minOccurs="0" maxOccurs="1" name="lastMessageID" type="s:string" />
+          </s:sequence>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnsubscribeRequest">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="channelSessionID" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="UnsubscribeRequestResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="UnsubscribeRequestResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="CloseResponseSoapIn">
+    <wsdl:part name="parameters" element="tns:CloseResponse" />
+  </wsdl:message>
+  <wsdl:message name="CloseResponseSoapOut">
+    <wsdl:part name="parameters" element="tns:CloseResponseResponse" />
+  </wsdl:message>
+  <wsdl:message name="OpenResponseSoapIn">
+    <wsdl:part name="parameters" element="tns:OpenResponse" />
+  </wsdl:message>
+  <wsdl:message name="OpenResponseSoapOut">
+    <wsdl:part name="parameters" element="tns:OpenResponseResponse" />
+  </wsdl:message>
+  <wsdl:message name="PostResponseSoapIn">
+    <wsdl:part name="parameters" element="tns:PostResponse" />
+  </wsdl:message>
+  <wsdl:message name="PostResponseSoapOut">
+    <wsdl:part name="parameters" element="tns:PostResponseResponse" />
+  </wsdl:message>
+  <wsdl:message name="ReadRequestSoapIn">
+    <wsdl:part name="parameters" element="tns:ReadRequest" />
+  </wsdl:message>
+  <wsdl:message name="ReadRequestSoapOut">
+    <wsdl:part name="parameters" element="tns:ReadRequestResponse" />
+  </wsdl:message>
+  <wsdl:message name="SubscribeRequestSoapIn">
+    <wsdl:part name="parameters" element="tns:SubscribeRequest" />
+  </wsdl:message>
+  <wsdl:message name="SubscribeRequestSoapOut">
+    <wsdl:part name="parameters" element="tns:SubscribeRequestResponse" />
+  </wsdl:message>
+  <wsdl:message name="UnsubscribeRequestSoapIn">
+    <wsdl:part name="parameters" element="tns:UnsubscribeRequest" />
+  </wsdl:message>
+  <wsdl:message name="UnsubscribeRequestSoapOut">
+    <wsdl:part name="parameters" element="tns:UnsubscribeRequestResponse" />
+  </wsdl:message>
+  <wsdl:portType name="ISBMProviderRequestServiceSoap">
+    <wsdl:operation name="CloseResponse">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Closes a request channel from posting of response messages.</wsdl:documentation>
+      <wsdl:input message="tns:CloseResponseSoapIn" />
+      <wsdl:output message="tns:CloseResponseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="OpenResponse">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Determines if a Request Channel exists and returns the channel ID. Opens the request channel for posting of response messages.</wsdl:documentation>
+      <wsdl:input message="tns:OpenResponseSoapIn" />
+      <wsdl:output message="tns:OpenResponseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="PostResponse">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Posts a response message to a request channel.</wsdl:documentation>
+      <wsdl:input message="tns:PostResponseSoapIn" />
+      <wsdl:output message="tns:PostResponseSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ReadRequest">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Reads a request message that matches the subscribed topics from a request channel.</wsdl:documentation>
+      <wsdl:input message="tns:ReadRequestSoapIn" />
+      <wsdl:output message="tns:ReadRequestSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="SubscribeRequest">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Subscribes to a request channel to read requests.</wsdl:documentation>
+      <wsdl:input message="tns:SubscribeRequestSoapIn" />
+      <wsdl:output message="tns:SubscribeRequestSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="UnsubscribeRequest">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Unsubscribes to a channel for request notifications.</wsdl:documentation>
+      <wsdl:input message="tns:UnsubscribeRequestSoapIn" />
+      <wsdl:output message="tns:UnsubscribeRequestSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ISBMProviderRequestServiceSoap" type="tns:ISBMProviderRequestServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CloseResponse">
+      <soap:operation soapAction="http://www.openoandm.org/xml/ISBM/CloseResponse" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OpenResponse">
+      <soap:operation soapAction="http://www.openoandm.org/xml/ISBM/OpenResponse" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PostResponse">
+      <soap:operation soapAction="http://www.openoandm.org/xml/ISBM/PostResponse" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReadRequest">
+      <soap:operation soapAction="http://www.openoandm.org/xml/ISBM/ReadRequest" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SubscribeRequest">
+      <soap:operation soapAction="http://www.openoandm.org/xml/ISBM/SubscribeRequest" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnsubscribeRequest">
+      <soap:operation soapAction="http://www.openoandm.org/xml/ISBM/UnsubscribeRequest" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ISBMProviderRequestServiceSoap12" type="tns:ISBMProviderRequestServiceSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="CloseResponse">
+      <soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/CloseResponse" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="OpenResponse">
+      <soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/OpenResponse" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="PostResponse">
+      <soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/PostResponse" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ReadRequest">
+      <soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/ReadRequest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SubscribeRequest">
+      <soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/SubscribeRequest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="UnsubscribeRequest">
+      <soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/UnsubscribeRequest" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ISBMProviderRequestService">
+    <wsdl:port name="ISBMProviderRequestServiceSoap" binding="tns:ISBMProviderRequestServiceSoap">
+      <soap:address location="http://localhost:49283/ISBMProviderRequestService.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ISBMProviderRequestServiceSoap12" binding="tns:ISBMProviderRequestServiceSoap12">
+      <soap12:address location="http://localhost:49283/ISBMProviderRequestService.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
