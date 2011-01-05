@@ -10,39 +10,43 @@
   targetNamespace="http://www.openoandm.org/xml/ISBM/"
   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
   <wsdl:types>
-    <s:schema elementFormDefault="qualified" targetNamespace="http://www.openoandm.org/xml/ISBM/" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
-      <s:import namespace="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" schemaLocation="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" />     
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.openoandm.org/xml/ISBM/" >   
+      <s:element name="TransactionStatus">
+        <s:complexType>
+	  <s:sequence>
+	    <s:element minOccurs="1" maxOccurs="1" name="successOrErrorCriteria" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="errorMessage" type="s:string" />
+	  </s:sequence>
+	</s:complexType>
+      </s:element>       
       <s:element name="ClosePublication">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="channelSessionID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="channelSessionID" type="s:string" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="ClosePublicationResponse">
-        <s:complexType>
+      <s:complexType name="ClosePublicationResponseType">
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="ClosePublicationResult" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
+          	<s:element minOccurs="1" maxOccurs="1" ref="tns:TransactionStatus" />
+          </s:sequence>      
+      </s:complexType> 
+      <s:element name="ClosePublicationResponse" type="tns:ClosePublicationResponseType" />
       <s:element name="OpenPublication">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="channelURI" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" ref="wsse:SecurityTokenReference" />
+            <s:element minOccurs="1" maxOccurs="1" name="channelID" type="s:string" />
           </s:sequence>
         </s:complexType>
-      </s:element>
-      <s:element name="OpenPublicationResponse">
-        <s:complexType>
-          <s:sequence>
-          	<s:element minOccurs="0" maxOccurs="1"
-          		name="OpenPublicationResult" type="s:string" />
+      </s:element>   
+      <s:complexType name="OpenPublicationResponseType">
+          <s:sequence>          	
           	<s:element minOccurs="0" maxOccurs="1" name="channelSessionID" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
+		<s:element minOccurs="0" maxOccurs="1" name="lastMessageID" type="s:string" />
+          	<s:element minOccurs="1" maxOccurs="1" ref="tns:TransactionStatus" />
+          </s:sequence>      
+      </s:complexType>  
+      <s:element name="OpenPublicationResponse" type="tns:OpenPublicationResponseType" /> 	  
       <s:element name="PublicationMessage">
           <s:complexType>
               <s:sequence>
@@ -53,48 +57,19 @@
       <s:element name="PostPublication">
         <s:complexType>
           <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="channelSessionID" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="unbounded" name="topic" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="channelSessionID" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="topic" type="s:string" />
             <s:element minOccurs="1" maxOccurs="1" ref="tns:PublicationMessage" />
           </s:sequence>
         </s:complexType>
       </s:element>
-      <s:element name="PostPublicationResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="PostPublicationResult" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="RemoveAllPublications">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="channelSessionID" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="RemoveAllPublicationsResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="RemoveAllPublicationsResult" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="RemovePublication">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="channelSessionID" type="s:string" />
-            <s:element minOccurs="0" maxOccurs="1" name="messageID" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
-      <s:element name="RemovePublicationResponse">
-        <s:complexType>
-          <s:sequence>
-            <s:element minOccurs="0" maxOccurs="1" name="RemovePublicationResult" type="s:string" />
-          </s:sequence>
-        </s:complexType>
-      </s:element>
+      <s:complexType name="PostPublicationResponseType">
+          <s:sequence>          	
+          	<s:element minOccurs="0" maxOccurs="1" name="messageID" type="s:string" />
+          	<s:element minOccurs="1" maxOccurs="1" ref="tns:TransactionStatus" />
+          </s:sequence>      
+      </s:complexType> 
+      <s:element name="PostPublicationResponse" type="tns:PostPublicationResponseType" />
     </s:schema>
   </wsdl:types>
   <wsdl:message name="ClosePublicationSoapIn">
@@ -115,18 +90,6 @@
   <wsdl:message name="PostPublicationSoapOut">
     <wsdl:part name="parameters" element="tns:PostPublicationResponse" />
   </wsdl:message>
-  <wsdl:message name="RemoveAllPublicationsSoapIn">
-    <wsdl:part name="parameters" element="tns:RemoveAllPublications" />
-  </wsdl:message>
-  <wsdl:message name="RemoveAllPublicationsSoapOut">
-    <wsdl:part name="parameters" element="tns:RemoveAllPublicationsResponse" />
-  </wsdl:message>
-  <wsdl:message name="RemovePublicationSoapIn">
-    <wsdl:part name="parameters" element="tns:RemovePublication" />
-  </wsdl:message>
-  <wsdl:message name="RemovePublicationSoapOut">
-    <wsdl:part name="parameters" element="tns:RemovePublicationResponse" />
-  </wsdl:message>
   <wsdl:portType name="ISBMProviderPublicationServiceSoap">
     <wsdl:operation name="ClosePublication">
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Closes a publication channel from posting of messages.</wsdl:documentation>
@@ -142,16 +105,6 @@
       <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Posts a publication message to a publication channel.</wsdl:documentation>
       <wsdl:input message="tns:PostPublicationSoapIn" />
       <wsdl:output message="tns:PostPublicationSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="RemoveAllPublications">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Removes all publications from a publication channel.</wsdl:documentation>
-      <wsdl:input message="tns:RemoveAllPublicationsSoapIn" />
-      <wsdl:output message="tns:RemoveAllPublicationsSoapOut" />
-    </wsdl:operation>
-    <wsdl:operation name="RemovePublication">
-      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Remove a specific publicaiton message from a channel.</wsdl:documentation>
-      <wsdl:input message="tns:RemovePublicationSoapIn" />
-      <wsdl:output message="tns:RemovePublicationSoapOut" />
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="ISBMProviderPublicationServiceSoap" type="tns:ISBMProviderPublicationServiceSoap">
@@ -176,24 +129,6 @@
     </wsdl:operation>
     <wsdl:operation name="PostPublication">
       <soap:operation soapAction="http://www.openoandm.org/xml/ISBM/PostPublication" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="RemoveAllPublications">
-      <soap:operation soapAction="http://www.openoandm.org/xml/ISBM/RemoveAllPublications" style="document" />
-      <wsdl:input>
-        <soap:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="RemovePublication">
-      <soap:operation soapAction="http://www.openoandm.org/xml/ISBM/RemovePublication" style="document" />
       <wsdl:input>
         <soap:body use="literal" />
       </wsdl:input>
@@ -231,31 +166,13 @@
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    <wsdl:operation name="RemoveAllPublications">
-      <soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/RemoveAllPublications" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
-    <wsdl:operation name="RemovePublication">
-      <soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/RemovePublication" style="document" />
-      <wsdl:input>
-        <soap12:body use="literal" />
-      </wsdl:input>
-      <wsdl:output>
-        <soap12:body use="literal" />
-      </wsdl:output>
-    </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="ISBMProviderPublicationService">
     <wsdl:port name="ISBMProviderPublicationServiceSoap" binding="tns:ISBMProviderPublicationServiceSoap">
-      <soap:address location="http://localhost:49283/ISBMProviderPublicationService.asmx" />
+      <soap:address location="http://localhost:9080/ISBMProviderPublicationService.asmx" />
     </wsdl:port>
     <wsdl:port name="ISBMProviderPublicationServiceSoap12" binding="tns:ISBMProviderPublicationServiceSoap12">
-      <soap12:address location="http://localhost:49283/ISBMProviderPublicationService.asmx" />
+      <soap12:address location="http://localhost:9080/ISBMProviderPublicationService.asmx" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
