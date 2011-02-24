@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC
+    "-//W3C//DTD XHTML 1.1 plus MathML 2.0 plus SVG 1.1//EN"
+    "http://www.w3.org/2002/04/xhtml-math-svg/xhtml-math-svg.dtd">
+<html xmlns='http://www.w3.org/1999/xhtml' xmlns:svg='http://www.w3.org/2000/svg' xml:lang='en'>
+<head><meta http-equiv='Content-type' content='application/xhtml+xml;charset=utf-8' /><title>ISBM Web Services</title></head>
+<body>
+<h1 id='isbm_web_services'>ISBM Web Services</h1>
+<hr />
+<h2 id='isbmchannelmanagementservicesoap'>ISBMChannelManagementServiceSoap</h2>
+
+<h3 id='assignsecuritytoken'>AssignSecurityToken</h3>
+
+<h4 id='request'>Request</h4>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot;&gt;
+   &lt;soapenv:Header/&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:AssignSecurityTokens&gt;
+         &lt;!--Optional:--&gt;
+         &lt;isbm:channelID&gt;?&lt;/isbm:channelID&gt;
+      &lt;/isbm:AssignSecurityTokens&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+
+<h4 id='response'>Response</h4>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:AssignSecurityTokensResponse xsi:nil=&quot;true&quot; xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;/&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+
+<h3 id='createchannel'>CreateChannel</h3>
+
+<h4 id='request'>Request</h4>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot;&gt;
+   &lt;soapenv:Header/&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:CreateChannel&gt;
+         &lt;isbm:channelName&gt;?&lt;/isbm:channelName&gt;
+         &lt;isbm:channelType&gt;?&lt;/isbm:channelType&gt;
+      &lt;/isbm:CreateChannel&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+
+<h4 id='response'>Response</h4>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:CreateChannelResponse xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;
+         &lt;isbm:channelID&gt;ch20110224100916949&lt;/isbm:channelID&gt;
+         &lt;isbm:TransactionStatus xsi:type=&quot;isbm:TransactionStatus_._1_._1_._1_._type&quot;&gt;
+            &lt;isbm:successOrErrorCriteria&gt;0&lt;/isbm:successOrErrorCriteria&gt;
+            &lt;isbm:statusMessage&gt;Channel created and bound!&lt;/isbm:statusMessage&gt;
+         &lt;/isbm:TransactionStatus&gt;
+      &lt;/isbm:CreateChannelResponse&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+
+<h3 id='createtopic'>CreateTopic</h3>
+
+<h4 id='request'>Request</h4>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot;&gt;
+   &lt;soapenv:Header/&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:CreateTopic&gt;
+         &lt;isbm:channelID&gt;?&lt;/isbm:channelID&gt;
+         &lt;isbm:topic&gt;?&lt;/isbm:topic&gt;
+         &lt;!--Optional:--&gt;
+         &lt;isbm:description&gt;?&lt;/isbm:description&gt;
+         &lt;!--Optional:--&gt;
+         &lt;isbm:xpathDefinition&gt;?&lt;/isbm:xpathDefinition&gt;
+      &lt;/isbm:CreateTopic&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+
+<h4 id='response'>Response</h4>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:CreateTopicResponse xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;
+         &lt;isbm:TransactionStatus xsi:type=&quot;isbm:TransactionStatus_._1_._1_._1_._type&quot;&gt;
+            &lt;isbm:successOrErrorCriteria&gt;0&lt;/isbm:successOrErrorCriteria&gt;
+            &lt;isbm:statusMessage&gt;Success&lt;/isbm:statusMessage&gt;
+         &lt;/isbm:TransactionStatus&gt;
+      &lt;/isbm:CreateTopicResponse&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+
+<h3 id='createtopicnamespace'>CreateTopicNamespace</h3>
+
+<h4 id='request'>Request</h4>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot;&gt;
+   &lt;soapenv:Header/&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:CreateTopicNamespace&gt;
+         &lt;isbm:prefix&gt;?&lt;/isbm:prefix&gt;
+         &lt;isbm:namespace&gt;?&lt;/isbm:namespace&gt;
+      &lt;/isbm:CreateTopicNamespace&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+
+<h4 id='response'>Response</h4>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:CreateTopicNamespaceResponse xsi:nil=&quot;true&quot; xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;/&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+
+<h3 id='deletechannel'>DeleteChannel</h3>
+
+<h4 id='request'>Request</h4>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot;&gt;
+   &lt;soapenv:Header/&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:DeleteChannel&gt;
+         &lt;isbm:channelID&gt;?&lt;/isbm:channelID&gt;
+      &lt;/isbm:DeleteChannel&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+
+<h4 id='response'>Response</h4>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:DeleteChannelResponse xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;
+         &lt;isbm:TransactionStatus xsi:type=&quot;isbm:TransactionStatus_._1_._1_._1_._type&quot;&gt;
+            &lt;isbm:successOrErrorCriteria&gt;0&lt;/isbm:successOrErrorCriteria&gt;
+            &lt;isbm:statusMessage&gt;Success&lt;/isbm:statusMessage&gt;
+         &lt;/isbm:TransactionStatus&gt;
+      &lt;/isbm:DeleteChannelResponse&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+
+<h3 id='deletetopic'>DeleteTopic</h3>
+
+<h4 id='request'>Request</h4>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot;&gt;
+   &lt;soapenv:Header/&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:DeleteTopic&gt;
+         &lt;isbm:channelID&gt;?&lt;/isbm:channelID&gt;
+         &lt;isbm:topic&gt;?&lt;/isbm:topic&gt;
+      &lt;/isbm:DeleteTopic&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+
+<h4 id='response'>Response</h4>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:DeleteTopicResponse xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;
+         &lt;isbm:TransactionStatus xsi:type=&quot;isbm:TransactionStatus_._1_._1_._1_._type&quot;&gt;
+            &lt;isbm:successOrErrorCriteria&gt;0&lt;/isbm:successOrErrorCriteria&gt;
+            &lt;isbm:statusMessage&gt;Success&lt;/isbm:statusMessage&gt;
+         &lt;/isbm:TransactionStatus&gt;
+      &lt;/isbm:DeleteTopicResponse&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+
+<h3 id='getallchannels'>GetAllChannels</h3>
+
+<h4 id='request'>Request</h4>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:DeleteTopicResponse xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;
+         &lt;isbm:TransactionStatus xsi:type=&quot;isbm:TransactionStatus_._1_._1_._1_._type&quot;&gt;
+            &lt;isbm:successOrErrorCriteria&gt;0&lt;/isbm:successOrErrorCriteria&gt;
+            &lt;isbm:statusMessage&gt;Success&lt;/isbm:statusMessage&gt;
+         &lt;/isbm:TransactionStatus&gt;
+      &lt;/isbm:DeleteTopicResponse&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+
+<h4 id='response'>Response</h4>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:GetAllChannelsResponse xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;
+         &lt;isbm:channelID&gt;ch1&lt;/isbm:channelID&gt;
+         &lt;isbm:channelID&gt;ch2&lt;/isbm:channelID&gt;
+         &lt;isbm:channelID&gt;ch3&lt;/isbm:channelID&gt;
+         &lt;isbm:channelID&gt;ch4&lt;/isbm:channelID&gt;
+         &lt;isbm:channelID&gt;ch5&lt;/isbm:channelID&gt;
+         &lt;isbm:TransactionStatus xsi:type=&quot;isbm:TransactionStatus_._1_._1_._1_._type&quot;&gt;
+            &lt;isbm:successOrErrorCriteria&gt;0&lt;/isbm:successOrErrorCriteria&gt;
+            &lt;isbm:statusMessage&gt;Success&lt;/isbm:statusMessage&gt;
+         &lt;/isbm:TransactionStatus&gt;
+      &lt;/isbm:GetAllChannelsResponse&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+
+<h3 id='getallsessions'>GetAllSessions</h3>
+
+<h4 id='request'>Request</h4>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot;&gt;
+   &lt;soapenv:Header/&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:GetAllSessions&gt;
+         &lt;isbm:channelID&gt;?&lt;/isbm:channelID&gt;
+      &lt;/isbm:GetAllSessions&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+
+<h4 id='response'>Response</h4>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:GetAllSessionsResponse xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;
+         &lt;isbm:channelSessionID&gt;sub1&lt;/isbm:channelSessionID&gt;
+         &lt;isbm:channelSessionID&gt;sub2&lt;/isbm:channelSessionID&gt;
+         &lt;isbm:channelSessionID&gt;sub3&lt;/isbm:channelSessionID&gt;
+         &lt;isbm:channelSessionID&gt;sub4&lt;/isbm:channelSessionID&gt;
+         &lt;isbm:channelSessionID&gt;sub5&lt;/isbm:channelSessionID&gt;
+         &lt;isbm:TransactionStatus xsi:type=&quot;isbm:TransactionStatus_._1_._1_._1_._type&quot;&gt;
+            &lt;isbm:successOrErrorCriteria&gt;0&lt;/isbm:successOrErrorCriteria&gt;
+            &lt;isbm:statusMessage&gt;Success&lt;/isbm:statusMessage&gt;
+         &lt;/isbm:TransactionStatus&gt;
+      &lt;/isbm:GetAllSessionsResponse&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+
+<h3 id='getalltopics'>GetAllTopics</h3>
+
+<h4 id='request'>Request</h4>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot;&gt;
+   &lt;soapenv:Header/&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:GetAllTopics&gt;
+         &lt;isbm:channelID&gt;?&lt;/isbm:channelID&gt;
+      &lt;/isbm:GetAllTopics&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+
+<h4 id='response'>Response</h4>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:GetAllTopicsResponse xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;
+         &lt;isbm:topic&gt;Topic 1&lt;/isbm:topic&gt;
+         &lt;isbm:topic&gt;Topic 2&lt;/isbm:topic&gt;
+         &lt;isbm:topic&gt;Topic 3&lt;/isbm:topic&gt;
+         &lt;isbm:topic&gt;Topic 4&lt;/isbm:topic&gt;
+         &lt;isbm:topic&gt;Topic 5&lt;/isbm:topic&gt;
+         &lt;isbm:TransactionStatus xsi:type=&quot;isbm:TransactionStatus_._1_._1_._1_._type&quot;&gt;
+            &lt;isbm:successOrErrorCriteria&gt;0&lt;/isbm:successOrErrorCriteria&gt;
+            &lt;isbm:statusMessage&gt;Success&lt;/isbm:statusMessage&gt;
+         &lt;/isbm:TransactionStatus&gt;
+      &lt;/isbm:GetAllTopicsResponse&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+
+<h3 id='getchannelinfo'>GetChannelInfo</h3>
+
+<h4 id='request'>Request</h4>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot;&gt;
+   &lt;soapenv:Header/&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:GetChannelInfo&gt;
+         &lt;isbm:channelID&gt;?&lt;/isbm:channelID&gt;
+      &lt;/isbm:GetChannelInfo&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+
+<h4 id='response'>Response</h4>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:GetChannelInfoResponse xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;
+         &lt;isbm:channelName&gt;Some Channel&lt;/isbm:channelName&gt;
+         &lt;isbm:channelType&gt;1&lt;/isbm:channelType&gt;
+         &lt;isbm:topic&gt;Topic1&lt;/isbm:topic&gt;
+         &lt;isbm:topic&gt;Topic2&lt;/isbm:topic&gt;
+         &lt;isbm:topic&gt;Topic3&lt;/isbm:topic&gt;
+         &lt;isbm:topic&gt;Topic4&lt;/isbm:topic&gt;
+         &lt;isbm:topic&gt;Topic5&lt;/isbm:topic&gt;
+         &lt;isbm:TransactionStatus xsi:type=&quot;isbm:TransactionStatus_._1_._1_._1_._type&quot;&gt;
+            &lt;isbm:successOrErrorCriteria&gt;0&lt;/isbm:successOrErrorCriteria&gt;
+            &lt;isbm:statusMessage&gt;Success&lt;/isbm:statusMessage&gt;
+         &lt;/isbm:TransactionStatus&gt;
+      &lt;/isbm:GetChannelInfoResponse&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+
+<h3 id='getsessionsinfo'>GetSessionsInfo</h3>
+
+<h4 id='request'>Request</h4>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot;&gt;
+   &lt;soapenv:Header/&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:GetSessionInfo&gt;
+         &lt;isbm:channelSessionID&gt;?&lt;/isbm:channelSessionID&gt;
+      &lt;/isbm:GetSessionInfo&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+
+<h4 id='response'>Response</h4>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:GetSessionInfoResponse xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;
+         &lt;isbm:channelSessionType&gt;Consumer&lt;/isbm:channelSessionType&gt;
+         &lt;isbm:topic&gt;dac8a760-2263-012e-8fb5-549a20e02a6a&lt;/isbm:topic&gt;
+         &lt;isbm:listenerURI&gt;Example.Session&lt;/isbm:listenerURI&gt;
+         &lt;isbm:TransactionStatus xsi:type=&quot;isbm:TransactionStatus_._1_._1_._1_._type&quot;&gt;
+            &lt;isbm:successOrErrorCriteria&gt;0&lt;/isbm:successOrErrorCriteria&gt;
+            &lt;isbm:statusMessage&gt;Success&lt;/isbm:statusMessage&gt;
+         &lt;/isbm:TransactionStatus&gt;
+      &lt;/isbm:GetSessionInfoResponse&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+
+<h3 id='gettopicinfo'>GetTopicInfo</h3>
+
+<h4 id='request'>Request</h4>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot;&gt;
+   &lt;soapenv:Header/&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:GetTopicInfo&gt;
+         &lt;isbm:channelID&gt;ch1&lt;/isbm:channelID&gt;
+         &lt;isbm:topic&gt;SomeTopic&lt;/isbm:topic&gt;
+      &lt;/isbm:GetTopicInfo&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+
+<h4 id='reponse'>Reponse</h4>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:GetTopicInfoResponse xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;&gt;
+         &lt;isbm:channelID&gt;ch1&lt;/isbm:channelID&gt;
+         &lt;isbm:topic&gt;SomeTopic&lt;/isbm:topic&gt;
+         &lt;isbm:description&gt;A Topic Generated for demonstration purposes&lt;/isbm:description&gt;
+         &lt;isbm:xpathDefinition/&gt;
+         &lt;isbm:TransactionStatus xsi:type=&quot;isbm:TransactionStatus_._1_._1_._1_._type&quot;&gt;
+            &lt;isbm:successOrErrorCriteria&gt;0&lt;/isbm:successOrErrorCriteria&gt;
+            &lt;isbm:statusMessage&gt;Success&lt;/isbm:statusMessage&gt;
+         &lt;/isbm:TransactionStatus&gt;
+      &lt;/isbm:GetTopicInfoResponse&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+
+<h3 id='removesecuritytokens'>RemoveSecurityTokens</h3>
+
+<h4 id='request'>Request</h4>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot;&gt;
+   &lt;soapenv:Header/&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:RemoveSecurityTokens&gt;
+         &lt;isbm:channelID&gt;ch1&lt;/isbm:channelID&gt;
+      &lt;/isbm:RemoveSecurityTokens&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+
+<h4 id='response'>Response</h4>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:RemoveSecurityTokensResponse xsi:nil=&quot;true&quot; xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;/&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+</body></html>
