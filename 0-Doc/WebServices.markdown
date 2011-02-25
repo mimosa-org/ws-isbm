@@ -2,7 +2,8 @@
 --------------
 ##ISBMChannelManagementServiceSoap
 ###AssignSecurityToken  
-####Request 
+**Request**   
+
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:isbm="http://www.openoandm.org/xml/ISBM/">
        <soapenv:Header/>
        <soapenv:Body>
@@ -12,7 +13,8 @@
           </isbm:AssignSecurityTokens>
        </soapenv:Body>
     </soapenv:Envelope>
-####Response
+**Response**  
+
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
        <soapenv:Body>
           <isbm:AssignSecurityTokensResponse xsi:nil="true" xmlns:isbm="http://www.openoandm.org/xml/ISBM/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
@@ -20,7 +22,8 @@
     </soapenv:Envelope>
 
 ###CreateChannel
-####Request
+**Request**  
+
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:isbm="http://www.openoandm.org/xml/ISBM/">
        <soapenv:Header/>
        <soapenv:Body>
@@ -30,7 +33,8 @@
           </isbm:CreateChannel>
        </soapenv:Body>
     </soapenv:Envelope>
-####Response
+**Response**  
+
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
        <soapenv:Body>
           <isbm:CreateChannelResponse xmlns:isbm="http://www.openoandm.org/xml/ISBM/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -44,7 +48,8 @@
     </soapenv:Envelope>
 
 ###CreateTopic
-####Request
+**Request**  
+
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:isbm="http://www.openoandm.org/xml/ISBM/">
        <soapenv:Header/>
        <soapenv:Body>
@@ -58,7 +63,8 @@
           </isbm:CreateTopic>
        </soapenv:Body>
     </soapenv:Envelope>
-####Response
+**Response**  
+
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
        <soapenv:Body>
           <isbm:CreateTopicResponse xmlns:isbm="http://www.openoandm.org/xml/ISBM/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -71,7 +77,8 @@
     </soapenv:Envelope>
 
 ###CreateTopicNamespace
-####Request
+**Request**  
+
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:isbm="http://www.openoandm.org/xml/ISBM/">
        <soapenv:Header/>
        <soapenv:Body>
@@ -81,7 +88,8 @@
           </isbm:CreateTopicNamespace>
        </soapenv:Body>
     </soapenv:Envelope>
-####Response
+**Response**  
+
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
        <soapenv:Body>
           <isbm:CreateTopicNamespaceResponse xsi:nil="true" xmlns:isbm="http://www.openoandm.org/xml/ISBM/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
@@ -89,7 +97,8 @@
     </soapenv:Envelope>
 
 ###DeleteChannel
-####Request
+**Request**  
+
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:isbm="http://www.openoandm.org/xml/ISBM/">
        <soapenv:Header/>
        <soapenv:Body>
@@ -98,7 +107,8 @@
           </isbm:DeleteChannel>
        </soapenv:Body>
     </soapenv:Envelope>
-####Response
+**Response**  
+
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
        <soapenv:Body>
           <isbm:DeleteChannelResponse xmlns:isbm="http://www.openoandm.org/xml/ISBM/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -111,7 +121,8 @@
     </soapenv:Envelope>
 
 ###DeleteTopic
-####Request
+**Request**  
+
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:isbm="http://www.openoandm.org/xml/ISBM/">
        <soapenv:Header/>
        <soapenv:Body>
@@ -121,7 +132,8 @@
           </isbm:DeleteTopic>
        </soapenv:Body>
     </soapenv:Envelope>
-####Response
+**Response**  
+
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
        <soapenv:Body>
           <isbm:DeleteTopicResponse xmlns:isbm="http://www.openoandm.org/xml/ISBM/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -134,7 +146,8 @@
     </soapenv:Envelope>
 
 ###GetAllChannels
-####Request
+**Request**  
+
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
        <soapenv:Body>
           <isbm:DeleteTopicResponse xmlns:isbm="http://www.openoandm.org/xml/ISBM/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -145,7 +158,8 @@
           </isbm:DeleteTopicResponse>
        </soapenv:Body>
     </soapenv:Envelope>
-####Response
+**Response**  
+
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
        <soapenv:Body>
           <isbm:GetAllChannelsResponse xmlns:isbm="http://www.openoandm.org/xml/ISBM/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -163,7 +177,8 @@
     </soapenv:Envelope>
 
 ###GetAllSessions
-####Request
+**Request**  
+
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:isbm="http://www.openoandm.org/xml/ISBM/">
        <soapenv:Header/>
        <soapenv:Body>
@@ -172,7 +187,8 @@
           </isbm:GetAllSessions>
        </soapenv:Body>
     </soapenv:Envelope>
-####Response
+**Response**  
+
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
        <soapenv:Body>
           <isbm:GetAllSessionsResponse xmlns:isbm="http://www.openoandm.org/xml/ISBM/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -190,7 +206,8 @@
     </soapenv:Envelope>
 
 ###GetAllTopics
-####Request
+**Request**  
+
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:isbm="http://www.openoandm.org/xml/ISBM/">
        <soapenv:Header/>
        <soapenv:Body>
@@ -199,7 +216,8 @@
           </isbm:GetAllTopics>
        </soapenv:Body>
     </soapenv:Envelope>
-####Response
+**Response**  
+
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
        <soapenv:Body>
           <isbm:GetAllTopicsResponse xmlns:isbm="http://www.openoandm.org/xml/ISBM/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -217,7 +235,8 @@
     </soapenv:Envelope>
 
 ###GetChannelInfo
-####Request
+**Request**  
+
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:isbm="http://www.openoandm.org/xml/ISBM/">
        <soapenv:Header/>
        <soapenv:Body>
@@ -226,7 +245,8 @@
           </isbm:GetChannelInfo>
        </soapenv:Body>
     </soapenv:Envelope>
-####Response
+**Response**  
+
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
        <soapenv:Body>
           <isbm:GetChannelInfoResponse xmlns:isbm="http://www.openoandm.org/xml/ISBM/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -246,7 +266,8 @@
     </soapenv:Envelope>
 
 ###GetSessionsInfo
-####Request
+**Request**  
+
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:isbm="http://www.openoandm.org/xml/ISBM/">
        <soapenv:Header/>
        <soapenv:Body>
@@ -255,7 +276,8 @@
           </isbm:GetSessionInfo>
        </soapenv:Body>
     </soapenv:Envelope>
-####Response
+**Response**  
+
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
        <soapenv:Body>
           <isbm:GetSessionInfoResponse xmlns:isbm="http://www.openoandm.org/xml/ISBM/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -271,7 +293,8 @@
     </soapenv:Envelope>
 
 ###GetTopicInfo
-####Request
+**Request**  
+
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:isbm="http://www.openoandm.org/xml/ISBM/">
        <soapenv:Header/>
        <soapenv:Body>
@@ -281,7 +304,8 @@
           </isbm:GetTopicInfo>
        </soapenv:Body>
     </soapenv:Envelope>
-####Reponse
+**Response**  
+
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
        <soapenv:Body>
           <isbm:GetTopicInfoResponse xmlns:isbm="http://www.openoandm.org/xml/ISBM/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -298,7 +322,8 @@
     </soapenv:Envelope>
 
 ###RemoveSecurityTokens
-####Request
+**Request**  
+
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:isbm="http://www.openoandm.org/xml/ISBM/">
        <soapenv:Header/>
        <soapenv:Body>
@@ -307,7 +332,8 @@
           </isbm:RemoveSecurityTokens>
        </soapenv:Body>
     </soapenv:Envelope>
-####Response
+**Response**  
+
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
        <soapenv:Body>
           <isbm:RemoveSecurityTokensResponse xsi:nil="true" xmlns:isbm="http://www.openoandm.org/xml/ISBM/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
