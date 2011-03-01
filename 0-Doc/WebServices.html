@@ -6,9 +6,9 @@
 <head><meta http-equiv='Content-type' content='application/xhtml+xml;charset=utf-8' /><title>ISBM Web Services</title></head>
 <body>
 <h1 id='isbm_web_services'>ISBM Web Services</h1>
-<hr />
-<h2 id='isbmchannelmanagementservicesoap'>ISBMChannelManagementServiceSoap</h2>
 
+<h2 id='isbmchannelmanagementservicesoap'>ISBMChannelManagementServiceSoap</h2>
+<hr />
 <h3 id='assignsecuritytoken'>AssignSecurityToken</h3>
 
 <p><strong>Request</strong></p>
@@ -373,4 +373,211 @@
       &lt;isbm:RemoveSecurityTokensResponse xsi:nil=&quot;true&quot; xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;/&gt;
    &lt;/soapenv:Body&gt;
 &lt;/soapenv:Envelope&gt;</code></pre>
+<!--                             --><!-- ProviderPublicationService  --><!--                             -->
+<h2 id='providerpublicationservice'>ProviderPublicationService</h2>
+<hr />
+<h3 id='openpublication'>OpenPublication</h3>
+
+<p><strong>Request</strong></p>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot;&gt;
+   &lt;soapenv:Header/&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:OpenPublication&gt;
+         &lt;isbm:channelID&gt;?&lt;/isbm:channelID&gt;
+      &lt;/isbm:OpenPublication&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+
+<p><strong>Response</strong></p>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:OpenPublicationResponse xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot;&gt;
+         &lt;isbm:channelSessionID&gt;pub20110228144712449&lt;/isbm:channelSessionID&gt;
+         &lt;isbm:TransactionStatus&gt;
+            &lt;isbm:successOrErrorCriteria&gt;0&lt;/isbm:successOrErrorCriteria&gt;
+            &lt;isbm:statusMessage&gt;Success&lt;/isbm:statusMessage&gt;
+         &lt;/isbm:TransactionStatus&gt;
+      &lt;/isbm:OpenPublicationResponse&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+
+<h3 id='closepublication'>ClosePublication</h3>
+
+<p><strong>Request</strong></p>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot;&gt;
+   &lt;soapenv:Header/&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:ClosePublication&gt;
+         &lt;isbm:channelSessionID&gt;?&lt;/isbm:channelSessionID&gt;
+      &lt;/isbm:ClosePublication&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+
+<p><strong>Response</strong></p>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:ClosePublicationResponse xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot;&gt;
+         &lt;isbm:TransactionStatus&gt;
+            &lt;isbm:successOrErrorCriteria&gt;0&lt;/isbm:successOrErrorCriteria&gt;
+            &lt;isbm:statusMessage&gt;Success&lt;/isbm:statusMessage&gt;
+         &lt;/isbm:TransactionStatus&gt;
+      &lt;/isbm:ClosePublicationResponse&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+
+<h3 id='postpublication'>PostPublication</h3>
+
+<p><strong>Request</strong></p>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot;&gt;
+   &lt;soapenv:Header/&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:PostPublication&gt;
+         &lt;isbm:channelSessionID&gt;?&lt;/isbm:channelSessionID&gt;
+         &lt;isbm:topic&gt;?&lt;/isbm:topic&gt;
+         &lt;isbm:PublicationMessage&gt;
+            &lt;!-- Place any text here --&gt; 
+         &lt;/isbm:PublicationMessage&gt;
+      &lt;/isbm:PostPublication&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+
+<p><strong>Response</strong></p>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:PostPublicationResponse xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot;&gt;
+         &lt;isbm:messageID&gt;ID:96814be40ed68d098af74f42110a134f0000000000000001&lt;/isbm:messageID&gt;
+         &lt;isbm:TransactionStatus&gt;
+            &lt;isbm:successOrErrorCriteria&gt;0&lt;/isbm:successOrErrorCriteria&gt;
+            &lt;isbm:statusMessage&gt;Success&lt;/isbm:statusMessage&gt;
+         &lt;/isbm:TransactionStatus&gt;
+      &lt;/isbm:PostPublicationResponse&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+<!--                             --><!-- ConusmerPublicationService  --><!--                             -->
+<h2 id='consumerpublicationservice'>ConsumerPublicationService</h2>
+<hr />
+<h3 id='readpublication'>ReadPublication</h3>
+
+<p><strong>Request</strong></p>
+
+<pre><code>&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:isbm=&quot;http://www.openoandm.org/xml/ISBM/&quot;&gt;
+   &lt;soapenv:Header/&gt;
+   &lt;soapenv:Body&gt;
+      &lt;isbm:ReadPublication&gt;
+         &lt;isbm:channelSessionID&gt;?&lt;/isbm:channelSessionID&gt;
+         &lt;!--Optional:--&gt;
+         &lt;isbm:lastMessageID&gt;?&lt;/isbm:lastMessageID&gt;
+      &lt;/isbm:ReadPublication&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</code></pre>
+
+<p><strong>Response</strong></p>
+
+<h3 id='removepublication'>RemovePublication</h3>
+
+<p><strong>Request</strong></p>
+
+<p><strong>Response</strong></p>
+
+<h3 id='subscribepublication'>SubscribePublication</h3>
+
+<p><strong>Request</strong></p>
+
+<p><strong>Response</strong></p>
+
+<h3 id='unsubscribepublication'>UnsubscribePublication</h3>
+
+<p><strong>Request</strong></p>
+
+<p><strong>Response</strong></p>
+<!--                         --><!-- ConusmerRequestService  --><!--                         -->
+<h2 id='consumerrequestservice'>ConsumerRequestService</h2>
+<hr />
+<h3 id='openrequest'>OpenRequest</h3>
+
+<p><strong>Request</strong></p>
+
+<p><strong>Response</strong></p>
+
+<h3 id='postrequest'>PostRequest</h3>
+
+<p><strong>Request</strong></p>
+
+<p><strong>Response</strong></p>
+
+<h3 id='closerequest'>CloseRequest</h3>
+
+<p><strong>Request</strong></p>
+
+<p><strong>Response</strong></p>
+
+<h3 id='readrsponse'>ReadRsponse</h3>
+
+<p><strong>Request</strong></p>
+
+<p><strong>Response</strong></p>
+
+<h3 id='subscriberesponse'>SubscribeResponse</h3>
+
+<p><strong>Request</strong></p>
+
+<p><strong>Response</strong></p>
+
+<h3 id='ubsubscriberesponse'>UbsubscribeResponse</h3>
+
+<p><strong>Request</strong></p>
+
+<p><strong>Response</strong><br /><!--                            --> <!-- ProviderPublicationService --> <!--                            --></p>
+
+<h2 id='providerpublicationservice'>ProviderPublicationService</h2>
+<hr />
+<h3 id='openresponse'>OpenResponse</h3>
+
+<p><strong>Request</strong></p>
+
+<p><strong>Response</strong></p>
+
+<h3 id='postresponse'>PostResponse</h3>
+
+<p><strong>Request</strong></p>
+
+<p><strong>Response</strong></p>
+
+<h3 id='closeresponse'>CloseResponse</h3>
+
+<p><strong>Request</strong></p>
+
+<p><strong>Response</strong></p>
+
+<h3 id='subscriberequest'>SubscribeRequest</h3>
+
+<p><strong>Request</strong></p>
+
+<p><strong>Response</strong></p>
+
+<h3 id='readrequest'>ReadRequest</h3>
+
+<p><strong>Request</strong></p>
+
+<p><strong>Response</strong></p>
+
+<h3 id='unsubscriberequest'>UnsubscribeRequest</h3>
+
+<p><strong>Request</strong></p>
+
+<p><strong>Response</strong></p>
+<!--                        --><!-- NotifyListenerService  --><!--                        -->
+<h2 id='notifylistenerservice'>NotifyListenerService</h2>
+<hr />
+<h3 id='notifylistener'>NotifyListener</h3>
+
+<p><strong>Request</strong></p>
+
+<p><strong>Response</strong></p>
 </body></html>

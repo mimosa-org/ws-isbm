@@ -1,6 +1,6 @@
 #ISBM Web Services
---------------
 ##ISBMChannelManagementServiceSoap
+--------------
 ###AssignSecurityToken  
 **Request**   
 
@@ -339,3 +339,194 @@
           <isbm:RemoveSecurityTokensResponse xsi:nil="true" xmlns:isbm="http://www.openoandm.org/xml/ISBM/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
        </soapenv:Body>
     </soapenv:Envelope>
+
+<!--                             -->
+<!-- ProviderPublicationService  -->
+<!--                             -->
+
+##ProviderPublicationService
+--------------
+###OpenPublication
+**Request**  
+
+    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:isbm="http://www.openoandm.org/xml/ISBM/">
+       <soapenv:Header/>
+       <soapenv:Body>
+          <isbm:OpenPublication>
+             <isbm:channelID>?</isbm:channelID>
+          </isbm:OpenPublication>
+       </soapenv:Body>
+    </soapenv:Envelope>
+**Response**  
+
+    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+       <soapenv:Body>
+          <isbm:OpenPublicationResponse xmlns:isbm="http://www.openoandm.org/xml/ISBM/">
+             <isbm:channelSessionID>pub20110228144712449</isbm:channelSessionID>
+             <isbm:TransactionStatus>
+                <isbm:successOrErrorCriteria>0</isbm:successOrErrorCriteria>
+                <isbm:statusMessage>Success</isbm:statusMessage>
+             </isbm:TransactionStatus>
+          </isbm:OpenPublicationResponse>
+       </soapenv:Body>
+    </soapenv:Envelope>
+
+###ClosePublication
+**Request**  
+
+    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:isbm="http://www.openoandm.org/xml/ISBM/">
+       <soapenv:Header/>
+       <soapenv:Body>
+          <isbm:ClosePublication>
+             <isbm:channelSessionID>?</isbm:channelSessionID>
+          </isbm:ClosePublication>
+       </soapenv:Body>
+    </soapenv:Envelope>
+**Response**  
+
+    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+       <soapenv:Body>
+          <isbm:ClosePublicationResponse xmlns:isbm="http://www.openoandm.org/xml/ISBM/">
+             <isbm:TransactionStatus>
+                <isbm:successOrErrorCriteria>0</isbm:successOrErrorCriteria>
+                <isbm:statusMessage>Success</isbm:statusMessage>
+             </isbm:TransactionStatus>
+          </isbm:ClosePublicationResponse>
+       </soapenv:Body>
+    </soapenv:Envelope>
+
+
+###PostPublication
+**Request**  
+
+    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:isbm="http://www.openoandm.org/xml/ISBM/">
+       <soapenv:Header/>
+       <soapenv:Body>
+          <isbm:PostPublication>
+             <isbm:channelSessionID>?</isbm:channelSessionID>
+             <isbm:topic>?</isbm:topic>
+             <isbm:PublicationMessage>
+                <!-- Place any text here --> 
+             </isbm:PublicationMessage>
+          </isbm:PostPublication>
+       </soapenv:Body>
+    </soapenv:Envelope>
+**Response**  
+
+    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+       <soapenv:Body>
+          <isbm:PostPublicationResponse xmlns:isbm="http://www.openoandm.org/xml/ISBM/">
+             <isbm:messageID>ID:96814be40ed68d098af74f42110a134f0000000000000001</isbm:messageID>
+             <isbm:TransactionStatus>
+                <isbm:successOrErrorCriteria>0</isbm:successOrErrorCriteria>
+                <isbm:statusMessage>Success</isbm:statusMessage>
+             </isbm:TransactionStatus>
+          </isbm:PostPublicationResponse>
+       </soapenv:Body>
+    </soapenv:Envelope>
+
+<!--                             -->
+<!-- ConusmerPublicationService  -->
+<!--                             -->
+##ConsumerPublicationService
+--------------
+###ReadPublication
+**Request**  
+
+    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:isbm="http://www.openoandm.org/xml/ISBM/">
+       <soapenv:Header/>
+       <soapenv:Body>
+          <isbm:ReadPublication>
+             <isbm:channelSessionID>?</isbm:channelSessionID>
+             <!--Optional:-->
+             <isbm:lastMessageID>?</isbm:lastMessageID>
+          </isbm:ReadPublication>
+       </soapenv:Body>
+    </soapenv:Envelope>
+
+
+**Response**  
+
+###RemovePublication
+**Request**  
+
+**Response**  
+
+###SubscribePublication
+**Request**  
+
+**Response**  
+
+###UnsubscribePublication
+**Request**  
+
+**Response**  
+
+<!--                         -->
+<!-- ConusmerRequestService  -->
+<!--                         -->
+##ConsumerRequestService
+--------------
+###OpenRequest
+**Request**  
+
+**Response**  
+###PostRequest
+**Request**  
+
+**Response**  
+###CloseRequest
+**Request**  
+
+**Response**  
+###ReadRsponse
+**Request**  
+
+**Response**  
+###SubscribeResponse
+**Request**  
+
+**Response**  
+###UbsubscribeResponse
+**Request**  
+
+**Response**  
+<!--                            -->
+<!-- ProviderPublicationService -->
+<!--                            -->
+##ProviderPublicationService
+--------------
+###OpenResponse
+**Request**  
+
+**Response**  
+###PostResponse
+**Request**  
+
+**Response**  
+###CloseResponse
+**Request**  
+
+**Response**  
+###SubscribeRequest
+**Request**  
+
+**Response**  
+###ReadRequest
+**Request**  
+
+**Response**  
+###UnsubscribeRequest
+**Request**  
+
+**Response**  
+
+<!--                        -->
+<!-- NotifyListenerService  -->
+<!--                        -->
+##NotifyListenerService
+--------------
+###NotifyListener
+**Request**  
+
+**Response**  
