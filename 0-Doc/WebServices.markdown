@@ -76,25 +76,15 @@
        </soapenv:Body>
     </soapenv:Envelope>
 
-###CreateTopicNamespace
+###CreateChannelNamespace
 **Request**  
 
-    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:isbm="http://www.openoandm.org/xml/ISBM/">
-       <soapenv:Header/>
-       <soapenv:Body>
-          <isbm:CreateTopicNamespace>
-             <isbm:prefix>?</isbm:prefix>
-             <isbm:namespace>?</isbm:namespace>
-          </isbm:CreateTopicNamespace>
-       </soapenv:Body>
-    </soapenv:Envelope>
 **Response**  
 
-    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
-       <soapenv:Body>
-          <isbm:CreateTopicNamespaceResponse xsi:nil="true" xmlns:isbm="http://www.openoandm.org/xml/ISBM/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
-       </soapenv:Body>
-    </soapenv:Envelope>
+###DeleteChannelNamespace
+**Request**  
+
+**Response**  
 
 ###DeleteChannel
 **Request**  
