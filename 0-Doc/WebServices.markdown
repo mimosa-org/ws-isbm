@@ -255,7 +255,7 @@
        </soapenv:Body>
     </soapenv:Envelope>
 
-###GetSessionsInfo
+###GetSessionInfo
 **Request**  
 
     <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:isbm="http://www.openoandm.org/xml/ISBM/">
