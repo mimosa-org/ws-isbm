@@ -1,13 +1,5 @@
 <?xml version="1.0"?>
-
-<xsd:schema 
-            xmlns:xsd             = "http://www.w3.org/2001/XMLSchema" 
-            targetNamespace       = "http://www.openoandm.info/xml/ISBM-V1-0" 
-            xmlns                 = "http://www.openoandm.info/xml/ISBM-V1-0" 
-            xmlns:Extended        = "http://www.openoandm.info/xml/ISBM-V1-0-AllExtensions" 
-            elementFormDefault    = "qualified" 
-            attributeFormDefault  = "unqualified">
-
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.openoandm.info/xml/ISBM-V1-0" xmlns:Extended="http://www.openoandm.info/xml/ISBM-V1-0-AllExtensions" targetNamespace="http://www.openoandm.info/xml/ISBM-V1-0" elementFormDefault="qualified" attributeFormDefault="unqualified">
   <xsd:annotation>
     <xsd:documentation>
 OpenOandM Information Service Bus Model ISBM-ML Entities XML Schema -- Common.xsd Include File
@@ -21,7 +13,6 @@ Copyright 2010 MIMOSA. All Rights Reserved. http://www.mimosa.org
 	This includes work derived from the WBF B2MML. 
 	The Business To Manufacturing Markup Language (B2MML) is used courtesy of WBF.
     </xsd:documentation>
-
     <xsd:documentation>
 Revision History
 
@@ -30,261 +21,214 @@ Ver      Date            Notes
 V1.0.0   July 30, 2010   Initial specification
     </xsd:documentation>
   </xsd:annotation>
-
-
-
-<!--  ****************************************    -->
-<!--  CodeType used for any enumerated strings    -->
-<!--  ****************************************    -->
-    <xsd:complexType name="CodeType">
-        <xsd:simpleContent>
-            <xsd:extension base="xsd:normalizedString">
-                <xsd:attribute name="listID"            type="xsd:normalizedString" use="optional" />
-                <xsd:attribute name="listAgencyID"      type="xsd:normalizedString" use="optional" />
-                <xsd:attribute name="listAgencyName"    type="xsd:string"           use="optional" />
-                <xsd:attribute name="listName"          type="xsd:string"           use="optional" />
-                <xsd:attribute name="listVersionID"     type="xsd:normalizedString" use="optional" />
-                <xsd:attribute name="name"              type="xsd:string"           use="optional" />
-                <xsd:attribute name="languageID"        type="xsd:language"         use="optional" />
-                <xsd:attribute name="listURI"           type="xsd:anyURI"           use="optional" />
-                <xsd:attribute name="listSchemeURI"     type="xsd:anyURI"           use="optional" />
+  <!--  ****************************************    -->
+  <!--  CodeType used for any enumerated strings    -->
+  <!--  ****************************************    -->
+  <xsd:complexType name="CodeType">
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:normalizedString">
+        <xsd:attribute name="listID" type="xsd:normalizedString" use="optional"/>
+        <xsd:attribute name="listAgencyID" type="xsd:normalizedString" use="optional"/>
+        <xsd:attribute name="listAgencyName" type="xsd:string" use="optional"/>
+        <xsd:attribute name="listName" type="xsd:string" use="optional"/>
+        <xsd:attribute name="listVersionID" type="xsd:normalizedString" use="optional"/>
+        <xsd:attribute name="name" type="xsd:string" use="optional"/>
+        <xsd:attribute name="languageID" type="xsd:language" use="optional"/>
+        <xsd:attribute name="listURI" type="xsd:anyURI" use="optional"/>
+        <xsd:attribute name="listSchemeURI" type="xsd:anyURI" use="optional"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <!--  **********************************************************    -->
+  <!--  DateTimeType used for any date and/or time representations    -->
+  <!--  **********************************************************    -->
+  <xsd:complexType name="DateTimeType">
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:dateTime">
+        <xsd:attribute name="format" type="xsd:string" use="optional"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <!--  **************************************************************    -->
+  <!--  IdentifierType used for any string used to identify an element    -->
+  <!--  **************************************************************    -->
+  <xsd:complexType name="IdentifierType">
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:normalizedString">
+        <xsd:attribute name="schemeID" type="xsd:normalizedString" use="optional"/>
+        <xsd:attribute name="schemeName" type="xsd:string" use="optional"/>
+        <xsd:attribute name="schemeAgencyID" type="xsd:normalizedString" use="optional"/>
+        <xsd:attribute name="schemeAgencyName" type="xsd:string" use="optional"/>
+        <xsd:attribute name="schemeVersionID" type="xsd:normalizedString" use="optional"/>
+        <xsd:attribute name="schemeDataURI" type="xsd:anyURI" use="optional"/>
+        <xsd:attribute name="schemeURI" type="xsd:anyURI" use="optional"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <!--  **********************************************************    -->
+  <!--  TextType used for any element that requires a string value    -->
+  <!--  **********************************************************    -->
+  <xsd:complexType name="TextType">
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:string">
+        <xsd:attribute name="languageID" type="xsd:language" use="optional"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <!--  Transaction elements - Supporting ISA-95 Part 5   - - - - -->
+  <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <xsd:complexType name="TransAcknowledgeType">
+    <xsd:sequence>
+      <xsd:element name="OriginalApplicationArea" type="TransApplicationAreaType" minOccurs="0"/>
+      <xsd:element name="ResponseCriteria" type="TransResponseCriteriaType" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <xsd:simpleType name="TransActionCodeType">
+    <xsd:union memberTypes="TransActionCodeEnumerationType xsd:normalizedString"/>
+  </xsd:simpleType>
+  <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <xsd:simpleType name="TransActionCodeEnumerationType">
+    <xsd:restriction base="xsd:string">
+      <xsd:enumeration value="Add"/>
+      <xsd:enumeration value="Change"/>
+      <xsd:enumeration value="Delete"/>
+      <xsd:enumeration value="Replaced"/>
+      <xsd:enumeration value="Accepted"/>
+      <xsd:enumeration value="Modified"/>
+      <xsd:enumeration value="Rejected"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <xsd:complexType name="TransActionCriteriaType">
+    <xsd:sequence>
+      <xsd:element name="ActionExpression" type="TransExpressionType" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <xsd:complexType name="TransApplicationAreaType">
+    <xsd:sequence>
+      <xsd:element name="Sender" type="TransSenderType" minOccurs="0"/>
+      <xsd:element name="CreationDateTime" type="DateTimeType"/>
+      <xsd:element name="Signature" type="TransSignatureType" minOccurs="0"/>
+      <xsd:element name="BODID" type="IdentifierType" minOccurs="0"/>
+      <xsd:element name="UserArea" type="TransUserAreaType" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <xsd:complexType name="TransCancelType">
+    <xsd:sequence>
+      <xsd:element name="ActionCriteria" type="TransActionCriteriaType" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <xsd:complexType name="TransChangeType">
+    <xsd:sequence>
+      <xsd:element name="ActionCriteria" type="TransActionCriteriaType" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+    <xsd:attribute name="responseCode" type="TransResponseCodeType" use="optional"/>
+  </xsd:complexType>
+  <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <xsd:complexType name="TransConfirmationCodeType">
+    <xsd:simpleContent>
+      <xsd:restriction base="CodeType">
+        <xsd:enumeration value="Always"/>
+        <xsd:enumeration value="Never"/>
+        <xsd:enumeration value="OnError"/>
+      </xsd:restriction>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <xsd:complexType name="TransConfirmType">
+    <xsd:sequence>
+      <xsd:element name="OriginalApplicationArea" type="TransApplicationAreaType" minOccurs="0"/>
+      <xsd:element name="ResponseCriteria" type="TransResponseCriteriaType" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <xsd:complexType name="TransExpression1Type">
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:token">
             </xsd:extension>
-        </xsd:simpleContent>
-    </xsd:complexType>
-
-<!--  **********************************************************    -->
-<!--  DateTimeType used for any date and/or time representations    -->
-<!--  **********************************************************    -->
-    <xsd:complexType name = "DateTimeType">
-        <xsd:simpleContent>
-           <xsd:extension base ="xsd:dateTime">
-                <xsd:attribute name="format"  type="xsd:string"           use="optional" />
-           </xsd:extension>
-        </xsd:simpleContent>
-    </xsd:complexType>
-
-
-<!--  **************************************************************    -->
-<!--  IdentifierType used for any string used to identify an element    -->
-<!--  **************************************************************    -->
-    <xsd:complexType name="IdentifierType">
-        <xsd:simpleContent>
-            <xsd:extension base="xsd:normalizedString">
-                <xsd:attribute name="schemeID"          type="xsd:normalizedString" use="optional" />
-                <xsd:attribute name="schemeName"        type="xsd:string"           use="optional" />
-                <xsd:attribute name="schemeAgencyID"    type="xsd:normalizedString" use="optional" />
-                <xsd:attribute name="schemeAgencyName"  type="xsd:string"           use="optional" />
-                <xsd:attribute name="schemeVersionID"   type="xsd:normalizedString" use="optional" />
-                <xsd:attribute name="schemeDataURI"     type="xsd:anyURI"           use="optional"/>
-                <xsd:attribute name="schemeURI"         type="xsd:anyURI"           use="optional"/>
-            </xsd:extension>
-        </xsd:simpleContent>
-    </xsd:complexType>
-
-
-<!--  **********************************************************    -->
-<!--  TextType used for any element that requires a string value    -->
-<!--  **********************************************************    -->
-    <xsd:complexType name="TextType">
-        <xsd:simpleContent>
-            <xsd:extension base="xsd:string">
-                <xsd:attribute name="languageID"       type="xsd:language"  use="optional" />
-            </xsd:extension>
-        </xsd:simpleContent>
-    </xsd:complexType>
-                  
-
-
-<!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-<!--  Transaction elements - Supporting ISA-95 Part 5   - - - - -->
-<!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-
-
-    <xsd:complexType name = "TransAcknowledgeType">
-        <xsd:sequence>
-            <xsd:element name = "OriginalApplicationArea"   type="TransApplicationAreaType" 
-                                                            minOccurs="0"/>
-            <xsd:element name = "ResponseCriteria"          type="TransResponseCriteriaType" 
-                                                            minOccurs="0" maxOccurs="unbounded"/>
-            </xsd:sequence>
-    </xsd:complexType>
-
-    <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-    <xsd:simpleType name = "TransActionCodeType">
-        <xsd:union memberTypes = "TransActionCodeEnumerationType xsd:normalizedString"/>
-    </xsd:simpleType>
-
-    <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-    <xsd:simpleType name = "TransActionCodeEnumerationType">
-        <xsd:restriction base="xsd:string">
-            <xsd:enumeration value="Add"/>
-            <xsd:enumeration value="Change"/>
-            <xsd:enumeration value="Delete"/>
-            <xsd:enumeration value="Replaced"/>
-            <xsd:enumeration value="Accepted"/>
-            <xsd:enumeration value="Modified"/>
-            <xsd:enumeration value="Rejected"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-
-    <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-    <xsd:complexType name = "TransActionCriteriaType">
-            <xsd:sequence>
-                     <xsd:element name = "ActionExpression"          type="TransExpressionType" 
-                                                                    minOccurs="0" maxOccurs="unbounded"/>
-            </xsd:sequence>
-    </xsd:complexType>
-
-    <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-    <xsd:complexType name = "TransApplicationAreaType">
-        <xsd:sequence>
-            <xsd:element name = "Sender"                    type="TransSenderType" minOccurs="0"/>
-            <xsd:element name = "CreationDateTime"          type="DateTimeType"/>
-            <xsd:element name = "Signature"                 type="TransSignatureType" minOccurs="0"/>
-            <xsd:element name = "BODID"                     type="IdentifierType" minOccurs="0"/>
-            <xsd:element name = "UserArea"                  type="TransUserAreaType" minOccurs="0"/>
-        </xsd:sequence>
-    </xsd:complexType>
-
-    <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-    <xsd:complexType name = "TransCancelType">
-        <xsd:sequence>
-            <xsd:element name = "ActionCriteria"            type="TransActionCriteriaType" 
-                                                            minOccurs="0" maxOccurs="unbounded"/>
-        </xsd:sequence>
-    </xsd:complexType>
-
-    <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-    <xsd:complexType name = "TransChangeType">
-        <xsd:sequence>
-            <xsd:element name = "ActionCriteria"            type="TransActionCriteriaType" 
-                                                            minOccurs="0" maxOccurs="unbounded"/>
-        </xsd:sequence>
-        <xsd:attribute name = "responseCode"                    type="TransResponseCodeType" use="optional"/>
-    </xsd:complexType>
-
-    <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-    <xsd:complexType name = "TransConfirmationCodeType">
-        <xsd:simpleContent>
-            <xsd:restriction base="CodeType">
-                    <xsd:enumeration value="Always"/>
-                    <xsd:enumeration value="Never"/>
-                    <xsd:enumeration value="OnError"/>
-            </xsd:restriction>
-        </xsd:simpleContent>
-    </xsd:complexType>
-
-    <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-    <xsd:complexType name = "TransConfirmType">
-        <xsd:sequence>
-            <xsd:element name = "OriginalApplicationArea"   type="TransApplicationAreaType" 
-                                                            minOccurs="0"/>
-            <xsd:element name = "ResponseCriteria"          type="TransResponseCriteriaType" 
-                                                            minOccurs="0" maxOccurs="unbounded"/>
-        </xsd:sequence>
-    </xsd:complexType>
-
-    <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-    <xsd:complexType name = "TransExpression1Type">
-        <xsd:simpleContent>
-            <xsd:extension base="xsd:token">
-            </xsd:extension>
-        </xsd:simpleContent>
-    </xsd:complexType>
-
-    <xsd:complexType name = "TransExpressionType">
-        <xsd:simpleContent>
-            <xsd:extension base="TransExpression1Type">
-                <xsd:attribute name = "actionCode"              type="TransActionCodeType" use="required"/>
-                <xsd:attribute name = "expressionLanguage"      type="xsd:token" use="optional"/>
-            </xsd:extension>
-        </xsd:simpleContent>
-    </xsd:complexType>
-
-    <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-    <xsd:complexType name = "TransGetType">
-        <xsd:sequence>
-            <xsd:element name = "Expression"                type="xsd:token"
-                                                            minOccurs="0" maxOccurs="unbounded"/>
-            </xsd:sequence>
-    </xsd:complexType>
-
-    <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-    <xsd:complexType name = "TransProcessType">
-        <xsd:sequence>
-            <xsd:element name = "ActionCriteria"            type="TransActionCriteriaType" 
-                                                            minOccurs="0" maxOccurs="unbounded"/>
-        </xsd:sequence>
-        <xsd:attribute name = "acknowledgeCode"             type="TransResponseCodeType" use="optional"/>
-    </xsd:complexType>
-
-    <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-    <xsd:complexType name = "TransRespondType">
-        <xsd:sequence>
-            <xsd:element name = "OriginalApplicationArea"   type="TransApplicationAreaType" minOccurs="0"/>
-            <xsd:element name = "ResponseCriteria"          type="TransResponseCriteriaType" 
-                                                            minOccurs="0" maxOccurs="unbounded"/>
-        </xsd:sequence>
-    </xsd:complexType>
-
-    <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-    <xsd:simpleType name = "TransResponseCodeType">
-        <xsd:restriction base="xsd:normalizedString">
-                <xsd:enumeration value="Always"/>
-                <xsd:enumeration value="OnError"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-
-    <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-    <xsd:complexType name = "TransResponseCriteriaType">
-        <xsd:sequence>
-            <xsd:element name = "ResponseExpression"        type="TransExpressionType" minOccurs="0"/>
-        </xsd:sequence>
-    </xsd:complexType>
-
-    <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-    <xsd:complexType name = "TransSenderType">
-        <xsd:sequence>
-            <xsd:element name = "LogicalID"                 type="IdentifierType" minOccurs="0"/>
-            <xsd:element name = "ComponentID"               type="IdentifierType" minOccurs="0"/>
-            <xsd:element name = "TaskID"                    type="IdentifierType" minOccurs="0"/>
-            <xsd:element name = "ReferenceID"               type="IdentifierType" minOccurs="0"/>
-            <xsd:element name = "ConfirmationCode"          type="TransConfirmationCodeType" minOccurs="0"/>
-            <xsd:element name = "AuthorizationID"           type="IdentifierType" minOccurs="0"/>
-        </xsd:sequence>
-    </xsd:complexType>
-
-    <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-    <xsd:complexType name = "TransShowType">
-        <xsd:sequence>
-            <xsd:element name = "OriginalApplicationArea"   type="TransApplicationAreaType" minOccurs="0"/>
-            <xsd:element name = "ResponseCriteria"          type="TransResponseCriteriaType" 
-                                                            minOccurs="0" maxOccurs="unbounded"/>
-        </xsd:sequence>
-    </xsd:complexType>
-
-    <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-        <xsd:complexType name = "TransSignatureType" block="restriction">
-                <xsd:sequence>
-                        <xsd:any namespace="##any" processContents="strict" minOccurs="0" maxOccurs="unbounded"/>
-                </xsd:sequence>
-                <xsd:attribute name = "qualifyingAgencyID"              type="xsd:normalizedString" use="optional"/>
-        </xsd:complexType>
-
-        <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-        <xsd:complexType name = "TransSyncType">
-                <xsd:sequence>
-                        <xsd:element name = "ActionCriteria"            type="TransActionCriteriaType" 
-                                                                        minOccurs="0" maxOccurs="unbounded"/>
-                </xsd:sequence>
-        </xsd:complexType>
-
-        <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-        <xsd:complexType name = "TransUserAreaType" block="restriction">
-                <xsd:sequence>
-                        <xsd:any namespace="##any" processContents="strict" minOccurs="0" maxOccurs="unbounded"/>
-                </xsd:sequence>
-        </xsd:complexType>
-
-
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <xsd:complexType name="TransExpressionType">
+    <xsd:simpleContent>
+      <xsd:extension base="TransExpression1Type">
+        <xsd:attribute name="actionCode" type="TransActionCodeType" use="required"/>
+        <xsd:attribute name="expressionLanguage" type="xsd:token" use="optional"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <xsd:complexType name="TransGetType">
+    <xsd:sequence>
+      <xsd:element name="Expression" type="xsd:token" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <xsd:complexType name="TransProcessType">
+    <xsd:sequence>
+      <xsd:element name="ActionCriteria" type="TransActionCriteriaType" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+    <xsd:attribute name="acknowledgeCode" type="TransResponseCodeType" use="optional"/>
+  </xsd:complexType>
+  <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <xsd:complexType name="TransRespondType">
+    <xsd:sequence>
+      <xsd:element name="OriginalApplicationArea" type="TransApplicationAreaType" minOccurs="0"/>
+      <xsd:element name="ResponseCriteria" type="TransResponseCriteriaType" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <xsd:simpleType name="TransResponseCodeType">
+    <xsd:restriction base="xsd:normalizedString">
+      <xsd:enumeration value="Always"/>
+      <xsd:enumeration value="OnError"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <xsd:complexType name="TransResponseCriteriaType">
+    <xsd:sequence>
+      <xsd:element name="ResponseExpression" type="TransExpressionType" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <xsd:complexType name="TransSenderType">
+    <xsd:sequence>
+      <xsd:element name="LogicalID" type="IdentifierType" minOccurs="0"/>
+      <xsd:element name="ComponentID" type="IdentifierType" minOccurs="0"/>
+      <xsd:element name="TaskID" type="IdentifierType" minOccurs="0"/>
+      <xsd:element name="ReferenceID" type="IdentifierType" minOccurs="0"/>
+      <xsd:element name="ConfirmationCode" type="TransConfirmationCodeType" minOccurs="0"/>
+      <xsd:element name="AuthorizationID" type="IdentifierType" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <xsd:complexType name="TransShowType">
+    <xsd:sequence>
+      <xsd:element name="OriginalApplicationArea" type="TransApplicationAreaType" minOccurs="0"/>
+      <xsd:element name="ResponseCriteria" type="TransResponseCriteriaType" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <xsd:complexType name="TransSignatureType" block="restriction">
+    <xsd:sequence>
+      <xsd:any namespace="##any" processContents="strict" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+    <xsd:attribute name="qualifyingAgencyID" type="xsd:normalizedString" use="optional"/>
+  </xsd:complexType>
+  <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <xsd:complexType name="TransSyncType">
+    <xsd:sequence>
+      <xsd:element name="ActionCriteria" type="TransActionCriteriaType" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!--  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <xsd:complexType name="TransUserAreaType" block="restriction">
+    <xsd:sequence>
+      <xsd:any namespace="##any" processContents="strict" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
 </xsd:schema>
