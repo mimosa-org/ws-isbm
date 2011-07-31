@@ -12,10 +12,10 @@
 		<xs:schema elementFormDefault="qualified" targetNamespace="http://www.openoandm.org/xml/ISBM/">
 			<!-- Types -->
 
-			<xs:complexType name="Message">
+			<xs:complexType name="ResponseMessage">
 				<xs:sequence>
 					<xs:element minOccurs="1" maxOccurs="1" name="MessageID" type="xs:string"/>
-					<xs:element minOccurs="1" maxOccurs="1" name="TopicID" type="xs:string"/>
+					<xs:element minOccurs="1" maxOccurs="1" name="RequestMessageID" type="xs:string"/>
 					<xs:any minOccurs="1" maxOccurs="1" namespace="##any" processContents="lax"/>
 				</xs:sequence>
 			</xs:complexType>
@@ -40,7 +40,7 @@
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
-						<xs:element minOccurs="1" maxOccurs="1" name="TopicID" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="unbounded" name="TopicID" type="xs:string"/>
 						<xs:any minOccurs="1" maxOccurs="1" namespace="##any" processContents="lax"/>
 					</xs:sequence>
 				</xs:complexType>
@@ -66,7 +66,6 @@
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
-						<xs:element minOccurs="1" maxOccurs="unbounded" name="TopicID" type="xs:string"/>
 						<xs:element minOccurs="0" maxOccurs="1" name="ListenerURI" type="xs:anyURI"/>
 					</xs:sequence>
 				</xs:complexType>
@@ -88,7 +87,7 @@
 			<xs:element name="ReadResponseResponse">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element minOccurs="0" maxOccurs="1" name="Message" type="tns:Message"/>
+						<xs:element minOccurs="0" maxOccurs="1" name="Message" type="tns:ResponseMessage"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -229,7 +228,6 @@
 			<wsdl:output message="tns:OpenReadResponseSessionOut"/>
 			<wsdl:fault name="InvalidChannelFault" message="tns:InvalidChannelFault"/>
 			<wsdl:fault name="InvalidChannelTypeFault" message="tns:InvalidChannelTypeFault"/>
-			<wsdl:fault name="InvalidTopicFault" message="tns:InvalidTopicFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="ReadResponse">
 			<wsdl:documentation>Returns the first response message in the message queue for the session. Note: this service does not remove the message from the message queue.</wsdl:documentation>
@@ -308,9 +306,6 @@
 			</wsdl:fault>
 			<wsdl:fault name="InvalidChannelTypeFault">
 				<soap:fault name="InvalidChannelTypeFault" use="literal"/>
-			</wsdl:fault>
-			<wsdl:fault name="InvalidTopicFault">
-				<soap:fault name="InvalidTopicFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="ReadResponse">
@@ -408,9 +403,6 @@
 			</wsdl:fault>
 			<wsdl:fault name="InvalidChannelTypeFault">
 				<soap12:fault name="InvalidChannelTypeFault" use="literal"/>
-			</wsdl:fault>
-			<wsdl:fault name="InvalidTopicFault">
-				<soap12:fault name="InvalidTopicFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="ReadResponse">
