@@ -30,6 +30,7 @@
 					<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
 					<xs:element minOccurs="1" maxOccurs="1" name="ChannelName" type="xs:string"/>
 					<xs:element minOccurs="1" maxOccurs="1" name="ChannelType" type="tns:ChannelType"/>
+					<xs:element minOccurs="0" maxOccurs="1" name="ChannelDescription" type="xs:string"/>
 					<xs:element minOccurs="0" maxOccurs="unbounded" name="TopicID" type="xs:string"/>
 					<xs:element minOccurs="0" maxOccurs="unbounded" name="SessionID" type="xs:string"/>
 				</xs:sequence>
@@ -49,7 +50,7 @@
 					<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
 					<xs:element minOccurs="1" maxOccurs="1" name="TopicName" type="xs:string"/>
 					<xs:element minOccurs="0" maxOccurs="1" name="TopicDescription" type="xs:string"/>
-					<xs:element minOccurs="0" maxOccurs="1" name="TopicXPathDefinition" type="xs:string"/>
+					<xs:element minOccurs="0" maxOccurs="1" name="XPathDefinition" type="xs:string"/>
 				</xs:sequence>
 			</xs:complexType>
 
@@ -60,6 +61,7 @@
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="ChannelName" type="xs:string"/>
 						<xs:element minOccurs="1" maxOccurs="1" name="ChannelType" type="tns:ChannelType"/>
+						<xs:element minOccurs="0" maxOccurs="1" name="ChannelDescription" type="xs:string"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -75,7 +77,7 @@
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
 						<xs:element minOccurs="1" maxOccurs="1" name="NamespacePrefix" type="xs:string"/>
-						<xs:element minOccurs="1" maxOccurs="1" name="NamespaceURI" type="xs:anyURI"/>
+						<xs:element minOccurs="1" maxOccurs="1" name="NamespaceName" type="xs:string"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -88,7 +90,7 @@
 						<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
 						<xs:element minOccurs="1" maxOccurs="1" name="TopicName" type="xs:string"/>
 						<xs:element minOccurs="0" maxOccurs="1" name="TopicDescription" type="xs:string"/>
-						<xs:element minOccurs="0" maxOccurs="1" name="TopicXPathDefinition" type="xs:string"/>
+						<xs:element minOccurs="0" maxOccurs="1" name="XPathDefinition" type="xs:string"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
