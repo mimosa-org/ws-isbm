@@ -31,7 +31,7 @@
 					<xs:element minOccurs="1" maxOccurs="1" name="ChannelName" type="xs:string"/>
 					<xs:element minOccurs="1" maxOccurs="1" name="ChannelType" type="tns:ChannelType"/>
 					<xs:element minOccurs="0" maxOccurs="1" name="ChannelDescription" type="xs:string"/>
-					<xs:element minOccurs="0" maxOccurs="unbounded" name="TopicID" type="xs:string"/>
+					<xs:element minOccurs="0" maxOccurs="unbounded" name="TopicName" type="xs:string"/>
 					<xs:element minOccurs="0" maxOccurs="unbounded" name="SessionID" type="xs:string"/>
 				</xs:sequence>
 			</xs:complexType>
@@ -40,15 +40,14 @@
 					<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
 					<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
 					<xs:element minOccurs="1" maxOccurs="1" name="ApplicationType" type="tns:ApplicationType"/>
-					<xs:element minOccurs="0" maxOccurs="unbounded" name="TopicID" type="xs:string"/>
+					<xs:element minOccurs="0" maxOccurs="unbounded" name="TopicName" type="xs:string"/>
 					<xs:element minOccurs="0" maxOccurs="1" name="ListenerURI" type="xs:anyURI"/>
 				</xs:sequence>
 			</xs:complexType>
 			<xs:complexType name="Topic">
 				<xs:sequence>
-					<xs:element minOccurs="1" maxOccurs="1" name="TopicID" type="xs:string"/>
-					<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
 					<xs:element minOccurs="1" maxOccurs="1" name="TopicName" type="xs:string"/>
+					<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
 					<xs:element minOccurs="0" maxOccurs="1" name="TopicDescription" type="xs:string"/>
 					<xs:element minOccurs="0" maxOccurs="1" name="XPathDefinition" type="xs:string"/>
 				</xs:sequence>
@@ -95,11 +94,7 @@
 				</xs:complexType>
 			</xs:element>
 			<xs:element name="CreateTopicResponse">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="TopicID" type="xs:string"/>
-					</xs:sequence>
-				</xs:complexType>
+				<xs:complexType/>
 			</xs:element>
 			<xs:element name="DeleteChannel">
 				<xs:complexType>
@@ -125,7 +120,7 @@
 			<xs:element name="DeleteTopic">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="TopicID" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="1" name="TopicName" type="xs:string"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>

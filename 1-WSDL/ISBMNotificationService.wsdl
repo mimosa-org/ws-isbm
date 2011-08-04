@@ -14,8 +14,8 @@
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
-						<xs:element minOccurs="1" maxOccurs="1" name="TopicID" type="xs:string"/>
 						<xs:element minOccurs="1" maxOccurs="1" name="MessageID" type="xs:string"/>
+						<xs:element minOccurs="0" maxOccurs="unbounded" name="TopicName" type="xs:string"/>
 						<xs:element minOccurs="0" maxOccurs="1" name="RequestMessageID" type="xs:string"/>
 					</xs:sequence>
 				</xs:complexType>

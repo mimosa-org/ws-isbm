@@ -15,7 +15,7 @@
 			<xs:complexType name="Message">
 				<xs:sequence>
 					<xs:element minOccurs="1" maxOccurs="1" name="MessageID" type="xs:string"/>
-					<xs:element minOccurs="1" maxOccurs="unbounded" name="TopicID" type="xs:string"/>
+					<xs:element minOccurs="1" maxOccurs="unbounded" name="TopicName" type="xs:string"/>
 					<xs:any minOccurs="1" maxOccurs="1" namespace="##any" processContents="lax"/>
 				</xs:sequence>
 			</xs:complexType>
@@ -26,7 +26,7 @@
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
-						<xs:element minOccurs="1" maxOccurs="unbounded" name="TopicID" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="unbounded" name="TopicName" type="xs:string"/>
 						<xs:element minOccurs="0" maxOccurs="1" name="ListenerURI" type="xs:string"/>
 					</xs:sequence>
 				</xs:complexType>
