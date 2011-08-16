@@ -128,6 +128,14 @@
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
+			<xs:element name="InvalidContentFault">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="Description" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="1" name="TopicName" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
 			<xs:element name="InvalidSessionFault">
 				<xs:complexType>
 					<xs:sequence>
@@ -194,6 +202,9 @@
 	<wsdl:message name="InvalidChannelTypeFault">
 		<wsdl:part name="parameters" element="tns:InvalidChannelTypeFault"/>
 	</wsdl:message>
+	<wsdl:message name="InvalidContentFault">
+		<wsdl:part name="parameters" element="tns:InvalidSessionFault"/>
+	</wsdl:message>
 	<wsdl:message name="InvalidSessionFault">
 		<wsdl:part name="parameters" element="tns:InvalidSessionFault"/>
 	</wsdl:message>
@@ -215,6 +226,7 @@
 			<wsdl:output message="tns:PostRequestOut"/>
 			<wsdl:fault name="InvalidSessionFault" message="tns:InvalidSessionFault"/>
 			<wsdl:fault name="InvalidTopicFault" message="tns:InvalidTopicFault"/>
+			<wsdl:fault name="InvalidContentFault" message="tns:InvalidContentFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="ClosePostRequestSession">
 			<wsdl:documentation>Closes a post request session.</wsdl:documentation>
@@ -279,6 +291,9 @@
 			</wsdl:fault>
 			<wsdl:fault name="InvalidTopicFault">
 				<soap:fault name="InvalidTopicFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="InvalidContentFault">
+				<soap:fault name="InvalidContentFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="ClosePostRequestSession">
@@ -376,6 +391,9 @@
 			</wsdl:fault>
 			<wsdl:fault name="InvalidTopicFault">
 				<soap12:fault name="InvalidTopicFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="InvalidContentFault">
+				<soap12:fault name="InvalidContentFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="ClosePostRequestSession">
