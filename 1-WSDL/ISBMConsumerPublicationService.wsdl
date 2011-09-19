@@ -65,7 +65,7 @@
 			<xs:element name="CloseSubscriptionSession">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="channelSessionID" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
