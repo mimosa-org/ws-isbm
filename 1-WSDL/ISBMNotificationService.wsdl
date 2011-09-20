@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:tns="http://www.openoandm.org/xml/ISBM/"
+	targetNamespace="http://www.openoandm.org/xml/ISBM/"
+	name="ISBMNotificationService">
+
+	<wsdl:types>
+		<xs:schema elementFormDefault="qualified" targetNamespace="http://www.openoandm.org/xml/ISBM/">
+			<xs:element name="NotifyListener">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="1" name="MessageID" type="xs:string"/>
+						<xs:element minOccurs="0" maxOccurs="unbounded" name="TopicName" type="xs:string"/>
+						<xs:element minOccurs="0" maxOccurs="1" name="RequestMessageID" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="NotifyListenerResponse">
+				<xs:complexType/>
+			</xs:element>
+		</xs:schema>
+	</wsdl:types>
+
+	<wsdl:message name="NotifyListenerIn">
+		<wsdl:part name="parameters" element="tns:NotifyListener"/>
+	</wsdl:message>
+	<wsdl:message name="NotifyListenerOut">
+		<wsdl:part name="parameters" element="tns:NotifyListenerResponse"/>
+	</wsdl:message>
+
+	<wsdl:portType name="ISBMNotificationService">
+		<wsdl:operation name="NotifyListener">
+			<wsdl:documentation>Provides a notification of a new message being able to be read for a session. The Listener URI invoked was given when the application desiring notifications subscribed to the channel.</wsdl:documentation>
+			<wsdl:input message="tns:NotifyListenerIn"/>
+			<wsdl:output message="tns:NotifyListenerOut"/>
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="ISBMNotificationServiceSoap" type="tns:ISBMNotificationService">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="NotifyListener">
+			<soap:operation soapAction="http://www.openoandm.org/xml/ISBM/NotifyListener" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:binding name="ISBMNotificationServiceSoap12" type="tns:ISBMNotificationService">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="NotifyListener">
+			<soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/ReadPublication" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="ISBMNotificationService">
+		<wsdl:port name="ISBMNotifyListenerServiceSoap" binding="tns:ISBMNotificationServiceSoap">
+			<soap:address location="http://localhost/ISBMNotificationService"/>
+		</wsdl:port>
+		<wsdl:port name="ISBMNotificationServiceSoap12" binding="tns:ISBMNotificationServiceSoap12">
+			<soap12:address location="http://localhost/ISBMNotificationService"/>
+		</wsdl:port>
+	</wsdl:service>
+
+</wsdl:definitions>

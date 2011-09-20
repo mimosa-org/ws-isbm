@@ -1,0 +1,642 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:tns="http://www.openoandm.org/xml/ISBM/"
+	targetNamespace="http://www.openoandm.org/xml/ISBM/"
+	name="ISBMChannelManagementService">
+
+	<wsdl:types>
+		<xs:schema elementFormDefault="qualified" targetNamespace="http://www.openoandm.org/xml/ISBM/">
+			<!-- Types -->
+
+			<xs:simpleType name="ChannelType">
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Publication"/>
+					<xs:enumeration value="Request"/>
+					<xs:enumeration value="Response"/>
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:simpleType name="ApplicationType">
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="Provider"/>
+					<xs:enumeration value="Consumer"/>
+				</xs:restriction>
+			</xs:simpleType>
+			<xs:complexType name="Channel">
+				<xs:sequence>
+					<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
+					<xs:element minOccurs="1" maxOccurs="1" name="ChannelName" type="xs:string"/>
+					<xs:element minOccurs="1" maxOccurs="1" name="ChannelType" type="tns:ChannelType"/>
+					<xs:element minOccurs="0" maxOccurs="1" name="ChannelDescription" type="xs:string"/>
+					<xs:element minOccurs="0" maxOccurs="unbounded" name="TopicName" type="xs:string"/>
+					<xs:element minOccurs="0" maxOccurs="unbounded" name="SessionID" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="Session">
+				<xs:sequence>
+					<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
+					<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
+					<xs:element minOccurs="1" maxOccurs="1" name="ApplicationType" type="tns:ApplicationType"/>
+					<xs:element minOccurs="0" maxOccurs="unbounded" name="TopicName" type="xs:string"/>
+					<xs:element minOccurs="0" maxOccurs="1" name="ListenerURI" type="xs:anyURI"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="Topic">
+				<xs:sequence>
+					<xs:element minOccurs="1" maxOccurs="1" name="TopicName" type="xs:string"/>
+					<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
+					<xs:element minOccurs="0" maxOccurs="1" name="TopicDescription" type="xs:string"/>
+					<xs:element minOccurs="0" maxOccurs="1" name="XPathExpression" type="xs:string"/>
+					<xs:element minOccurs="0" maxOccurs="unbounded" name="XPathNamespace" type="tns:Namespace"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="Namespace">
+				<xs:sequence>
+					<xs:element minOccurs="1" maxOccurs="1" name="NamespacePrefix" type="xs:string"/>
+					<xs:element minOccurs="1" maxOccurs="1" name="NamespaceName" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<!-- Parameter elements -->
+
+			<xs:element name="CreateChannel">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="ChannelName" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="1" name="ChannelType" type="tns:ChannelType"/>
+						<xs:element minOccurs="0" maxOccurs="1" name="ChannelDescription" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CreateChannelResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CreateChannelNamespace">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="1" name="NamespacePrefix" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="1" name="NamespaceName" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CreateChannelNamespaceResponse">
+				<xs:complexType/>
+			</xs:element>
+			<xs:element name="CreateTopic">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="1" name="TopicName" type="xs:string"/>
+						<xs:element minOccurs="0" maxOccurs="1" name="TopicDescription" type="xs:string"/>
+						<xs:element minOccurs="0" maxOccurs="1" name="XPathExpression" type="xs:string"/>
+						<xs:element minOccurs="0" maxOccurs="unbounded" name="XPathNamespace" type="tns:Namespace"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CreateTopicResponse">
+				<xs:complexType/>
+			</xs:element>
+			<xs:element name="DeleteChannel">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DeleteChannelResponse">
+				<xs:complexType/>
+			</xs:element>
+			<xs:element name="DeleteChannelNamespace">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="1" name="NamespacePrefix" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DeleteChannelNamespaceResponse">
+				<xs:complexType/>
+			</xs:element>
+			<xs:element name="DeleteTopic">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="TopicName" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DeleteTopicResponse">
+				<xs:complexType/>
+			</xs:element>
+			<xs:element name="GetChannels">
+				<xs:complexType/>
+			</xs:element>
+			<xs:element name="GetChannelsResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="unbounded" name="Channel" type="tns:Channel"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="GetSession">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="GetSessionResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="Session" type="tns:Session"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="GetSessions">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>      
+			<xs:element name="GetSessionsResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="unbounded" name="Session" type="tns:Session"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="GetTopic">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="1" name="TopicName" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="GetTopicResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="Topic" type="tns:Topic"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="GetTopics">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="GetTopicsResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="unbounded" name="Topic" type="tns:Topic"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			
+			<!-- Fault elements -->
+
+			<xs:element name="DuplicateChannelFault">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="Description" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DuplicateNamespacePrefixFault">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="Description" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="DuplicateTopicFault">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="Description" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="InvalidChannelFault">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="Description" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="InvalidSessionFault">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="Description" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="InvalidTopicFault">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="Description" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:schema>
+	</wsdl:types>
+
+	<wsdl:message name="CreateChannelIn">
+		<wsdl:part name="parameters" element="tns:CreateChannel"/>
+	</wsdl:message>
+	<wsdl:message name="CreateChannelOut">
+		<wsdl:part name="parameters" element="tns:CreateChannelResponse"/>
+	</wsdl:message>
+	<wsdl:message name="CreateChannelNamespaceIn">
+		<wsdl:part name="parameters" element="tns:CreateChannelNamespace"/>
+	</wsdl:message>
+	<wsdl:message name="CreateChannelNamespaceOut">
+		<wsdl:part name="parameters" element="tns:CreateChannelNamespaceResponse"/>
+	</wsdl:message>
+	<wsdl:message name="CreateTopicIn">
+		<wsdl:part name="parameters" element="tns:CreateTopic"/>
+	</wsdl:message>
+	<wsdl:message name="CreateTopicOut">
+		<wsdl:part name="parameters" element="tns:CreateTopicResponse"/>
+	</wsdl:message>
+	<wsdl:message name="DeleteChannelIn">
+		<wsdl:part name="parameters" element="tns:DeleteChannel"/>
+	</wsdl:message>
+	<wsdl:message name="DeleteChannelOut">
+		<wsdl:part name="parameters" element="tns:DeleteChannelResponse"/>
+	</wsdl:message>
+	<wsdl:message name="DeleteChannelNamespaceIn">
+		<wsdl:part name="parameters" element="tns:DeleteChannelNamespace"/>
+	</wsdl:message>
+	<wsdl:message name="DeleteChannelNamespaceOut">
+		<wsdl:part name="parameters" element="tns:DeleteChannelNamespaceResponse"/>
+	</wsdl:message>
+	<wsdl:message name="DeleteTopicIn">
+		<wsdl:part name="parameters" element="tns:DeleteTopic"/>
+	</wsdl:message>
+	<wsdl:message name="DeleteTopicOut">
+		<wsdl:part name="parameters" element="tns:DeleteTopicResponse"/>
+	</wsdl:message>
+	<wsdl:message name="GetChannelsIn">
+		<wsdl:part name="parameters" element="tns:GetChannels"/>
+	</wsdl:message>
+	<wsdl:message name="GetChannelsOut">
+		<wsdl:part name="parameters" element="tns:GetChannelsResponse"/>
+	</wsdl:message>
+	<wsdl:message name="GetSessionIn">
+		<wsdl:part name="parameters" element="tns:GetSession"/>
+	</wsdl:message>
+	<wsdl:message name="GetSessionOut">
+		<wsdl:part name="parameters" element="tns:GetSessionResponse"/>
+	</wsdl:message>
+	<wsdl:message name="GetSessionsIn">
+		<wsdl:part name="parameters" element="tns:GetSessions"/>
+	</wsdl:message>
+	<wsdl:message name="GetSessionsOut">
+		<wsdl:part name="parameters" element="tns:GetSessionsResponse"/>
+	</wsdl:message>
+	<wsdl:message name="GetTopicIn">
+		<wsdl:part name="parameters" element="tns:GetTopic"/>
+	</wsdl:message>
+	<wsdl:message name="GetTopicOut">
+		<wsdl:part name="parameters" element="tns:GetTopicResponse"/>
+	</wsdl:message>
+	<wsdl:message name="GetTopicsIn">
+		<wsdl:part name="parameters" element="tns:GetTopics"/>
+	</wsdl:message>
+	<wsdl:message name="GetTopicsOut">
+		<wsdl:part name="parameters" element="tns:GetTopicsResponse"/>
+	</wsdl:message>
+	<wsdl:message name="DuplicateChannelFault">
+		<wsdl:part name="parameters" element="tns:DuplicateChannelFault"/>
+	</wsdl:message>
+	<wsdl:message name="DuplicateNamespacePrefixFault">
+		<wsdl:part name="parameters" element="tns:DuplicateNamespacePrefixFault"/>
+	</wsdl:message>
+	<wsdl:message name="DuplicateTopicFault">
+		<wsdl:part name="parameters" element="tns:DuplicateTopicFault"/>
+	</wsdl:message>
+	<wsdl:message name="InvalidChannelFault">
+		<wsdl:part name="parameters" element="tns:InvalidChannelFault"/>
+	</wsdl:message>
+	<wsdl:message name="InvalidSessionFault">
+		<wsdl:part name="parameters" element="tns:InvalidSessionFault"/>
+	</wsdl:message>
+	<wsdl:message name="InvalidTopicFault">
+		<wsdl:part name="parameters" element="tns:InvalidTopicFault"/>
+	</wsdl:message>
+
+	<wsdl:portType name="ISBMChannelManagementService">
+		<wsdl:operation name="CreateChannel">
+			<wsdl:documentation>Creates a new ISBM channel.</wsdl:documentation>
+			<wsdl:input message="tns:CreateChannelIn"/>
+			<wsdl:output message="tns:CreateChannelOut"/>
+			<wsdl:fault name="DuplicateChannelFault" message="tns:DuplicateChannelFault"/>
+		</wsdl:operation>
+		<wsdl:operation name="CreateTopic">
+			<wsdl:documentation>Creates a new topic on a channel.</wsdl:documentation>
+			<wsdl:input message="tns:CreateTopicIn"/>
+			<wsdl:output message="tns:CreateTopicOut"/>
+			<wsdl:fault name="InvalidChannelFault" message="tns:InvalidChannelFault"/>
+			<wsdl:fault name="DuplicateTopicFault" message="tns:DuplicateTopicFault"/>
+			<wsdl:fault name="DuplicateNamespacePrefixFault" message="tns:DuplicateNamespacePrefixFault"/>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteChannel">
+			<wsdl:documentation>Deletes an ISBM channel.</wsdl:documentation>
+			<wsdl:input message="tns:DeleteChannelIn"/>
+			<wsdl:output message="tns:DeleteChannelOut"/>
+			<wsdl:fault name="InvalidChannelFault" message="tns:InvalidChannelFault"/>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteTopic">
+			<wsdl:documentation>Deletes a topic from a channel.</wsdl:documentation>
+			<wsdl:input message="tns:DeleteTopicIn"/>
+			<wsdl:output message="tns:DeleteTopicOut"/>
+			<wsdl:fault name="InvalidTopicFault" message="tns:InvalidTopicFault"/>
+		</wsdl:operation>
+		<wsdl:operation name="GetChannels">
+			<wsdl:documentation>Gets all ISBM channels.</wsdl:documentation>
+			<wsdl:input message="tns:GetChannelsIn"/>
+			<wsdl:output message="tns:GetChannelsOut"/>
+		</wsdl:operation>
+		<wsdl:operation name="GetSession">
+			<wsdl:documentation>Gets information about a session.</wsdl:documentation>
+			<wsdl:input message="tns:GetSessionIn"/>
+			<wsdl:output message="tns:GetSessionOut"/>
+			<wsdl:fault name="InvalidSessionFault" message="tns:InvalidSessionFault"/>
+		</wsdl:operation>
+		<wsdl:operation name="GetSessions">
+			<wsdl:documentation>Gets all sessions for a channel.</wsdl:documentation>
+			<wsdl:input message="tns:GetSessionsIn"/>
+			<wsdl:output message="tns:GetSessionsOut"/>
+			<wsdl:fault name="InvalidChannelFault" message="tns:InvalidChannelFault"/>
+		</wsdl:operation>
+		<wsdl:operation name="GetTopic">
+			<wsdl:documentation>Gets information about a topic.</wsdl:documentation>
+			<wsdl:input message="tns:GetTopicIn"/>
+			<wsdl:output message="tns:GetTopicOut"/>
+			<wsdl:fault name="InvalidChannelFault" message="tns:InvalidChannelFault"/>
+			<wsdl:fault name="InvalidTopicFault" message="tns:InvalidTopicFault"/>
+		</wsdl:operation>
+		<wsdl:operation name="GetTopics">
+			<wsdl:documentation>Gets all topics for a channel.</wsdl:documentation>
+			<wsdl:input message="tns:GetTopicsIn"/>
+			<wsdl:output message="tns:GetTopicsOut"/>
+			<wsdl:fault name="InvalidChannelFault" message="tns:InvalidChannelFault"/>
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="ISBMChannelManagementServiceSoap" type="tns:ISBMChannelManagementService">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="CreateChannel">
+			<soap:operation soapAction="http://www.openoandm.org/xml/ISBM/CreateChannel" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="DuplicateChannelFault">
+				<soap:fault name="DuplicateChannelFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="CreateTopic">
+			<soap:operation soapAction="http://www.openoandm.org/xml/ISBM/CreateTopic" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidChannelFault">
+				<soap:fault name="InvalidChannelFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="DuplicateTopicFault">
+				<soap:fault name="DuplicateTopicFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="DuplicateNamespacePrefixFault">
+				<soap:fault name="DuplicateNamespacePrefixFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteChannel">
+			<soap:operation soapAction="http://www.openoandm.org/xml/ISBM/DeleteChannel" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidChannelFault">
+				<soap:fault name="InvalidChannelFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteTopic">
+			<soap:operation soapAction="http://www.openoandm.org/xml/ISBM/DeleteTopic" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidTopicFault">
+				<soap:fault name="InvalidTopicFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="GetChannels">
+			<soap:operation soapAction="http://www.openoandm.org/xml/ISBM/GetChannels" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetSession">
+			<soap:operation soapAction="http://www.openoandm.org/xml/ISBM/GetSession" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidSessionFault">
+				<soap:fault name="InvalidSessionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="GetSessions">
+			<soap:operation soapAction="http://www.openoandm.org/xml/ISBM/GetSessions" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidChannelFault">
+				<soap:fault name="InvalidChannelFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="GetTopic">
+			<soap:operation soapAction="http://www.openoandm.org/xml/ISBM/GetTopic" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidChannelFault">
+				<soap:fault name="InvalidChannelFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="InvalidTopicFault">
+				<soap:fault name="InvalidTopicFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="GetTopics">
+			<soap:operation soapAction="http://www.openoandm.org/xml/ISBM/GetTopics" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidChannelFault">
+				<soap:fault name="InvalidChannelFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:binding name="ISBMChannelManagementServiceSoap12" type="tns:ISBMChannelManagementService">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="CreateChannel">
+			<soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/CreateChannel" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="DuplicateChannelFault">
+				<soap12:fault name="DuplicateChannelFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="CreateTopic">
+			<soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/CreateTopic" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidChannelFault">
+				<soap12:fault name="InvalidChannelFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="DuplicateTopicFault">
+				<soap12:fault name="DuplicateTopicFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="DuplicateNamespacePrefixFault">
+				<soap12:fault name="DuplicateNamespacePrefixFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteChannel">
+			<soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/DeleteChannel" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidChannelFault">
+				<soap12:fault name="InvalidChannelFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="DeleteTopic">
+			<soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/DeleteTopic" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidTopicFault">
+				<soap12:fault name="InvalidTopicFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="GetChannels">
+			<soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/GetChannels" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetSession">
+			<soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/GetSession" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidSessionFault">
+				<soap12:fault name="InvalidSessionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="GetSessions">
+			<soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/GetSessions" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidChannelFault">
+				<soap12:fault name="InvalidChannelFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="GetTopic">
+			<soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/GetTopic" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidChannelFault">
+				<soap12:fault name="InvalidChannelFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="InvalidTopicFault">
+				<soap12:fault name="InvalidTopicFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="GetTopics">
+			<soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/GetTopics" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidChannelFault">
+				<soap12:fault name="InvalidChannelFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="ISBMChannelManagementService">
+		<wsdl:port name="ISBMChannelManagementServiceSoap" binding="tns:ISBMChannelManagementServiceSoap">
+			<soap:address location="http://localhost/ISBMChannelManagementService"/>
+		</wsdl:port>
+		<wsdl:port name="ISBMChannelManagementServiceSoap12" binding="tns:ISBMChannelManagementServiceSoap12">
+			<soap12:address location="http://localhost/ISBMChannelManagementService"/>
+		</wsdl:port>
+	</wsdl:service>
+
+</wsdl:definitions>
