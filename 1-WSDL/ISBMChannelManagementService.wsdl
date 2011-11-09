@@ -136,6 +136,21 @@
 			<xs:element name="DeleteTopicResponse">
 				<xs:complexType/>
 			</xs:element>
+			<xs:element name="GetChannel">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="ChannelName" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="1" name="ChannelType" type="tns:ChannelType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="GetChannelResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="Channel" type="tns:Channel"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
 			<xs:element name="GetChannels">
 				<xs:complexType/>
 			</xs:element>
@@ -287,6 +302,12 @@
 	<wsdl:message name="DeleteTopicOut">
 		<wsdl:part name="parameters" element="tns:DeleteTopicResponse"/>
 	</wsdl:message>
+	<wsdl:message name="GetChannelIn">
+		<wsdl:part name="parameters" element="tns:GetChannel"/>
+	</wsdl:message>
+	<wsdl:message name="GetChannelOut">
+		<wsdl:part name="parameters" element="tns:GetChannelResponse"/>
+	</wsdl:message>
 	<wsdl:message name="GetChannelsIn">
 		<wsdl:part name="parameters" element="tns:GetChannels"/>
 	</wsdl:message>
@@ -363,6 +384,12 @@
 			<wsdl:output message="tns:DeleteTopicOut"/>
 			<wsdl:fault name="InvalidChannelFault" message="tns:InvalidChannelFault"/>
 			<wsdl:fault name="InvalidTopicFault" message="tns:InvalidTopicFault"/>
+		</wsdl:operation>
+		<wsdl:operation name="GetChannel">
+			<wsdl:documentation>Gets information about a channel.</wsdl:documentation>
+			<wsdl:input message="tns:GetChannelIn"/>
+			<wsdl:output message="tns:GetChannelOut"/>
+			<wsdl:fault name="InvalidChannelFault" message="tns:InvalidChannelFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="GetChannels">
 			<wsdl:documentation>Gets all ISBM channels.</wsdl:documentation>
@@ -453,6 +480,18 @@
 			</wsdl:fault>
 			<wsdl:fault name="InvalidTopicFault">
 				<soap:fault name="InvalidTopicFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="GetChannel">
+			<soap:operation soapAction="http://www.openoandm.org/xml/ISBM/GetChannel" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidChannelFault">
+				<soap:fault name="InvalidChannelFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="GetChannels">
@@ -574,6 +613,18 @@
 			</wsdl:fault>
 			<wsdl:fault name="InvalidTopicFault">
 				<soap12:fault name="InvalidTopicFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="GetChannel">
+			<soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/GetChannel" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidChannelFault">
+				<soap12:fault name="InvalidChannelFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="GetChannels">
