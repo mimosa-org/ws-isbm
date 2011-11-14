@@ -40,8 +40,8 @@
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
-						<xs:element minOccurs="1" maxOccurs="unbounded" name="TopicNames" type="xs:string"/>
 						<xs:any minOccurs="1" maxOccurs="1" namespace="##any" processContents="lax"/>
+						<xs:element minOccurs="1" maxOccurs="unbounded" name="TopicName" type="xs:string"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -152,7 +152,6 @@
 			</xs:element>
 		</xs:schema>
 	</wsdl:types>
-
 
 	<wsdl:message name="OpenPostRequestSessionIn">
 		<wsdl:part name="parameters" element="tns:OpenPostRequestSession"/>
