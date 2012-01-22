@@ -49,14 +49,6 @@
 					<xs:element minOccurs="1" maxOccurs="1" name="TopicName" type="xs:string"/>
 					<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
 					<xs:element minOccurs="0" maxOccurs="1" name="TopicDescription" type="xs:string"/>
-					<xs:element minOccurs="0" maxOccurs="1" name="XPathExpression" type="xs:string"/>
-					<xs:element minOccurs="0" maxOccurs="unbounded" name="XPathNamespace" type="tns:Namespace"/>
-				</xs:sequence>
-			</xs:complexType>
-			<xs:complexType name="Namespace">
-				<xs:sequence>
-					<xs:element minOccurs="1" maxOccurs="1" name="NamespacePrefix" type="xs:string"/>
-					<xs:element minOccurs="1" maxOccurs="1" name="NamespaceName" type="xs:string"/>
 				</xs:sequence>
 			</xs:complexType>
 
@@ -78,26 +70,12 @@
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
-			<xs:element name="CreateChannelNamespace">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
-						<xs:element minOccurs="1" maxOccurs="1" name="NamespacePrefix" type="xs:string"/>
-						<xs:element minOccurs="1" maxOccurs="1" name="NamespaceName" type="xs:string"/>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-			<xs:element name="CreateChannelNamespaceResponse">
-				<xs:complexType/>
-			</xs:element>
 			<xs:element name="CreateTopic">
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
 						<xs:element minOccurs="1" maxOccurs="1" name="TopicName" type="xs:string"/>
 						<xs:element minOccurs="0" maxOccurs="1" name="TopicDescription" type="xs:string"/>
-						<xs:element minOccurs="0" maxOccurs="1" name="XPathExpression" type="xs:string"/>
-						<xs:element minOccurs="0" maxOccurs="unbounded" name="XPathNamespace" type="tns:Namespace"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -112,17 +90,6 @@
 				</xs:complexType>
 			</xs:element>
 			<xs:element name="DeleteChannelResponse">
-				<xs:complexType/>
-			</xs:element>
-			<xs:element name="DeleteChannelNamespace">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
-						<xs:element minOccurs="1" maxOccurs="1" name="NamespacePrefix" type="xs:string"/>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-			<xs:element name="DeleteChannelNamespaceResponse">
 				<xs:complexType/>
 			</xs:element>
 			<xs:element name="DeleteTopic">
@@ -221,21 +188,7 @@
 			
 			<!-- Fault elements -->
 
-			<xs:element name="DuplicateChannelFault">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="Description" type="xs:string"/>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-			<xs:element name="DuplicateNamespacePrefixFault">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="Description" type="xs:string"/>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-			<xs:element name="DuplicateTopicFault">
+			<xs:element name="DuplicateChannelNameFault">
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="Description" type="xs:string"/>
@@ -272,12 +225,6 @@
 	<wsdl:message name="CreateChannelOut">
 		<wsdl:part name="parameters" element="tns:CreateChannelResponse"/>
 	</wsdl:message>
-	<wsdl:message name="CreateChannelNamespaceIn">
-		<wsdl:part name="parameters" element="tns:CreateChannelNamespace"/>
-	</wsdl:message>
-	<wsdl:message name="CreateChannelNamespaceOut">
-		<wsdl:part name="parameters" element="tns:CreateChannelNamespaceResponse"/>
-	</wsdl:message>
 	<wsdl:message name="CreateTopicIn">
 		<wsdl:part name="parameters" element="tns:CreateTopic"/>
 	</wsdl:message>
@@ -289,12 +236,6 @@
 	</wsdl:message>
 	<wsdl:message name="DeleteChannelOut">
 		<wsdl:part name="parameters" element="tns:DeleteChannelResponse"/>
-	</wsdl:message>
-	<wsdl:message name="DeleteChannelNamespaceIn">
-		<wsdl:part name="parameters" element="tns:DeleteChannelNamespace"/>
-	</wsdl:message>
-	<wsdl:message name="DeleteChannelNamespaceOut">
-		<wsdl:part name="parameters" element="tns:DeleteChannelNamespaceResponse"/>
 	</wsdl:message>
 	<wsdl:message name="DeleteTopicIn">
 		<wsdl:part name="parameters" element="tns:DeleteTopic"/>
@@ -338,14 +279,8 @@
 	<wsdl:message name="GetTopicsOut">
 		<wsdl:part name="parameters" element="tns:GetTopicsResponse"/>
 	</wsdl:message>
-	<wsdl:message name="DuplicateChannelFault">
-		<wsdl:part name="parameters" element="tns:DuplicateChannelFault"/>
-	</wsdl:message>
-	<wsdl:message name="DuplicateNamespacePrefixFault">
-		<wsdl:part name="parameters" element="tns:DuplicateNamespacePrefixFault"/>
-	</wsdl:message>
-	<wsdl:message name="DuplicateTopicFault">
-		<wsdl:part name="parameters" element="tns:DuplicateTopicFault"/>
+	<wsdl:message name="DuplicateChannelNameFault">
+		<wsdl:part name="parameters" element="tns:DuplicateChannelNameFault"/>
 	</wsdl:message>
 	<wsdl:message name="InvalidChannelFault">
 		<wsdl:part name="parameters" element="tns:InvalidChannelFault"/>
@@ -362,15 +297,13 @@
 			<wsdl:documentation>Creates a new ISBM channel.</wsdl:documentation>
 			<wsdl:input message="tns:CreateChannelIn"/>
 			<wsdl:output message="tns:CreateChannelOut"/>
-			<wsdl:fault name="DuplicateChannelFault" message="tns:DuplicateChannelFault"/>
+			<wsdl:fault name="DuplicateChannelNameFault" message="tns:DuplicateChannelNameFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="CreateTopic">
 			<wsdl:documentation>Creates a new topic on a channel.</wsdl:documentation>
 			<wsdl:input message="tns:CreateTopicIn"/>
 			<wsdl:output message="tns:CreateTopicOut"/>
 			<wsdl:fault name="InvalidChannelFault" message="tns:InvalidChannelFault"/>
-			<wsdl:fault name="DuplicateTopicFault" message="tns:DuplicateTopicFault"/>
-			<wsdl:fault name="DuplicateNamespacePrefixFault" message="tns:DuplicateNamespacePrefixFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="DeleteChannel">
 			<wsdl:documentation>Deletes an ISBM channel.</wsdl:documentation>
@@ -433,8 +366,8 @@
 			<wsdl:output>
 				<soap:body use="literal"/>
 			</wsdl:output>
-			<wsdl:fault name="DuplicateChannelFault">
-				<soap:fault name="DuplicateChannelFault" use="literal"/>
+			<wsdl:fault name="DuplicateChannelNameFault">
+				<soap:fault name="DuplicateChannelNameFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="CreateTopic">
@@ -447,12 +380,6 @@
 			</wsdl:output>
 			<wsdl:fault name="InvalidChannelFault">
 				<soap:fault name="InvalidChannelFault" use="literal"/>
-			</wsdl:fault>
-			<wsdl:fault name="DuplicateTopicFault">
-				<soap:fault name="DuplicateTopicFault" use="literal"/>
-			</wsdl:fault>
-			<wsdl:fault name="DuplicateNamespacePrefixFault">
-				<soap:fault name="DuplicateNamespacePrefixFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="DeleteChannel">
@@ -566,8 +493,8 @@
 			<wsdl:output>
 				<soap12:body use="literal"/>
 			</wsdl:output>
-			<wsdl:fault name="DuplicateChannelFault">
-				<soap12:fault name="DuplicateChannelFault" use="literal"/>
+			<wsdl:fault name="DuplicateChannelNameFault">
+				<soap12:fault name="DuplicateChannelNameFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="CreateTopic">
@@ -580,12 +507,6 @@
 			</wsdl:output>
 			<wsdl:fault name="InvalidChannelFault">
 				<soap12:fault name="InvalidChannelFault" use="literal"/>
-			</wsdl:fault>
-			<wsdl:fault name="DuplicateTopicFault">
-				<soap12:fault name="DuplicateTopicFault" use="literal"/>
-			</wsdl:fault>
-			<wsdl:fault name="DuplicateNamespacePrefixFault">
-				<soap12:fault name="DuplicateNamespacePrefixFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="DeleteChannel">

@@ -39,6 +39,7 @@
 						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
 						<xs:element minOccurs="1" maxOccurs="1" ref="tns:MessageContent"/>
 						<xs:element minOccurs="1" maxOccurs="unbounded" name="TopicName" type="xs:string"/>
+						<xs:element minOccurs="0" maxOccurs="1" name="Expiry" type="xs:duration"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>

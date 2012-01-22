@@ -26,6 +26,12 @@
 					<xs:element minOccurs="1" maxOccurs="unbounded" name="TopicName" type="xs:string"/>
 				</xs:sequence>
 			</xs:complexType>
+			<xs:complexType name="Namespace">
+				<xs:sequence>
+					<xs:element minOccurs="1" maxOccurs="1" name="NamespacePrefix" type="xs:string"/>
+					<xs:element minOccurs="1" maxOccurs="1" name="NamespaceName" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
 
 			<!-- Parameter elements -->
 
@@ -35,6 +41,8 @@
 						<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
 						<xs:element minOccurs="1" maxOccurs="unbounded" name="TopicName" type="xs:string"/>
 						<xs:element minOccurs="0" maxOccurs="1" name="ListenerURI" type="xs:anyURI"/>
+						<xs:element minOccurs="0" maxOccurs="1" name="XPathExpression" type="xs:string"/>
+						<xs:element minOccurs="0" maxOccurs="unbounded" name="XPathNamespace" type="tns:Namespace"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -124,6 +132,13 @@
 
 			<!-- Fault elements -->
 
+			<xs:element name="DuplicateNamespacePrefixFault">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="Description" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
 			<xs:element name="InvalidChannelFault">
 				<xs:complexType>
 					<xs:sequence>
@@ -197,6 +212,9 @@
 	<wsdl:message name="ClosePostResponseSessionOut">
 		<wsdl:part name="parameters" element="tns:ClosePostResponseSessionResponse"/>
 	</wsdl:message>
+	<wsdl:message name="DuplicateNamespacePrefixFault">
+		<wsdl:part name="parameters" element="tns:DuplicateNamespacePrefixFault"/>
+	</wsdl:message>
 	<wsdl:message name="InvalidChannelFault">
 		<wsdl:part name="parameters" element="tns:InvalidChannelFault"/>
 	</wsdl:message>
@@ -218,6 +236,7 @@
 			<wsdl:fault name="InvalidChannelFault" message="tns:InvalidChannelFault"/>
 			<wsdl:fault name="InvalidChannelTypeFault" message="tns:InvalidChannelTypeFault"/>
 			<wsdl:fault name="InvalidTopicFault" message="tns:InvalidTopicFault"/>
+			<wsdl:fault name="DuplicateNamespacePrefixFault" message="tns:DuplicateNamespacePrefixFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="ReadRequest">
 			<wsdl:documentation>Returns the first request message in the message queue for the session. Note: this service does not remove the message from the message queue.</wsdl:documentation>
@@ -276,6 +295,9 @@
 			</wsdl:fault>
 			<wsdl:fault name="InvalidTopicFault">
 				<soap:fault name="InvalidTopicFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="DuplicateChannelFault">
+				<soap:fault name="DuplicateChannelFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="ReadRequest">
@@ -373,6 +395,9 @@
 			</wsdl:fault>
 			<wsdl:fault name="InvalidTopicFault">
 				<soap12:fault name="InvalidTopicFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="DuplicateNamespacePrefixFault">
+				<soap12:fault name="DuplicateNamespacePrefixFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="ReadRequest">
