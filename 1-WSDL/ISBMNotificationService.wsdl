@@ -10,6 +10,8 @@
 
 	<wsdl:types>
 		<xs:schema elementFormDefault="qualified" targetNamespace="http://www.openoandm.org/xml/ISBM/">
+			<!-- Parameter elements -->
+
 			<xs:element name="NotifyListener">
 				<xs:complexType>
 					<xs:sequence>

@@ -5,17 +5,29 @@
 	xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
 	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
 	xmlns:tns="http://www.openoandm.org/xml/ISBM/"
+	xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
 	targetNamespace="http://www.openoandm.org/xml/ISBM/"
 	name="ISBMProviderPublicationService">
 
 	<wsdl:types>
 		<xs:schema elementFormDefault="qualified" targetNamespace="http://www.openoandm.org/xml/ISBM/">
+			<!-- Types -->
+
+			<xs:element name="MessageContent">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:any minOccurs="1" maxOccurs="1" namespace="##any" processContents="lax"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
 			<!-- Parameter elements -->
 
 			<xs:element name="OpenPublicationSession">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
+						<xs:element minOccurs="0" maxOccurs="1" name="AuthorizationToken" type="wsse:SecurityTokenReferenceType"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -23,13 +35,6 @@
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-			<xs:element name="MessageContent">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:any minOccurs="1" maxOccurs="1" namespace="##any" processContents="lax"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -50,6 +55,17 @@
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
+			<xs:element name="ExpirePublication">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="1" name="MessageID" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ExpirePublicationResponse">
+				<xs:complexType/>
+			</xs:element>
 			<xs:element name="ClosePublicationSession">
 				<xs:complexType>
 					<xs:sequence>
@@ -63,25 +79,17 @@
 
 			<!-- Fault elements -->
 
-			<xs:element name="InvalidChannelFault">
+			<xs:element name="ChannelFault">
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="Description" type="xs:string"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
-			<xs:element name="InvalidChannelTypeFault">
+			<xs:element name="InvalidOperationFault">
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="Description" type="xs:string"/>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-			<xs:element name="InvalidContentFault">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="Description" type="xs:string"/>
-						<xs:element minOccurs="1" maxOccurs="1" name="TopicName" type="xs:string"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -114,20 +122,23 @@
 	<wsdl:message name="PostPublicationOut">
 		<wsdl:part name="parameters" element="tns:PostPublicationResponse"/>
 	</wsdl:message>
+	<wsdl:message name="ExpirePublicationIn">
+		<wsdl:part name="parameters" element="tns:ExpirePublication"/>
+	</wsdl:message>
+	<wsdl:message name="ExpirePublicationOut">
+		<wsdl:part name="parameters" element="tns:ExpirePublicationResponse"/>
+	</wsdl:message>
 	<wsdl:message name="ClosePublicationSessionIn">
 		<wsdl:part name="parameters" element="tns:ClosePublicationSession"/>
 	</wsdl:message>
 	<wsdl:message name="ClosePublicationSessionOut">
 		<wsdl:part name="parameters" element="tns:ClosePublicationSessionResponse"/>
 	</wsdl:message>
-	<wsdl:message name="InvalidChannelFault">
-		<wsdl:part name="parameters" element="tns:InvalidChannelFault"/>
+	<wsdl:message name="ChannelFault">
+		<wsdl:part name="parameters" element="tns:ChannelFault"/>
 	</wsdl:message>
-	<wsdl:message name="InvalidChannelTypeFault">
-		<wsdl:part name="parameters" element="tns:InvalidChannelTypeFault"/>
-	</wsdl:message>
-	<wsdl:message name="InvalidContentFault">
-		<wsdl:part name="parameters" element="tns:InvalidContentFault"/>
+	<wsdl:message name="InvalidOperationFault">
+		<wsdl:part name="parameters" element="tns:InvalidOperationFault"/>
 	</wsdl:message>
 	<wsdl:message name="InvalidSessionFault">
 		<wsdl:part name="parameters" element="tns:InvalidSessionFault"/>
@@ -141,8 +152,8 @@
 			<wsdl:documentation>Opens a publication session for a channel.</wsdl:documentation>
 			<wsdl:input message="tns:OpenPublicationSessionIn"/>
 			<wsdl:output message="tns:OpenPublicationSessionOut"/>
-			<wsdl:fault name="InvalidChannelFault" message="tns:InvalidChannelFault"/>
-			<wsdl:fault name="InvalidChannelTypeFault" message="tns:InvalidChannelTypeFault"/>
+			<wsdl:fault name="ChannelFault" message="tns:ChannelFault"/>
+			<wsdl:fault name="InvalidOperationFault" message="tns:InvalidOperationFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="PostPublication">
 			<wsdl:documentation>Posts a publication message on a channel.</wsdl:documentation>
@@ -150,7 +161,12 @@
 			<wsdl:output message="tns:PostPublicationOut"/>
 			<wsdl:fault name="InvalidSessionFault" message="tns:InvalidSessionFault"/>
 			<wsdl:fault name="InvalidTopicFault" message="tns:InvalidTopicFault"/>
-			<wsdl:fault name="InvalidContentFault" message="tns:InvalidContentFault"/>
+		</wsdl:operation>
+		<wsdl:operation name="ExpirePublication">
+			<wsdl:documentation>Expires a posted publication.</wsdl:documentation>
+			<wsdl:input message="tns:ExpirePublicationIn"/>
+			<wsdl:output message="tns:ExpirePublicationOut"/>
+			<wsdl:fault name="InvalidSessionFault" message="tns:InvalidSessionFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="ClosePublicationSession">
 			<wsdl:documentation>Closes a publication session.</wsdl:documentation>
@@ -170,11 +186,11 @@
 			<wsdl:output>
 				<soap:body use="literal"/>
 			</wsdl:output>
-			<wsdl:fault name="InvalidChannelFault">
-				<soap:fault name="InvalidChannelFault" use="literal"/>
+			<wsdl:fault name="ChannelFault">
+				<soap:fault name="ChannelFault" use="literal"/>
 			</wsdl:fault>
-			<wsdl:fault name="InvalidChannelTypeFault">
-				<soap:fault name="InvalidChannelTypeFault" use="literal"/>
+			<wsdl:fault name="InvalidOperationFault">
+				<soap:fault name="InvalidOperationFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="PostPublication">
@@ -191,8 +207,17 @@
 			<wsdl:fault name="InvalidTopicFault">
 				<soap:fault name="InvalidTopicFault" use="literal"/>
 			</wsdl:fault>
-			<wsdl:fault name="InvalidContentFault">
-				<soap:fault name="InvalidContentFault" use="literal"/>
+		</wsdl:operation>
+		<wsdl:operation name="ExpirePublication">
+			<soap:operation soapAction="http://www.openoandm.org/xml/ISBM/ExpirePublication" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidSessionFault">
+				<soap:fault name="InvalidSessionFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="ClosePublicationSession">
@@ -219,11 +244,11 @@
 			<wsdl:output>
 				<soap12:body use="literal"/>
 			</wsdl:output>
-			<wsdl:fault name="InvalidChannelFault">
-				<soap12:fault name="InvalidChannelFault" use="literal"/>
+			<wsdl:fault name="ChannelFault">
+				<soap12:fault name="ChannelFault" use="literal"/>
 			</wsdl:fault>
-			<wsdl:fault name="InvalidChannelTypeFault">
-				<soap12:fault name="InvalidChannelTypeFault" use="literal"/>
+			<wsdl:fault name="InvalidOperationFault">
+				<soap12:fault name="InvalidOperationFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="PostPublication">
@@ -240,8 +265,17 @@
 			<wsdl:fault name="InvalidTopicFault">
 				<soap12:fault name="InvalidTopicFault" use="literal"/>
 			</wsdl:fault>
-			<wsdl:fault name="InvalidContentFault">
-				<soap12:fault name="InvalidContentFault" use="literal"/>
+		</wsdl:operation>
+		<wsdl:operation name="ExpirePublication">
+			<soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/ExpirePublication" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="InvalidSessionFault">
+				<soap12:fault name="InvalidSessionFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="ClosePublicationSession">

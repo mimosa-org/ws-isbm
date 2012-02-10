@@ -5,6 +5,7 @@
 	xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
 	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
 	xmlns:tns="http://www.openoandm.org/xml/ISBM/"
+	xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
 	targetNamespace="http://www.openoandm.org/xml/ISBM/"
 	name="ISBMProviderRequestService">
 
@@ -19,7 +20,7 @@
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
-			<xs:complexType name="Message">
+			<xs:complexType name="RequestMessage">
 				<xs:sequence>
 					<xs:element minOccurs="1" maxOccurs="1" name="MessageID" type="xs:string"/>
 					<xs:element minOccurs="1" maxOccurs="1" ref="tns:MessageContent"/>
@@ -38,11 +39,12 @@
 			<xs:element name="OpenReadRequestSession">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
 						<xs:element minOccurs="1" maxOccurs="unbounded" name="TopicName" type="xs:string"/>
-						<xs:element minOccurs="0" maxOccurs="1" name="ListenerURI" type="xs:anyURI"/>
+						<xs:element minOccurs="0" maxOccurs="1" name="ListenerURI" type="xs:string"/>
 						<xs:element minOccurs="0" maxOccurs="1" name="XPathExpression" type="xs:string"/>
 						<xs:element minOccurs="0" maxOccurs="unbounded" name="XPathNamespace" type="tns:Namespace"/>
+						<xs:element minOccurs="0" maxOccurs="1" name="AuthorizationToken" type="wsse:SecurityTokenReferenceType"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -65,7 +67,7 @@
 			<xs:element name="ReadRequestResponse">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element minOccurs="0" maxOccurs="1" name="Message" type="tns:Message"/>
+						<xs:element minOccurs="0" maxOccurs="1" name="RequestMessage" type="tns:RequestMessage"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -92,7 +94,8 @@
 			<xs:element name="OpenPostResponseSession">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
+						<xs:element minOccurs="0" maxOccurs="1" name="AuthorizationToken" type="wsse:SecurityTokenReferenceType"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -132,6 +135,13 @@
 
 			<!-- Fault elements -->
 
+			<xs:element name="ChannelFault">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="Description" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
 			<xs:element name="DuplicateNamespacePrefixFault">
 				<xs:complexType>
 					<xs:sequence>
@@ -139,14 +149,7 @@
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
-			<xs:element name="InvalidChannelFault">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="Description" type="xs:string"/>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-			<xs:element name="InvalidChannelTypeFault">
+			<xs:element name="InvalidOperationFault">
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="Description" type="xs:string"/>
@@ -212,14 +215,14 @@
 	<wsdl:message name="ClosePostResponseSessionOut">
 		<wsdl:part name="parameters" element="tns:ClosePostResponseSessionResponse"/>
 	</wsdl:message>
+	<wsdl:message name="ChannelFault">
+		<wsdl:part name="parameters" element="tns:ChannelFault"/>
+	</wsdl:message>
 	<wsdl:message name="DuplicateNamespacePrefixFault">
 		<wsdl:part name="parameters" element="tns:DuplicateNamespacePrefixFault"/>
 	</wsdl:message>
-	<wsdl:message name="InvalidChannelFault">
-		<wsdl:part name="parameters" element="tns:InvalidChannelFault"/>
-	</wsdl:message>
-	<wsdl:message name="InvalidChannelTypeFault">
-		<wsdl:part name="parameters" element="tns:InvalidChannelTypeFault"/>
+	<wsdl:message name="InvalidOperationFault">
+		<wsdl:part name="parameters" element="tns:InvalidOperationFault"/>
 	</wsdl:message>
 	<wsdl:message name="InvalidSessionFault">
 		<wsdl:part name="parameters" element="tns:InvalidSessionFault"/>
@@ -233,8 +236,8 @@
 			<wsdl:documentation>Opens a read request session for a channel.</wsdl:documentation>
 			<wsdl:input message="tns:OpenReadRequestSessionIn"/>
 			<wsdl:output message="tns:OpenReadRequestSessionOut"/>
-			<wsdl:fault name="InvalidChannelFault" message="tns:InvalidChannelFault"/>
-			<wsdl:fault name="InvalidChannelTypeFault" message="tns:InvalidChannelTypeFault"/>
+			<wsdl:fault name="ChannelFault" message="tns:ChannelFault"/>
+			<wsdl:fault name="InvalidOperationFault" message="tns:InvalidOperationFault"/>
 			<wsdl:fault name="InvalidTopicFault" message="tns:InvalidTopicFault"/>
 			<wsdl:fault name="DuplicateNamespacePrefixFault" message="tns:DuplicateNamespacePrefixFault"/>
 		</wsdl:operation>
@@ -260,8 +263,8 @@
 			<wsdl:documentation>Opens a post response session for a channel.</wsdl:documentation>
 			<wsdl:input message="tns:OpenPostResponseSessionIn"/>
 			<wsdl:output message="tns:OpenPostResponseSessionOut"/>
-			<wsdl:fault name="InvalidChannelFault" message="tns:InvalidChannelFault"/>
-			<wsdl:fault name="InvalidChannelTypeFault" message="tns:InvalidChannelTypeFault"/>
+			<wsdl:fault name="ChannelFault" message="tns:ChannelFault"/>
+			<wsdl:fault name="InvalidOperationFault" message="tns:InvalidOperationFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="PostResponse">
 			<wsdl:documentation>Posts a response message on a channel.</wsdl:documentation>
@@ -287,17 +290,17 @@
 			<wsdl:output>
 				<soap:body use="literal"/>
 			</wsdl:output>
-			<wsdl:fault name="InvalidChannelFault">
-				<soap:fault name="InvalidChannelFault" use="literal"/>
+			<wsdl:fault name="ChannelFault">
+				<soap:fault name="ChannelFault" use="literal"/>
 			</wsdl:fault>
-			<wsdl:fault name="InvalidChannelTypeFault">
-				<soap:fault name="InvalidChannelTypeFault" use="literal"/>
+			<wsdl:fault name="InvalidOperationFault">
+				<soap:fault name="InvalidOperationFault" use="literal"/>
 			</wsdl:fault>
 			<wsdl:fault name="InvalidTopicFault">
 				<soap:fault name="InvalidTopicFault" use="literal"/>
 			</wsdl:fault>
-			<wsdl:fault name="DuplicateChannelFault">
-				<soap:fault name="DuplicateChannelFault" use="literal"/>
+			<wsdl:fault name="DuplicateNamespacePrefixFault">
+				<soap:fault name="DuplicateNamespacePrefixFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="ReadRequest">
@@ -344,11 +347,11 @@
 			<wsdl:output>
 				<soap:body use="literal"/>
 			</wsdl:output>
-			<wsdl:fault name="InvalidChannelFault">
-				<soap:fault name="InvalidChannelFault" use="literal"/>
+			<wsdl:fault name="ChannelFault">
+				<soap:fault name="ChannelFault" use="literal"/>
 			</wsdl:fault>
-			<wsdl:fault name="InvalidChannelTypeFault">
-				<soap:fault name="InvalidChannelTypeFault" use="literal"/>
+			<wsdl:fault name="InvalidOperationFault">
+				<soap:fault name="InvalidOperationFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="PostResponse">
@@ -387,11 +390,11 @@
 			<wsdl:output>
 				<soap12:body use="literal"/>
 			</wsdl:output>
-			<wsdl:fault name="InvalidChannelFault">
-				<soap12:fault name="InvalidChannelFault" use="literal"/>
+			<wsdl:fault name="ChannelFault">
+				<soap12:fault name="ChannelFault" use="literal"/>
 			</wsdl:fault>
-			<wsdl:fault name="InvalidChannelTypeFault">
-				<soap12:fault name="InvalidChannelTypeFault" use="literal"/>
+			<wsdl:fault name="InvalidOperationFault">
+				<soap12:fault name="InvalidOperationFault" use="literal"/>
 			</wsdl:fault>
 			<wsdl:fault name="InvalidTopicFault">
 				<soap12:fault name="InvalidTopicFault" use="literal"/>
@@ -444,11 +447,11 @@
 			<wsdl:output>
 				<soap12:body use="literal"/>
 			</wsdl:output>
-			<wsdl:fault name="InvalidChannelFault">
-				<soap12:fault name="InvalidChannelFault" use="literal"/>
+			<wsdl:fault name="ChannelFault">
+				<soap12:fault name="ChannelFault" use="literal"/>
 			</wsdl:fault>
-			<wsdl:fault name="InvalidChannelTypeFault">
-				<soap12:fault name="InvalidChannelTypeFault" use="literal"/>
+			<wsdl:fault name="InvalidOperationFault">
+				<soap12:fault name="InvalidOperationFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="PostResponse">

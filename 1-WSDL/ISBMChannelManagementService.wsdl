@@ -5,11 +5,13 @@
 	xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
 	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
 	xmlns:tns="http://www.openoandm.org/xml/ISBM/"
+	xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
 	targetNamespace="http://www.openoandm.org/xml/ISBM/"
 	name="ISBMChannelManagementService">
 
 	<wsdl:types>
 		<xs:schema elementFormDefault="qualified" targetNamespace="http://www.openoandm.org/xml/ISBM/">
+			<xs:import namespace="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" schemaLocation="oasis-200401-wss-wssecurity-secext-1.0.xsd"/>
 			<!-- Types -->
 
 			<xs:simpleType name="ChannelType">
@@ -19,35 +21,17 @@
 					<xs:enumeration value="Response"/>
 				</xs:restriction>
 			</xs:simpleType>
-			<xs:simpleType name="ApplicationType">
-				<xs:restriction base="xs:string">
-					<xs:enumeration value="Provider"/>
-					<xs:enumeration value="Consumer"/>
-				</xs:restriction>
-			</xs:simpleType>
 			<xs:complexType name="Channel">
 				<xs:sequence>
-					<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
-					<xs:element minOccurs="1" maxOccurs="1" name="ChannelName" type="xs:string"/>
+					<xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
 					<xs:element minOccurs="1" maxOccurs="1" name="ChannelType" type="tns:ChannelType"/>
 					<xs:element minOccurs="0" maxOccurs="1" name="ChannelDescription" type="xs:string"/>
 					<xs:element minOccurs="0" maxOccurs="unbounded" name="TopicName" type="xs:string"/>
-					<xs:element minOccurs="0" maxOccurs="unbounded" name="SessionID" type="xs:string"/>
-				</xs:sequence>
-			</xs:complexType>
-			<xs:complexType name="Session">
-				<xs:sequence>
-					<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
-					<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
-					<xs:element minOccurs="1" maxOccurs="1" name="ApplicationType" type="tns:ApplicationType"/>
-					<xs:element minOccurs="0" maxOccurs="unbounded" name="TopicName" type="xs:string"/>
-					<xs:element minOccurs="0" maxOccurs="1" name="ListenerURI" type="xs:anyURI"/>
 				</xs:sequence>
 			</xs:complexType>
 			<xs:complexType name="Topic">
 				<xs:sequence>
 					<xs:element minOccurs="1" maxOccurs="1" name="TopicName" type="xs:string"/>
-					<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
 					<xs:element minOccurs="0" maxOccurs="1" name="TopicDescription" type="xs:string"/>
 				</xs:sequence>
 			</xs:complexType>
@@ -57,35 +41,58 @@
 			<xs:element name="CreateChannel">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="ChannelName" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
 						<xs:element minOccurs="1" maxOccurs="1" name="ChannelType" type="tns:ChannelType"/>
 						<xs:element minOccurs="0" maxOccurs="1" name="ChannelDescription" type="xs:string"/>
+						<xs:element minOccurs="0" maxOccurs="unbounded" name="SecurityToken" type="wsse:SecurityTokenReferenceType"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
 			<xs:element name="CreateChannelResponse">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
-					</xs:sequence>
-				</xs:complexType>
+				<xs:complexType/>
 			</xs:element>
 			<xs:element name="CreateTopic">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
 						<xs:element minOccurs="1" maxOccurs="1" name="TopicName" type="xs:string"/>
 						<xs:element minOccurs="0" maxOccurs="1" name="TopicDescription" type="xs:string"/>
+						<xs:element minOccurs="0" maxOccurs="1" name="AuthorizationToken" type="wsse:SecurityTokenReferenceType"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
 			<xs:element name="CreateTopicResponse">
 				<xs:complexType/>
 			</xs:element>
+			<xs:element name="AddSecurityTokens">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="unbounded" name="SecurityToken" type="wsse:SecurityTokenReferenceType"/>
+						<xs:element minOccurs="0" maxOccurs="1" name="AuthorizationToken" type="wsse:SecurityTokenReferenceType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AddSecurityTokensResponse">
+				<xs:complexType/>
+			</xs:element>
+			<xs:element name="RemoveSecurityTokens">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="unbounded" name="SecurityToken" type="wsse:SecurityTokenReferenceType"/>
+						<xs:element minOccurs="0" maxOccurs="1" name="AuthorizationToken" type="wsse:SecurityTokenReferenceType"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RemoveSecurityTokensResponse">
+				<xs:complexType/>
+			</xs:element>
 			<xs:element name="DeleteChannel">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
+						<xs:element minOccurs="0" maxOccurs="1" name="AuthorizationToken" type="wsse:SecurityTokenReferenceType"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -95,8 +102,9 @@
 			<xs:element name="DeleteTopic">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
 						<xs:element minOccurs="1" maxOccurs="1" name="TopicName" type="xs:string"/>
+						<xs:element minOccurs="0" maxOccurs="1" name="AuthorizationToken" type="wsse:SecurityTokenReferenceType"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -106,8 +114,8 @@
 			<xs:element name="GetChannel">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="ChannelName" type="xs:string"/>
-						<xs:element minOccurs="1" maxOccurs="1" name="ChannelType" type="tns:ChannelType"/>
+						<xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
+						<xs:element minOccurs="0" maxOccurs="1" name="AuthorizationToken" type="wsse:SecurityTokenReferenceType"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -119,7 +127,11 @@
 				</xs:complexType>
 			</xs:element>
 			<xs:element name="GetChannels">
-				<xs:complexType/>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="AuthorizationToken" type="wsse:SecurityTokenReferenceType"/>
+					</xs:sequence>
+				</xs:complexType>
 			</xs:element>
 			<xs:element name="GetChannelsResponse">
 				<xs:complexType>
@@ -128,53 +140,11 @@
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
-			<xs:element name="GetSession">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-			<xs:element name="GetSessionResponse">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="Session" type="tns:Session"/>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-			<xs:element name="GetSessions">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>      
-			<xs:element name="GetSessionsResponse">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element minOccurs="0" maxOccurs="unbounded" name="Session" type="tns:Session"/>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-			<xs:element name="GetTopic">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
-						<xs:element minOccurs="1" maxOccurs="1" name="TopicName" type="xs:string"/>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-			<xs:element name="GetTopicResponse">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="Topic" type="tns:Topic"/>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
 			<xs:element name="GetTopics">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="ChannelID" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
+						<xs:element minOccurs="0" maxOccurs="1" name="AuthorizationToken" type="wsse:SecurityTokenReferenceType"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -188,21 +158,21 @@
 			
 			<!-- Fault elements -->
 
-			<xs:element name="DuplicateChannelNameFault">
+			<xs:element name="ChannelFault">
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="Description" type="xs:string"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
-			<xs:element name="InvalidChannelFault">
+			<xs:element name="DuplicateChannelURIFault">
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="Description" type="xs:string"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
-			<xs:element name="InvalidSessionFault">
+			<xs:element name="InvalidSecurityTokenFault">
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="Description" type="xs:string"/>
@@ -231,6 +201,18 @@
 	<wsdl:message name="CreateTopicOut">
 		<wsdl:part name="parameters" element="tns:CreateTopicResponse"/>
 	</wsdl:message>
+	<wsdl:message name="AddSecurityTokensIn">
+		<wsdl:part name="parameters" element="tns:AddSecurityTokens"/>
+	</wsdl:message>
+	<wsdl:message name="AddSecurityTokensOut">
+		<wsdl:part name="parameters" element="tns:AddSecurityTokensResponse"/>
+	</wsdl:message>
+	<wsdl:message name="RemoveSecurityTokensIn">
+		<wsdl:part name="parameters" element="tns:RemoveSecurityTokens"/>
+	</wsdl:message>
+	<wsdl:message name="RemoveSecurityTokensOut">
+		<wsdl:part name="parameters" element="tns:RemoveSecurityTokensResponse"/>
+	</wsdl:message>
 	<wsdl:message name="DeleteChannelIn">
 		<wsdl:part name="parameters" element="tns:DeleteChannel"/>
 	</wsdl:message>
@@ -255,38 +237,20 @@
 	<wsdl:message name="GetChannelsOut">
 		<wsdl:part name="parameters" element="tns:GetChannelsResponse"/>
 	</wsdl:message>
-	<wsdl:message name="GetSessionIn">
-		<wsdl:part name="parameters" element="tns:GetSession"/>
-	</wsdl:message>
-	<wsdl:message name="GetSessionOut">
-		<wsdl:part name="parameters" element="tns:GetSessionResponse"/>
-	</wsdl:message>
-	<wsdl:message name="GetSessionsIn">
-		<wsdl:part name="parameters" element="tns:GetSessions"/>
-	</wsdl:message>
-	<wsdl:message name="GetSessionsOut">
-		<wsdl:part name="parameters" element="tns:GetSessionsResponse"/>
-	</wsdl:message>
-	<wsdl:message name="GetTopicIn">
-		<wsdl:part name="parameters" element="tns:GetTopic"/>
-	</wsdl:message>
-	<wsdl:message name="GetTopicOut">
-		<wsdl:part name="parameters" element="tns:GetTopicResponse"/>
-	</wsdl:message>
 	<wsdl:message name="GetTopicsIn">
 		<wsdl:part name="parameters" element="tns:GetTopics"/>
 	</wsdl:message>
 	<wsdl:message name="GetTopicsOut">
 		<wsdl:part name="parameters" element="tns:GetTopicsResponse"/>
 	</wsdl:message>
-	<wsdl:message name="DuplicateChannelNameFault">
-		<wsdl:part name="parameters" element="tns:DuplicateChannelNameFault"/>
+	<wsdl:message name="ChannelFault">
+		<wsdl:part name="parameters" element="tns:ChannelFault"/>
 	</wsdl:message>
-	<wsdl:message name="InvalidChannelFault">
-		<wsdl:part name="parameters" element="tns:InvalidChannelFault"/>
+	<wsdl:message name="DuplicateChannelURIFault">
+		<wsdl:part name="parameters" element="tns:DuplicateChannelURIFault"/>
 	</wsdl:message>
-	<wsdl:message name="InvalidSessionFault">
-		<wsdl:part name="parameters" element="tns:InvalidSessionFault"/>
+	<wsdl:message name="InvalidSecurityTokenFault">
+		<wsdl:part name="parameters" element="tns:InvalidSecurityTokenFault"/>
 	</wsdl:message>
 	<wsdl:message name="InvalidTopicFault">
 		<wsdl:part name="parameters" element="tns:InvalidTopicFault"/>
@@ -294,65 +258,59 @@
 
 	<wsdl:portType name="ISBMChannelManagementService">
 		<wsdl:operation name="CreateChannel">
-			<wsdl:documentation>Creates a new ISBM channel.</wsdl:documentation>
+			<wsdl:documentation>Creates a new channel.</wsdl:documentation>
 			<wsdl:input message="tns:CreateChannelIn"/>
 			<wsdl:output message="tns:CreateChannelOut"/>
-			<wsdl:fault name="DuplicateChannelNameFault" message="tns:DuplicateChannelNameFault"/>
+			<wsdl:fault name="DuplicateChannelURIFault" message="tns:DuplicateChannelURIFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="CreateTopic">
 			<wsdl:documentation>Creates a new topic on a channel.</wsdl:documentation>
 			<wsdl:input message="tns:CreateTopicIn"/>
 			<wsdl:output message="tns:CreateTopicOut"/>
-			<wsdl:fault name="InvalidChannelFault" message="tns:InvalidChannelFault"/>
+			<wsdl:fault name="ChannelFault" message="tns:ChannelFault"/>
+		</wsdl:operation>
+		<wsdl:operation name="AddSecurityTokens">
+			<wsdl:documentation>Adds security tokens to a channel.</wsdl:documentation>
+			<wsdl:input message="tns:AddSecurityTokensIn"/>
+			<wsdl:output message="tns:AddSecurityTokensOut"/>
+			<wsdl:fault name="ChannelFault" message="tns:ChannelFault"/>
+		</wsdl:operation>
+		<wsdl:operation name="RemoveSecurityTokens">
+			<wsdl:documentation>Removes security tokens from a channel.</wsdl:documentation>
+			<wsdl:input message="tns:RemoveSecurityTokensIn"/>
+			<wsdl:output message="tns:RemoveSecurityTokensOut"/>
+			<wsdl:fault name="ChannelFault" message="tns:ChannelFault"/>
+			<wsdl:fault name="InvalidSecurityTokenFault" message="tns:InvalidSecurityTokenFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="DeleteChannel">
 			<wsdl:documentation>Deletes an ISBM channel.</wsdl:documentation>
 			<wsdl:input message="tns:DeleteChannelIn"/>
 			<wsdl:output message="tns:DeleteChannelOut"/>
-			<wsdl:fault name="InvalidChannelFault" message="tns:InvalidChannelFault"/>
+			<wsdl:fault name="ChannelFault" message="tns:ChannelFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="DeleteTopic">
 			<wsdl:documentation>Deletes a topic from a channel.</wsdl:documentation>
 			<wsdl:input message="tns:DeleteTopicIn"/>
 			<wsdl:output message="tns:DeleteTopicOut"/>
-			<wsdl:fault name="InvalidChannelFault" message="tns:InvalidChannelFault"/>
+			<wsdl:fault name="ChannelFault" message="tns:ChannelFault"/>
 			<wsdl:fault name="InvalidTopicFault" message="tns:InvalidTopicFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="GetChannel">
 			<wsdl:documentation>Gets information about a channel.</wsdl:documentation>
 			<wsdl:input message="tns:GetChannelIn"/>
 			<wsdl:output message="tns:GetChannelOut"/>
-			<wsdl:fault name="InvalidChannelFault" message="tns:InvalidChannelFault"/>
+			<wsdl:fault name="ChannelFault" message="tns:ChannelFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="GetChannels">
 			<wsdl:documentation>Gets all ISBM channels.</wsdl:documentation>
 			<wsdl:input message="tns:GetChannelsIn"/>
 			<wsdl:output message="tns:GetChannelsOut"/>
 		</wsdl:operation>
-		<wsdl:operation name="GetSession">
-			<wsdl:documentation>Gets information about a session.</wsdl:documentation>
-			<wsdl:input message="tns:GetSessionIn"/>
-			<wsdl:output message="tns:GetSessionOut"/>
-			<wsdl:fault name="InvalidSessionFault" message="tns:InvalidSessionFault"/>
-		</wsdl:operation>
-		<wsdl:operation name="GetSessions">
-			<wsdl:documentation>Gets all sessions for a channel.</wsdl:documentation>
-			<wsdl:input message="tns:GetSessionsIn"/>
-			<wsdl:output message="tns:GetSessionsOut"/>
-			<wsdl:fault name="InvalidChannelFault" message="tns:InvalidChannelFault"/>
-		</wsdl:operation>
-		<wsdl:operation name="GetTopic">
-			<wsdl:documentation>Gets information about a topic.</wsdl:documentation>
-			<wsdl:input message="tns:GetTopicIn"/>
-			<wsdl:output message="tns:GetTopicOut"/>
-			<wsdl:fault name="InvalidChannelFault" message="tns:InvalidChannelFault"/>
-			<wsdl:fault name="InvalidTopicFault" message="tns:InvalidTopicFault"/>
-		</wsdl:operation>
 		<wsdl:operation name="GetTopics">
 			<wsdl:documentation>Gets all topics for a channel.</wsdl:documentation>
 			<wsdl:input message="tns:GetTopicsIn"/>
 			<wsdl:output message="tns:GetTopicsOut"/>
-			<wsdl:fault name="InvalidChannelFault" message="tns:InvalidChannelFault"/>
+			<wsdl:fault name="ChannelFault" message="tns:ChannelFault"/>
 		</wsdl:operation>
 	</wsdl:portType>
 
@@ -366,8 +324,8 @@
 			<wsdl:output>
 				<soap:body use="literal"/>
 			</wsdl:output>
-			<wsdl:fault name="DuplicateChannelNameFault">
-				<soap:fault name="DuplicateChannelNameFault" use="literal"/>
+			<wsdl:fault name="DuplicateChannelURIFault">
+				<soap:fault name="DuplicateChannelURIFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="CreateTopic">
@@ -378,8 +336,35 @@
 			<wsdl:output>
 				<soap:body use="literal"/>
 			</wsdl:output>
-			<wsdl:fault name="InvalidChannelFault">
-				<soap:fault name="InvalidChannelFault" use="literal"/>
+			<wsdl:fault name="ChannelFault">
+				<soap:fault name="ChannelFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="AddSecurityTokens">
+			<soap:operation soapAction="http://www.openoandm.org/xml/ISBM/AddSecurityTokens" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="ChannelFault">
+				<soap:fault name="ChannelFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="RemoveSecurityTokens">
+			<soap:operation soapAction="http://www.openoandm.org/xml/ISBM/RemoveSecurityTokens" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="ChannelFault">
+				<soap:fault name="ChannelFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="InvalidSecurityTokenFault">
+				<soap:fault name="InvalidSecurityTokenFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="DeleteChannel">
@@ -390,8 +375,8 @@
 			<wsdl:output>
 				<soap:body use="literal"/>
 			</wsdl:output>
-			<wsdl:fault name="InvalidChannelFault">
-				<soap:fault name="InvalidChannelFault" use="literal"/>
+			<wsdl:fault name="ChannelFault">
+				<soap:fault name="ChannelFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="DeleteTopic">
@@ -402,8 +387,8 @@
 			<wsdl:output>
 				<soap:body use="literal"/>
 			</wsdl:output>
-			<wsdl:fault name="InvalidChannelFault">
-				<soap:fault name="InvalidChannelFault" use="literal"/>
+			<wsdl:fault name="ChannelFault">
+				<soap:fault name="ChannelFault" use="literal"/>
 			</wsdl:fault>
 			<wsdl:fault name="InvalidTopicFault">
 				<soap:fault name="InvalidTopicFault" use="literal"/>
@@ -417,8 +402,8 @@
 			<wsdl:output>
 				<soap:body use="literal"/>
 			</wsdl:output>
-			<wsdl:fault name="InvalidChannelFault">
-				<soap:fault name="InvalidChannelFault" use="literal"/>
+			<wsdl:fault name="ChannelFault">
+				<soap:fault name="ChannelFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="GetChannels">
@@ -430,45 +415,6 @@
 				<soap:body use="literal"/>
 			</wsdl:output>
 		</wsdl:operation>
-		<wsdl:operation name="GetSession">
-			<soap:operation soapAction="http://www.openoandm.org/xml/ISBM/GetSession" style="document"/>
-			<wsdl:input>
-				<soap:body use="literal"/>
-			</wsdl:input>
-			<wsdl:output>
-				<soap:body use="literal"/>
-			</wsdl:output>
-			<wsdl:fault name="InvalidSessionFault">
-				<soap:fault name="InvalidSessionFault" use="literal"/>
-			</wsdl:fault>
-		</wsdl:operation>
-		<wsdl:operation name="GetSessions">
-			<soap:operation soapAction="http://www.openoandm.org/xml/ISBM/GetSessions" style="document"/>
-			<wsdl:input>
-				<soap:body use="literal"/>
-			</wsdl:input>
-			<wsdl:output>
-				<soap:body use="literal"/>
-			</wsdl:output>
-			<wsdl:fault name="InvalidChannelFault">
-				<soap:fault name="InvalidChannelFault" use="literal"/>
-			</wsdl:fault>
-		</wsdl:operation>
-		<wsdl:operation name="GetTopic">
-			<soap:operation soapAction="http://www.openoandm.org/xml/ISBM/GetTopic" style="document"/>
-			<wsdl:input>
-				<soap:body use="literal"/>
-			</wsdl:input>
-			<wsdl:output>
-				<soap:body use="literal"/>
-			</wsdl:output>
-			<wsdl:fault name="InvalidChannelFault">
-				<soap:fault name="InvalidChannelFault" use="literal"/>
-			</wsdl:fault>
-			<wsdl:fault name="InvalidTopicFault">
-				<soap:fault name="InvalidTopicFault" use="literal"/>
-			</wsdl:fault>
-		</wsdl:operation>
 		<wsdl:operation name="GetTopics">
 			<soap:operation soapAction="http://www.openoandm.org/xml/ISBM/GetTopics" style="document"/>
 			<wsdl:input>
@@ -477,8 +423,8 @@
 			<wsdl:output>
 				<soap:body use="literal"/>
 			</wsdl:output>
-			<wsdl:fault name="InvalidChannelFault">
-				<soap:fault name="InvalidChannelFault" use="literal"/>
+			<wsdl:fault name="ChannelFault">
+				<soap:fault name="ChannelFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 	</wsdl:binding>
@@ -493,8 +439,8 @@
 			<wsdl:output>
 				<soap12:body use="literal"/>
 			</wsdl:output>
-			<wsdl:fault name="DuplicateChannelNameFault">
-				<soap12:fault name="DuplicateChannelNameFault" use="literal"/>
+			<wsdl:fault name="DuplicateChannelURIFault">
+				<soap12:fault name="DuplicateChannelURIFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="CreateTopic">
@@ -505,8 +451,35 @@
 			<wsdl:output>
 				<soap12:body use="literal"/>
 			</wsdl:output>
-			<wsdl:fault name="InvalidChannelFault">
-				<soap12:fault name="InvalidChannelFault" use="literal"/>
+			<wsdl:fault name="ChannelFault">
+				<soap12:fault name="ChannelFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="AddSecurityTokens">
+			<soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/AddSecurityTokens" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="ChannelFault">
+				<soap12:fault name="ChannelFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="RemoveSecurityTokens">
+			<soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/RemoveSecurityTokens" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="ChannelFault">
+				<soap12:fault name="ChannelFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="InvalidSecurityTokenFault">
+				<soap12:fault name="InvalidSecurityTokenFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="DeleteChannel">
@@ -517,8 +490,8 @@
 			<wsdl:output>
 				<soap12:body use="literal"/>
 			</wsdl:output>
-			<wsdl:fault name="InvalidChannelFault">
-				<soap12:fault name="InvalidChannelFault" use="literal"/>
+			<wsdl:fault name="ChannelFault">
+				<soap12:fault name="ChannelFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="DeleteTopic">
@@ -529,8 +502,8 @@
 			<wsdl:output>
 				<soap12:body use="literal"/>
 			</wsdl:output>
-			<wsdl:fault name="InvalidChannelFault">
-				<soap12:fault name="InvalidChannelFault" use="literal"/>
+			<wsdl:fault name="ChannelFault">
+				<soap12:fault name="ChannelFault" use="literal"/>
 			</wsdl:fault>
 			<wsdl:fault name="InvalidTopicFault">
 				<soap12:fault name="InvalidTopicFault" use="literal"/>
@@ -544,8 +517,8 @@
 			<wsdl:output>
 				<soap12:body use="literal"/>
 			</wsdl:output>
-			<wsdl:fault name="InvalidChannelFault">
-				<soap12:fault name="InvalidChannelFault" use="literal"/>
+			<wsdl:fault name="ChannelFault">
+				<soap12:fault name="ChannelFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="GetChannels">
@@ -557,45 +530,6 @@
 				<soap12:body use="literal"/>
 			</wsdl:output>
 		</wsdl:operation>
-		<wsdl:operation name="GetSession">
-			<soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/GetSession" style="document"/>
-			<wsdl:input>
-				<soap12:body use="literal"/>
-			</wsdl:input>
-			<wsdl:output>
-				<soap12:body use="literal"/>
-			</wsdl:output>
-			<wsdl:fault name="InvalidSessionFault">
-				<soap12:fault name="InvalidSessionFault" use="literal"/>
-			</wsdl:fault>
-		</wsdl:operation>
-		<wsdl:operation name="GetSessions">
-			<soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/GetSessions" style="document"/>
-			<wsdl:input>
-				<soap12:body use="literal"/>
-			</wsdl:input>
-			<wsdl:output>
-				<soap12:body use="literal"/>
-			</wsdl:output>
-			<wsdl:fault name="InvalidChannelFault">
-				<soap12:fault name="InvalidChannelFault" use="literal"/>
-			</wsdl:fault>
-		</wsdl:operation>
-		<wsdl:operation name="GetTopic">
-			<soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/GetTopic" style="document"/>
-			<wsdl:input>
-				<soap12:body use="literal"/>
-			</wsdl:input>
-			<wsdl:output>
-				<soap12:body use="literal"/>
-			</wsdl:output>
-			<wsdl:fault name="InvalidChannelFault">
-				<soap12:fault name="InvalidChannelFault" use="literal"/>
-			</wsdl:fault>
-			<wsdl:fault name="InvalidTopicFault">
-				<soap12:fault name="InvalidTopicFault" use="literal"/>
-			</wsdl:fault>
-		</wsdl:operation>
 		<wsdl:operation name="GetTopics">
 			<soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/GetTopics" style="document"/>
 			<wsdl:input>
@@ -604,8 +538,8 @@
 			<wsdl:output>
 				<soap12:body use="literal"/>
 			</wsdl:output>
-			<wsdl:fault name="InvalidChannelFault">
-				<soap12:fault name="InvalidChannelFault" use="literal"/>
+			<wsdl:fault name="ChannelFault">
+				<soap12:fault name="ChannelFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 	</wsdl:binding>
