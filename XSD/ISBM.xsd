@@ -91,7 +91,7 @@
         <xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
         <xs:element minOccurs="1" maxOccurs="1" name="ChannelType" type="ChannelType"/>
         <xs:element minOccurs="0" maxOccurs="1" name="ChannelDescription" type="xs:string"/>
-        <xs:element minOccurs="0" maxOccurs="unbounded" name="SecurityToken" type="wsse:SecurityTokenReferenceType"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="wsse:SecurityTokenReference"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -104,7 +104,6 @@
         <xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
         <xs:element minOccurs="1" maxOccurs="1" name="TopicName" type="xs:string"/>
         <xs:element minOccurs="0" maxOccurs="1" name="TopicDescription" type="xs:string"/>
-        <xs:element minOccurs="0" maxOccurs="1" name="AuthorizationToken" type="wsse:SecurityTokenReferenceType"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -115,8 +114,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
-        <xs:element minOccurs="1" maxOccurs="unbounded" name="SecurityToken" type="wsse:SecurityTokenReferenceType"/>
-        <xs:element minOccurs="0" maxOccurs="1" name="AuthorizationToken" type="wsse:SecurityTokenReferenceType"/>
+        <xs:element minOccurs="1" maxOccurs="unbounded" ref="wsse:SecurityTokenReference"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -127,8 +125,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
-        <xs:element minOccurs="1" maxOccurs="unbounded" name="SecurityToken" type="wsse:SecurityTokenReferenceType"/>
-        <xs:element minOccurs="0" maxOccurs="1" name="AuthorizationToken" type="wsse:SecurityTokenReferenceType"/>
+        <xs:element minOccurs="1" maxOccurs="unbounded" ref="wsse:SecurityTokenReference"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -139,7 +136,6 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
-        <xs:element minOccurs="0" maxOccurs="1" name="AuthorizationToken" type="wsse:SecurityTokenReferenceType"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -151,7 +147,6 @@
       <xs:sequence>
         <xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
         <xs:element minOccurs="1" maxOccurs="1" name="TopicName" type="xs:string"/>
-        <xs:element minOccurs="0" maxOccurs="1" name="AuthorizationToken" type="wsse:SecurityTokenReferenceType"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -162,7 +157,6 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
-        <xs:element minOccurs="0" maxOccurs="1" name="AuthorizationToken" type="wsse:SecurityTokenReferenceType"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -176,7 +170,6 @@
   <xs:element name="GetChannels">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" maxOccurs="1" name="AuthorizationToken" type="wsse:SecurityTokenReferenceType"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -191,7 +184,6 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
-        <xs:element minOccurs="0" maxOccurs="1" name="AuthorizationToken" type="wsse:SecurityTokenReferenceType"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -242,7 +234,6 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
-        <xs:element minOccurs="0" maxOccurs="1" name="AuthorizationToken" type="wsse:SecurityTokenReferenceType"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -312,7 +303,6 @@
         <xs:element minOccurs="0" maxOccurs="1" name="ListenerURI" type="xs:string"/>
         <xs:element minOccurs="0" maxOccurs="1" name="XPathExpression" type="xs:string"/>
         <xs:element minOccurs="0" maxOccurs="unbounded" name="XPathNamespace" type="Namespace"/>
-        <xs:element minOccurs="0" maxOccurs="1" name="AuthorizationToken" type="wsse:SecurityTokenReferenceType"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -369,7 +359,6 @@
         <xs:element minOccurs="0" maxOccurs="1" name="ListenerURI" type="xs:string"/>
         <xs:element minOccurs="0" maxOccurs="1" name="XPathExpression" type="xs:string"/>
         <xs:element minOccurs="0" maxOccurs="unbounded" name="XPathNamespace" type="Namespace"/>
-        <xs:element minOccurs="0" maxOccurs="1" name="AuthorizationToken" type="wsse:SecurityTokenReferenceType"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -420,7 +409,6 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
-        <xs:element minOccurs="0" maxOccurs="1" name="AuthorizationToken" type="wsse:SecurityTokenReferenceType"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -474,7 +462,6 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
-        <xs:element minOccurs="0" maxOccurs="1" name="AuthorizationToken" type="wsse:SecurityTokenReferenceType"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -516,7 +503,6 @@
       <xs:sequence>
         <xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
         <xs:element minOccurs="0" maxOccurs="1" name="ListenerURI" type="xs:string"/>
-        <xs:element minOccurs="0" maxOccurs="1" name="AuthorizationToken" type="wsse:SecurityTokenReferenceType"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>

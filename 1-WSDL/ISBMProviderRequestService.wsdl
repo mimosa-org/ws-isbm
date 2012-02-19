@@ -5,7 +5,6 @@
 	xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
 	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
 	xmlns:tns="http://www.openoandm.org/xml/ISBM/"
-	xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"
 	targetNamespace="http://www.openoandm.org/xml/ISBM/"
 	name="ISBMProviderRequestService">
 
@@ -44,7 +43,6 @@
 						<xs:element minOccurs="0" maxOccurs="1" name="ListenerURI" type="xs:string"/>
 						<xs:element minOccurs="0" maxOccurs="1" name="XPathExpression" type="xs:string"/>
 						<xs:element minOccurs="0" maxOccurs="unbounded" name="XPathNamespace" type="tns:Namespace"/>
-						<xs:element minOccurs="0" maxOccurs="1" name="AuthorizationToken" type="wsse:SecurityTokenReferenceType"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -95,7 +93,6 @@
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
-						<xs:element minOccurs="0" maxOccurs="1" name="AuthorizationToken" type="wsse:SecurityTokenReferenceType"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
