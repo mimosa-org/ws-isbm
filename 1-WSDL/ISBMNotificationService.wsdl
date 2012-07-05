@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+	Copyright MIMOSA 2012. All Rights Reserved.
+
+	License information for this file is provided in the file "License Agreement.txt" that is provided with this download package.
+
+	For support, more information, or to report errors, please contact MIMOSA at http://www.mimosa.org or OpenO&M at http://www.openoandm.info.
+-->
 <wsdl:definitions
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
