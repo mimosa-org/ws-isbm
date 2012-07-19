@@ -264,6 +264,7 @@
 			<wsdl:input message="tns:CreateTopicIn"/>
 			<wsdl:output message="tns:CreateTopicOut"/>
 			<wsdl:fault name="ChannelFault" message="tns:ChannelFault"/>
+			<wsdl:fault name="InvalidOperationFault" message="tns:InvalidOperationFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="AddSecurityTokens">
 			<wsdl:documentation>Adds security tokens to a channel.</wsdl:documentation>
@@ -334,6 +335,9 @@
 			</wsdl:output>
 			<wsdl:fault name="ChannelFault">
 				<soap:fault name="ChannelFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="InvalidOperationFault">
+				<soap:fault name="InvalidOperationFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="AddSecurityTokens">
@@ -449,6 +453,9 @@
 			</wsdl:output>
 			<wsdl:fault name="ChannelFault">
 				<soap12:fault name="ChannelFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="InvalidOperationFault">
+				<soap12:fault name="InvalidOperationFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="AddSecurityTokens">
