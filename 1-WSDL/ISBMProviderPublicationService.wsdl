@@ -48,7 +48,7 @@
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
 						<xs:element minOccurs="1" maxOccurs="1" ref="tns:MessageContent"/>
-						<xs:element minOccurs="1" maxOccurs="unbounded" name="TopicName" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="unbounded" name="Topic" type="xs:string"/>
 						<xs:element minOccurs="0" maxOccurs="1" name="Expiry" type="xs:duration"/>
 					</xs:sequence>
 				</xs:complexType>
@@ -105,13 +105,6 @@
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
-			<xs:element name="InvalidTopicFault">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="Description" type="xs:string"/>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
 		</xs:schema>
 	</wsdl:types>
 
@@ -148,9 +141,6 @@
 	<wsdl:message name="InvalidSessionFault">
 		<wsdl:part name="parameters" element="tns:InvalidSessionFault"/>
 	</wsdl:message>
-	<wsdl:message name="InvalidTopicFault">
-		<wsdl:part name="parameters" element="tns:InvalidTopicFault"/>
-	</wsdl:message>
 
 	<wsdl:portType name="ISBMProviderPublicationService">
 		<wsdl:operation name="OpenPublicationSession">
@@ -165,7 +155,6 @@
 			<wsdl:input message="tns:PostPublicationIn"/>
 			<wsdl:output message="tns:PostPublicationOut"/>
 			<wsdl:fault name="InvalidSessionFault" message="tns:InvalidSessionFault"/>
-			<wsdl:fault name="InvalidTopicFault" message="tns:InvalidTopicFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="ExpirePublication">
 			<wsdl:documentation>Expires a posted publication.</wsdl:documentation>
@@ -208,9 +197,6 @@
 			</wsdl:output>
 			<wsdl:fault name="InvalidSessionFault">
 				<soap:fault name="InvalidSessionFault" use="literal"/>
-			</wsdl:fault>
-			<wsdl:fault name="InvalidTopicFault">
-				<soap:fault name="InvalidTopicFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="ExpirePublication">
@@ -266,9 +252,6 @@
 			</wsdl:output>
 			<wsdl:fault name="InvalidSessionFault">
 				<soap12:fault name="InvalidSessionFault" use="literal"/>
-			</wsdl:fault>
-			<wsdl:fault name="InvalidTopicFault">
-				<soap12:fault name="InvalidTopicFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="ExpirePublication">

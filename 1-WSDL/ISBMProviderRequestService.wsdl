@@ -30,7 +30,7 @@
 				<xs:sequence>
 					<xs:element minOccurs="1" maxOccurs="1" name="MessageID" type="xs:string"/>
 					<xs:element minOccurs="1" maxOccurs="1" ref="tns:MessageContent"/>
-					<xs:element minOccurs="1" maxOccurs="1" name="TopicName" type="xs:string"/>
+					<xs:element minOccurs="1" maxOccurs="1" name="Topic" type="xs:string"/>
 				</xs:sequence>
 			</xs:complexType>
 			<xs:complexType name="Namespace">
@@ -46,7 +46,7 @@
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
-						<xs:element minOccurs="1" maxOccurs="unbounded" name="TopicName" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="unbounded" name="Topic" type="xs:string"/>
 						<xs:element minOccurs="0" maxOccurs="1" name="ListenerURI" type="xs:string"/>
 						<xs:element minOccurs="0" maxOccurs="1" name="XPathExpression" type="xs:string"/>
 						<xs:element minOccurs="0" maxOccurs="unbounded" name="XPathNamespace" type="tns:Namespace"/>
@@ -167,13 +167,6 @@
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
-			<xs:element name="InvalidTopicFault">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="Description" type="xs:string"/>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
 		</xs:schema>
 	</wsdl:types>
 
@@ -231,9 +224,6 @@
 	<wsdl:message name="InvalidSessionFault">
 		<wsdl:part name="parameters" element="tns:InvalidSessionFault"/>
 	</wsdl:message>
-	<wsdl:message name="InvalidTopicFault">
-		<wsdl:part name="parameters" element="tns:InvalidTopicFault"/>
-	</wsdl:message>
 
 	<wsdl:portType name="ISBMProviderRequestService">
 		<wsdl:operation name="OpenReadRequestSession">
@@ -242,7 +232,6 @@
 			<wsdl:output message="tns:OpenReadRequestSessionOut"/>
 			<wsdl:fault name="ChannelFault" message="tns:ChannelFault"/>
 			<wsdl:fault name="InvalidOperationFault" message="tns:InvalidOperationFault"/>
-			<wsdl:fault name="InvalidTopicFault" message="tns:InvalidTopicFault"/>
 			<wsdl:fault name="DuplicateNamespacePrefixFault" message="tns:DuplicateNamespacePrefixFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="ReadRequest">
@@ -299,9 +288,6 @@
 			</wsdl:fault>
 			<wsdl:fault name="InvalidOperationFault">
 				<soap:fault name="InvalidOperationFault" use="literal"/>
-			</wsdl:fault>
-			<wsdl:fault name="InvalidTopicFault">
-				<soap:fault name="InvalidTopicFault" use="literal"/>
 			</wsdl:fault>
 			<wsdl:fault name="DuplicateNamespacePrefixFault">
 				<soap:fault name="DuplicateNamespacePrefixFault" use="literal"/>
@@ -399,9 +385,6 @@
 			</wsdl:fault>
 			<wsdl:fault name="InvalidOperationFault">
 				<soap12:fault name="InvalidOperationFault" use="literal"/>
-			</wsdl:fault>
-			<wsdl:fault name="InvalidTopicFault">
-				<soap12:fault name="InvalidTopicFault" use="literal"/>
 			</wsdl:fault>
 			<wsdl:fault name="DuplicateNamespacePrefixFault">
 				<soap12:fault name="DuplicateNamespacePrefixFault" use="literal"/>

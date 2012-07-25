@@ -30,7 +30,7 @@
 				<xs:sequence>
 					<xs:element minOccurs="1" maxOccurs="1" name="MessageID" type="xs:string"/>
 					<xs:element minOccurs="1" maxOccurs="1" ref="tns:MessageContent"/>
-					<xs:element minOccurs="1" maxOccurs="unbounded" name="TopicName" type="xs:string"/>
+					<xs:element minOccurs="1" maxOccurs="unbounded" name="Topic" type="xs:string"/>
 				</xs:sequence>
 			</xs:complexType>
 			<xs:complexType name="Namespace">
@@ -46,7 +46,7 @@
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
-						<xs:element minOccurs="1" maxOccurs="unbounded" name="TopicName" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="unbounded" name="Topic" type="xs:string"/>
 						<xs:element minOccurs="0" maxOccurs="1" name="ListenerURI" type="xs:string"/>
 						<xs:element minOccurs="0" maxOccurs="1" name="XPathExpression" type="xs:string"/>
 						<xs:element minOccurs="0" maxOccurs="unbounded" name="XPathNamespace" type="tns:Namespace"/>
@@ -116,7 +116,7 @@
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
-			<xs:element name="InvalidTopicFault">
+			<xs:element name="InvalidMessageFault">
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="Description" type="xs:string"/>
@@ -156,8 +156,8 @@
 	<wsdl:message name="InvalidSessionFault">
 		<wsdl:part name="parameters" element="tns:InvalidSessionFault"/>
 	</wsdl:message>
-	<wsdl:message name="InvalidTopicFault">
-		<wsdl:part name="parameters" element="tns:InvalidTopicFault"/>
+	<wsdl:message name="InvalidMessageFault">
+		<wsdl:part name="parameters" element="tns:InvalidMessageFault"/>
 	</wsdl:message>
 
 	<wsdl:portType name="ISBMConsumerPublicationService">
@@ -167,7 +167,6 @@
 			<wsdl:output message="tns:OpenSubscriptionSessionOut"/>
 			<wsdl:fault name="ChannelFault" message="tns:ChannelFault"/>
 			<wsdl:fault name="InvalidOperationFault" message="tns:InvalidOperationFault"/>
-			<wsdl:fault name="InvalidTopicFault" message="tns:InvalidTopicFault"/>
 			<wsdl:fault name="DuplicateNamespacePrefixFault" message="tns:DuplicateNamespacePrefixFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="ReadPublication">
@@ -175,6 +174,7 @@
 			<wsdl:input message="tns:ReadPublicationIn"/>
 			<wsdl:output message="tns:ReadPublicationOut"/>
 			<wsdl:fault name="InvalidSessionFault" message="tns:InvalidSessionFault"/>
+			<wsdl:fault name="InvalidMessageFault" message="tns:InvalidMessageFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="CloseSubscriptionSession">
 			<wsdl:documentation>Closes a subscription session.</wsdl:documentation>
@@ -200,9 +200,6 @@
 			<wsdl:fault name="InvalidOperationFault">
 				<soap:fault name="InvalidOperationFault" use="literal"/>
 			</wsdl:fault>
-			<wsdl:fault name="InvalidTopicFault">
-				<soap:fault name="InvalidTopicFault" use="literal"/>
-			</wsdl:fault>
 			<wsdl:fault name="DuplicateNamespacePrefixFault">
 				<soap:fault name="DuplicateNamespacePrefixFault" use="literal"/>
 			</wsdl:fault>
@@ -217,6 +214,9 @@
 			</wsdl:output>
 			<wsdl:fault name="InvalidSessionFault">
 				<soap:fault name="InvalidSessionFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="InvalidMessageFault">
+				<soap:fault name="InvalidMessageFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="CloseSubscriptionSession">
@@ -249,9 +249,6 @@
 			<wsdl:fault name="InvalidOperationFault">
 				<soap12:fault name="InvalidOperationFault" use="literal"/>
 			</wsdl:fault>
-			<wsdl:fault name="InvalidTopicFault">
-				<soap12:fault name="InvalidTopicFault" use="literal"/>
-			</wsdl:fault>
 			<wsdl:fault name="DuplicateNamespacePrefixFault">
 				<soap12:fault name="DuplicateNamespacePrefixFault" use="literal"/>
 			</wsdl:fault>
@@ -266,6 +263,9 @@
 			</wsdl:output>
 			<wsdl:fault name="InvalidSessionFault">
 				<soap12:fault name="InvalidSessionFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="InvalidMessageFault">
+				<soap12:fault name="InvalidMessageFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="CloseSubscriptionSession">
