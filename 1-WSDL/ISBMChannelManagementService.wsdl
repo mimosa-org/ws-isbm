@@ -11,7 +11,7 @@
 	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
 	xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
 	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-	xmlns:tns="http://www.openoandm.org/xml/ISBM/"
+	xmlns:isbm="http://www.openoandm.org/xml/ISBM/"
 	targetNamespace="http://www.openoandm.org/xml/ISBM/"
 	name="ISBMChannelManagementService">
 
@@ -23,7 +23,6 @@
 				<xs:restriction base="xs:string">
 					<xs:enumeration value="Publication"/>
 					<xs:enumeration value="Request"/>
-					<xs:enumeration value="Response"/>
 				</xs:restriction>
 			</xs:simpleType>
 			<xs:element name="SecurityToken">
@@ -36,7 +35,7 @@
 			<xs:complexType name="Channel">
 				<xs:sequence>
 					<xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
-					<xs:element minOccurs="1" maxOccurs="1" name="ChannelType" type="tns:ChannelType"/>
+					<xs:element minOccurs="1" maxOccurs="1" name="ChannelType" type="isbm:ChannelType"/>
 					<xs:element minOccurs="0" maxOccurs="1" name="ChannelDescription" type="xs:string"/>
 				</xs:sequence>
 			</xs:complexType>
@@ -47,9 +46,9 @@
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
-						<xs:element minOccurs="1" maxOccurs="1" name="ChannelType" type="tns:ChannelType"/>
+						<xs:element minOccurs="1" maxOccurs="1" name="ChannelType" type="isbm:ChannelType"/>
 						<xs:element minOccurs="0" maxOccurs="1" name="ChannelDescription" type="xs:string"/>
-						<xs:element minOccurs="0" maxOccurs="unbounded" ref="tns:SecurityToken"/>
+						<xs:element minOccurs="0" maxOccurs="unbounded" ref="isbm:SecurityToken"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -60,7 +59,7 @@
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
-						<xs:element minOccurs="1" maxOccurs="unbounded" ref="tns:SecurityToken"/>
+						<xs:element minOccurs="1" maxOccurs="unbounded" ref="isbm:SecurityToken"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -71,7 +70,7 @@
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
-						<xs:element minOccurs="1" maxOccurs="unbounded" ref="tns:SecurityToken"/>
+						<xs:element minOccurs="1" maxOccurs="unbounded" ref="isbm:SecurityToken"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -98,7 +97,7 @@
 			<xs:element name="GetChannelResponse">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="Channel" type="tns:Channel"/>
+						<xs:element minOccurs="1" maxOccurs="1" name="Channel" type="isbm:Channel"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -108,7 +107,7 @@
 			<xs:element name="GetChannelsResponse">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element minOccurs="0" maxOccurs="unbounded" name="Channel" type="tns:Channel"/>
+						<xs:element minOccurs="0" maxOccurs="unbounded" name="Channel" type="isbm:Channel"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -116,13 +115,6 @@
 			<!-- Fault elements -->
 
 			<xs:element name="ChannelFault">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="Description" type="xs:string"/>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-			<xs:element name="DuplicateChannelURIFault">
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="Description" type="xs:string"/>
@@ -140,91 +132,88 @@
 	</wsdl:types>
 
 	<wsdl:message name="CreateChannelIn">
-		<wsdl:part name="parameters" element="tns:CreateChannel"/>
+		<wsdl:part name="parameters" element="isbm:CreateChannel"/>
 	</wsdl:message>
 	<wsdl:message name="CreateChannelOut">
-		<wsdl:part name="parameters" element="tns:CreateChannelResponse"/>
+		<wsdl:part name="parameters" element="isbm:CreateChannelResponse"/>
 	</wsdl:message>
 	<wsdl:message name="AddSecurityTokensIn">
-		<wsdl:part name="parameters" element="tns:AddSecurityTokens"/>
+		<wsdl:part name="parameters" element="isbm:AddSecurityTokens"/>
 	</wsdl:message>
 	<wsdl:message name="AddSecurityTokensOut">
-		<wsdl:part name="parameters" element="tns:AddSecurityTokensResponse"/>
+		<wsdl:part name="parameters" element="isbm:AddSecurityTokensResponse"/>
 	</wsdl:message>
 	<wsdl:message name="RemoveSecurityTokensIn">
-		<wsdl:part name="parameters" element="tns:RemoveSecurityTokens"/>
+		<wsdl:part name="parameters" element="isbm:RemoveSecurityTokens"/>
 	</wsdl:message>
 	<wsdl:message name="RemoveSecurityTokensOut">
-		<wsdl:part name="parameters" element="tns:RemoveSecurityTokensResponse"/>
+		<wsdl:part name="parameters" element="isbm:RemoveSecurityTokensResponse"/>
 	</wsdl:message>
 	<wsdl:message name="DeleteChannelIn">
-		<wsdl:part name="parameters" element="tns:DeleteChannel"/>
+		<wsdl:part name="parameters" element="isbm:DeleteChannel"/>
 	</wsdl:message>
 	<wsdl:message name="DeleteChannelOut">
-		<wsdl:part name="parameters" element="tns:DeleteChannelResponse"/>
+		<wsdl:part name="parameters" element="isbm:DeleteChannelResponse"/>
 	</wsdl:message>
 	<wsdl:message name="GetChannelIn">
-		<wsdl:part name="parameters" element="tns:GetChannel"/>
+		<wsdl:part name="parameters" element="isbm:GetChannel"/>
 	</wsdl:message>
 	<wsdl:message name="GetChannelOut">
-		<wsdl:part name="parameters" element="tns:GetChannelResponse"/>
+		<wsdl:part name="parameters" element="isbm:GetChannelResponse"/>
 	</wsdl:message>
 	<wsdl:message name="GetChannelsIn">
-		<wsdl:part name="parameters" element="tns:GetChannels"/>
+		<wsdl:part name="parameters" element="isbm:GetChannels"/>
 	</wsdl:message>
 	<wsdl:message name="GetChannelsOut">
-		<wsdl:part name="parameters" element="tns:GetChannelsResponse"/>
+		<wsdl:part name="parameters" element="isbm:GetChannelsResponse"/>
 	</wsdl:message>
 	<wsdl:message name="ChannelFault">
-		<wsdl:part name="parameters" element="tns:ChannelFault"/>
-	</wsdl:message>
-	<wsdl:message name="DuplicateChannelURIFault">
-		<wsdl:part name="parameters" element="tns:DuplicateChannelURIFault"/>
+		<wsdl:part name="parameters" element="isbm:ChannelFault"/>
 	</wsdl:message>
 	<wsdl:message name="InvalidSecurityTokenFault">
-		<wsdl:part name="parameters" element="tns:InvalidSecurityTokenFault"/>
+		<wsdl:part name="parameters" element="isbm:InvalidSecurityTokenFault"/>
 	</wsdl:message>
 
 	<wsdl:portType name="ISBMChannelManagementService">
 		<wsdl:operation name="CreateChannel">
 			<wsdl:documentation>Creates a new channel.</wsdl:documentation>
-			<wsdl:input message="tns:CreateChannelIn"/>
-			<wsdl:output message="tns:CreateChannelOut"/>
-			<wsdl:fault name="DuplicateChannelURIFault" message="tns:DuplicateChannelURIFault"/>
+			<wsdl:input message="isbm:CreateChannelIn"/>
+			<wsdl:output message="isbm:CreateChannelOut"/>
+			<wsdl:fault name="ChannelFault" message="isbm:ChannelFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="AddSecurityTokens">
 			<wsdl:documentation>Adds security tokens to a channel.</wsdl:documentation>
-			<wsdl:input message="tns:AddSecurityTokensIn"/>
-			<wsdl:output message="tns:AddSecurityTokensOut"/>
-			<wsdl:fault name="ChannelFault" message="tns:ChannelFault"/>
+			<wsdl:input message="isbm:AddSecurityTokensIn"/>
+			<wsdl:output message="isbm:AddSecurityTokensOut"/>
+			<wsdl:fault name="ChannelFault" message="isbm:ChannelFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="RemoveSecurityTokens">
 			<wsdl:documentation>Removes security tokens from a channel.</wsdl:documentation>
-			<wsdl:input message="tns:RemoveSecurityTokensIn"/>
-			<wsdl:output message="tns:RemoveSecurityTokensOut"/>
-			<wsdl:fault name="ChannelFault" message="tns:ChannelFault"/>
-			<wsdl:fault name="InvalidSecurityTokenFault" message="tns:InvalidSecurityTokenFault"/>
+			<wsdl:input message="isbm:RemoveSecurityTokensIn"/>
+			<wsdl:output message="isbm:RemoveSecurityTokensOut"/>
+			<wsdl:fault name="ChannelFault" message="isbm:ChannelFault"/>
+			<wsdl:fault name="InvalidSecurityTokenFault" message="isbm:InvalidSecurityTokenFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="DeleteChannel">
 			<wsdl:documentation>Deletes an ISBM channel.</wsdl:documentation>
-			<wsdl:input message="tns:DeleteChannelIn"/>
-			<wsdl:output message="tns:DeleteChannelOut"/>
-			<wsdl:fault name="ChannelFault" message="tns:ChannelFault"/>
+			<wsdl:input message="isbm:DeleteChannelIn"/>
+			<wsdl:output message="isbm:DeleteChannelOut"/>
+			<wsdl:fault name="ChannelFault" message="isbm:ChannelFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="GetChannel">
 			<wsdl:documentation>Gets information about a channel.</wsdl:documentation>
-			<wsdl:input message="tns:GetChannelIn"/>
-			<wsdl:output message="tns:GetChannelOut"/>
-			<wsdl:fault name="ChannelFault" message="tns:ChannelFault"/>
+			<wsdl:input message="isbm:GetChannelIn"/>
+			<wsdl:output message="isbm:GetChannelOut"/>
+			<wsdl:fault name="ChannelFault" message="isbm:ChannelFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="GetChannels">
 			<wsdl:documentation>Gets all ISBM channels.</wsdl:documentation>
-			<wsdl:input message="tns:GetChannelsIn"/>
-			<wsdl:output message="tns:GetChannelsOut"/>
+			<wsdl:input message="isbm:GetChannelsIn"/>
+			<wsdl:output message="isbm:GetChannelsOut"/>
 		</wsdl:operation>
 	</wsdl:portType>
 
-	<wsdl:binding name="ISBMChannelManagementServiceSoap" type="tns:ISBMChannelManagementService">
+	<wsdl:binding name="ISBMChannelManagementServiceSoap" type="isbm:ISBMChannelManagementService">
 		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
 		<wsdl:operation name="CreateChannel">
 			<soap:operation soapAction="http://www.openoandm.org/xml/ISBM/CreateChannel" style="document"/>
@@ -234,8 +223,8 @@
 			<wsdl:output>
 				<soap:body use="literal"/>
 			</wsdl:output>
-			<wsdl:fault name="DuplicateChannelURIFault">
-				<soap:fault name="DuplicateChannelURIFault" use="literal"/>
+			<wsdl:fault name="ChannelFault">
+				<soap:fault name="ChannelFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="AddSecurityTokens">
@@ -300,7 +289,7 @@
 		</wsdl:operation>
 	</wsdl:binding>
 
-	<wsdl:binding name="ISBMChannelManagementServiceSoap12" type="tns:ISBMChannelManagementService">
+	<wsdl:binding name="ISBMChannelManagementServiceSoap12" type="isbm:ISBMChannelManagementService">
 		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
 		<wsdl:operation name="CreateChannel">
 			<soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/CreateChannel" style="document"/>
@@ -310,8 +299,8 @@
 			<wsdl:output>
 				<soap12:body use="literal"/>
 			</wsdl:output>
-			<wsdl:fault name="DuplicateChannelURIFault">
-				<soap12:fault name="DuplicateChannelURIFault" use="literal"/>
+			<wsdl:fault name="ChannelFault">
+				<soap12:fault name="ChannelFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="AddSecurityTokens">
@@ -377,10 +366,10 @@
 	</wsdl:binding>
 
 	<wsdl:service name="ISBMChannelManagementService">
-		<wsdl:port name="ISBMChannelManagementServiceSoap" binding="tns:ISBMChannelManagementServiceSoap">
+		<wsdl:port name="ISBMChannelManagementServiceSoap" binding="isbm:ISBMChannelManagementServiceSoap">
 			<soap:address location="http://localhost/ISBMChannelManagementService"/>
 		</wsdl:port>
-		<wsdl:port name="ISBMChannelManagementServiceSoap12" binding="tns:ISBMChannelManagementServiceSoap12">
+		<wsdl:port name="ISBMChannelManagementServiceSoap12" binding="isbm:ISBMChannelManagementServiceSoap12">
 			<soap12:address location="http://localhost/ISBMChannelManagementService"/>
 		</wsdl:port>
 	</wsdl:service>

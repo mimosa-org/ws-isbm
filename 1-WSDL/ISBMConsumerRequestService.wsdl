@@ -11,7 +11,7 @@
 	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
 	xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
 	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-	xmlns:tns="http://www.openoandm.org/xml/ISBM/"
+	xmlns:isbm="http://www.openoandm.org/xml/ISBM/"
 	targetNamespace="http://www.openoandm.org/xml/ISBM/"
 	name="ISBMConsumerRequestService">
 
@@ -29,20 +29,21 @@
 			<xs:complexType name="ResponseMessage">
 				<xs:sequence>
 					<xs:element minOccurs="1" maxOccurs="1" name="MessageID" type="xs:string"/>
-					<xs:element minOccurs="1" maxOccurs="1" ref="tns:MessageContent"/>
+					<xs:element minOccurs="1" maxOccurs="1" ref="isbm:MessageContent"/>
 				</xs:sequence>
 			</xs:complexType>
 
 			<!-- Parameter elements -->
 
-			<xs:element name="OpenPostRequestSession">
+			<xs:element name="OpenConsumerRequestSession">
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
+						<xs:element minOccurs="0" maxOccurs="1" name="ListenerURI" type="xs:string"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
-			<xs:element name="OpenPostRequestSessionResponse">
+			<xs:element name="OpenConsumerRequestSessionResponse">
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
@@ -53,7 +54,7 @@
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
-						<xs:element minOccurs="1" maxOccurs="1" ref="tns:MessageContent"/>
+						<xs:element minOccurs="1" maxOccurs="1" ref="isbm:MessageContent"/>
 						<xs:element minOccurs="1" maxOccurs="1" name="Topic" type="xs:string"/>
 					</xs:sequence>
 				</xs:complexType>
@@ -62,31 +63,6 @@
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="MessageID" type="xs:string"/>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-			<xs:element name="ClosePostRequestSession">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-			<xs:element name="ClosePostRequestSessionResponse">
-				<xs:complexType/>
-			</xs:element>
-			<xs:element name="OpenReadResponseSession">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
-						<xs:element minOccurs="0" maxOccurs="1" name="ListenerURI" type="xs:string"/>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-			<xs:element name="OpenReadResponseSessionResponse">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -101,7 +77,7 @@
 			<xs:element name="ReadResponseResponse">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element minOccurs="0" maxOccurs="1" name="ResponseMessage" type="tns:ResponseMessage"/>
+						<xs:element minOccurs="0" maxOccurs="1" name="ResponseMessage" type="isbm:ResponseMessage"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -109,20 +85,21 @@
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="1" name="RequestMessageID" type="xs:string"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
 			<xs:element name="RemoveResponseResponse">
 				<xs:complexType/>
 			</xs:element>
-			<xs:element name="CloseReadResponseSession">
+			<xs:element name="CloseConsumerRequestSession">
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
-			<xs:element name="CloseReadResponseSessionResponse">
+			<xs:element name="CloseConsumerRequestSessionResponse">
 				<xs:complexType/>
 			</xs:element>
 
@@ -152,109 +129,84 @@
 		</xs:schema>
 	</wsdl:types>
 
-	<wsdl:message name="OpenPostRequestSessionIn">
-		<wsdl:part name="parameters" element="tns:OpenPostRequestSession"/>
+	<wsdl:message name="OpenConsumerRequestSessionIn">
+		<wsdl:part name="parameters" element="isbm:OpenConsumerRequestSession"/>
 	</wsdl:message>
-	<wsdl:message name="OpenPostRequestSessionOut">
-		<wsdl:part name="parameters" element="tns:OpenPostRequestSessionResponse"/>
+	<wsdl:message name="OpenConsumerRequestSessionOut">
+		<wsdl:part name="parameters" element="isbm:OpenConsumerRequestSessionResponse"/>
 	</wsdl:message>
 	<wsdl:message name="PostRequestIn">
-		<wsdl:part name="parameters" element="tns:PostRequest"/>
+		<wsdl:part name="parameters" element="isbm:PostRequest"/>
 	</wsdl:message>
 	<wsdl:message name="PostRequestOut">
-		<wsdl:part name="parameters" element="tns:PostRequestResponse"/>
-	</wsdl:message>
-	<wsdl:message name="ClosePostRequestSessionIn">
-		<wsdl:part name="parameters" element="tns:ClosePostRequestSession"/>
-	</wsdl:message>
-	<wsdl:message name="ClosePostRequestSessionOut">
-		<wsdl:part name="parameters" element="tns:ClosePostRequestSessionResponse"/>
-	</wsdl:message>
-	<wsdl:message name="OpenReadResponseSessionIn">
-		<wsdl:part name="parameters" element="tns:OpenReadResponseSession"/>
-	</wsdl:message>
-	<wsdl:message name="OpenReadResponseSessionOut">
-		<wsdl:part name="parameters" element="tns:OpenReadResponseSessionResponse"/>
+		<wsdl:part name="parameters" element="isbm:PostRequestResponse"/>
 	</wsdl:message>
 	<wsdl:message name="ReadResponseIn">
-		<wsdl:part name="parameters" element="tns:ReadResponse"/>
+		<wsdl:part name="parameters" element="isbm:ReadResponse"/>
 	</wsdl:message>
 	<wsdl:message name="ReadResponseOut">
-		<wsdl:part name="parameters" element="tns:ReadResponseResponse"/>
+		<wsdl:part name="parameters" element="isbm:ReadResponseResponse"/>
 	</wsdl:message>
 	<wsdl:message name="RemoveResponseIn">
-		<wsdl:part name="parameters" element="tns:RemoveResponse"/>
+		<wsdl:part name="parameters" element="isbm:RemoveResponse"/>
 	</wsdl:message>
 	<wsdl:message name="RemoveResponseOut">
-		<wsdl:part name="parameters" element="tns:RemoveResponseResponse"/>
+		<wsdl:part name="parameters" element="isbm:RemoveResponseResponse"/>
 	</wsdl:message>
-	<wsdl:message name="CloseReadResponseSessionIn">
-		<wsdl:part name="parameters" element="tns:CloseReadResponseSession"/>
+	<wsdl:message name="CloseConsumerRequestSessionIn">
+		<wsdl:part name="parameters" element="isbm:CloseConsumerRequestSession"/>
 	</wsdl:message>
-	<wsdl:message name="CloseReadResponseSessionOut">
-		<wsdl:part name="parameters" element="tns:CloseReadResponseSessionResponse"/>
+	<wsdl:message name="CloseConsumerRequestSessionOut">
+		<wsdl:part name="parameters" element="isbm:CloseConsumerRequestSessionResponse"/>
 	</wsdl:message>
 	<wsdl:message name="ChannelFault">
-		<wsdl:part name="parameters" element="tns:ChannelFault"/>
+		<wsdl:part name="parameters" element="isbm:ChannelFault"/>
 	</wsdl:message>
 	<wsdl:message name="InvalidOperationFault">
-		<wsdl:part name="parameters" element="tns:InvalidOperationFault"/>
+		<wsdl:part name="parameters" element="isbm:InvalidOperationFault"/>
 	</wsdl:message>
 	<wsdl:message name="InvalidSessionFault">
-		<wsdl:part name="parameters" element="tns:InvalidSessionFault"/>
+		<wsdl:part name="parameters" element="isbm:InvalidSessionFault"/>
 	</wsdl:message>
 
 	<wsdl:portType name="ISBMConsumerRequestService">
-		<wsdl:operation name="OpenPostRequestSession">
-			<wsdl:documentation>Opens a post request session for a channel.</wsdl:documentation>
-			<wsdl:input message="tns:OpenPostRequestSessionIn"/>
-			<wsdl:output message="tns:OpenPostRequestSessionOut"/>
-			<wsdl:fault name="ChannelFault" message="tns:ChannelFault"/>
-			<wsdl:fault name="InvalidOperationFault" message="tns:InvalidOperationFault"/>
+		<wsdl:operation name="OpenConsumerRequestSession">
+			<wsdl:documentation>Opens a consumer request session for a channel for posting requests and reading responses.</wsdl:documentation>
+			<wsdl:input message="isbm:OpenConsumerRequestSessionIn"/>
+			<wsdl:output message="isbm:OpenConsumerRequestSessionOut"/>
+			<wsdl:fault name="ChannelFault" message="isbm:ChannelFault"/>
+			<wsdl:fault name="InvalidOperationFault" message="isbm:InvalidOperationFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="PostRequest">
 			<wsdl:documentation>Posts a request message on a channel.</wsdl:documentation>
-			<wsdl:input message="tns:PostRequestIn"/>
-			<wsdl:output message="tns:PostRequestOut"/>
-			<wsdl:fault name="InvalidSessionFault" message="tns:InvalidSessionFault"/>
-		</wsdl:operation>
-		<wsdl:operation name="ClosePostRequestSession">
-			<wsdl:documentation>Closes a post request session.</wsdl:documentation>
-			<wsdl:input message="tns:ClosePostRequestSessionIn"/>
-			<wsdl:output message="tns:ClosePostRequestSessionOut"/>
-			<wsdl:fault name="InvalidSessionFault" message="tns:InvalidSessionFault"/>
-		</wsdl:operation>
-		<wsdl:operation name="OpenReadResponseSession">
-			<wsdl:documentation>Opens a read response session for a channel.</wsdl:documentation>
-			<wsdl:input message="tns:OpenReadResponseSessionIn"/>
-			<wsdl:output message="tns:OpenReadResponseSessionOut"/>
-			<wsdl:fault name="ChannelFault" message="tns:ChannelFault"/>
-			<wsdl:fault name="InvalidOperationFault" message="tns:InvalidOperationFault"/>
+			<wsdl:input message="isbm:PostRequestIn"/>
+			<wsdl:output message="isbm:PostRequestOut"/>
+			<wsdl:fault name="InvalidSessionFault" message="isbm:InvalidSessionFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="ReadResponse">
 			<wsdl:documentation>Returns the first response message in the message queue for the session. Note: this service does not remove the message from the message queue.</wsdl:documentation>
-			<wsdl:input message="tns:ReadResponseIn"/>
-			<wsdl:output message="tns:ReadResponseOut"/>
-			<wsdl:fault name="InvalidSessionFault" message="tns:InvalidSessionFault"/>
+			<wsdl:input message="isbm:ReadResponseIn"/>
+			<wsdl:output message="isbm:ReadResponseOut"/>
+			<wsdl:fault name="InvalidSessionFault" message="isbm:InvalidSessionFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="RemoveResponse">
 			<wsdl:documentation>Deletes the first request message in the message queue for the session.</wsdl:documentation>
-			<wsdl:input message="tns:RemoveResponseIn"/>
-			<wsdl:output message="tns:RemoveResponseOut"/>
-			<wsdl:fault name="InvalidSessionFault" message="tns:InvalidSessionFault"/>
+			<wsdl:input message="isbm:RemoveResponseIn"/>
+			<wsdl:output message="isbm:RemoveResponseOut"/>
+			<wsdl:fault name="InvalidSessionFault" message="isbm:InvalidSessionFault"/>
 		</wsdl:operation>
-		<wsdl:operation name="CloseReadResponseSession">
-			<wsdl:documentation>Closes a read response session.</wsdl:documentation>
-			<wsdl:input message="tns:CloseReadResponseSessionIn"/>
-			<wsdl:output message="tns:CloseReadResponseSessionOut"/>
-			<wsdl:fault name="InvalidSessionFault" message="tns:InvalidSessionFault"/>
+		<wsdl:operation name="CloseConsumerRequestSession">
+			<wsdl:documentation>Closes a consumer request session.</wsdl:documentation>
+			<wsdl:input message="isbm:CloseConsumerRequestSessionIn"/>
+			<wsdl:output message="isbm:CloseConsumerRequestSessionOut"/>
+			<wsdl:fault name="InvalidSessionFault" message="isbm:InvalidSessionFault"/>
 		</wsdl:operation>
 	</wsdl:portType>
 
-	<wsdl:binding name="ISBMConsumerRequestServiceSoap" type="tns:ISBMConsumerRequestService">
+	<wsdl:binding name="ISBMConsumerRequestServiceSoap" type="isbm:ISBMConsumerRequestService">
 		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
-		<wsdl:operation name="OpenPostRequestSession">
-			<soap:operation soapAction="http://www.openoandm.org/xml/ISBM/OpenPostRequestSession" style="document"/>
+		<wsdl:operation name="OpenConsumerRequestSession">
+			<soap:operation soapAction="http://www.openoandm.org/xml/ISBM/OpenConsumerRequestSession" style="document"/>
 			<wsdl:input>
 				<soap:body use="literal"/>
 			</wsdl:input>
@@ -278,33 +230,6 @@
 			</wsdl:output>
 			<wsdl:fault name="InvalidSessionFault">
 				<soap:fault name="InvalidSessionFault" use="literal"/>
-			</wsdl:fault>
-		</wsdl:operation>
-		<wsdl:operation name="ClosePostRequestSession">
-			<soap:operation soapAction="http://www.openoandm.org/xml/ISBM/ClosePostRequestSession" style="document"/>
-			<wsdl:input>
-				<soap:body use="literal"/>
-			</wsdl:input>
-			<wsdl:output>
-				<soap:body use="literal"/>
-			</wsdl:output>
-			<wsdl:fault name="InvalidSessionFault">
-				<soap:fault name="InvalidSessionFault" use="literal"/>
-			</wsdl:fault>
-		</wsdl:operation>
-		<wsdl:operation name="OpenReadResponseSession">
-			<soap:operation soapAction="http://www.openoandm.org/xml/ISBM/OpenReadResponseSession" style="document"/>
-			<wsdl:input>
-				<soap:body use="literal"/>
-			</wsdl:input>
-			<wsdl:output>
-				<soap:body use="literal"/>
-			</wsdl:output>
-			<wsdl:fault name="ChannelFault">
-				<soap:fault name="ChannelFault" use="literal"/>
-			</wsdl:fault>
-			<wsdl:fault name="InvalidOperationFault">
-				<soap:fault name="InvalidOperationFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="ReadResponse">
@@ -331,8 +256,8 @@
 				<soap:fault name="InvalidSessionFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
-		<wsdl:operation name="CloseReadResponseSession">
-			<soap:operation soapAction="http://www.openoandm.org/xml/ISBM/CloseReadResponseSession" style="document"/>
+		<wsdl:operation name="CloseConsumerRequestSession">
+			<soap:operation soapAction="http://www.openoandm.org/xml/ISBM/CloseConsumerRequestSession" style="document"/>
 			<wsdl:input>
 				<soap:body use="literal"/>
 			</wsdl:input>
@@ -345,10 +270,10 @@
 		</wsdl:operation>
 	</wsdl:binding>
 
-	<wsdl:binding name="ISBMConsumerRequestServiceSoap12" type="tns:ISBMConsumerRequestService">
+	<wsdl:binding name="ISBMConsumerRequestServiceSoap12" type="isbm:ISBMConsumerRequestService">
 		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
-		<wsdl:operation name="OpenPostRequestSession">
-			<soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/OpenPostRequestSession" style="document"/>
+		<wsdl:operation name="OpenConsumerRequestSession">
+			<soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/OpenConsumerRequestSession" style="document"/>
 			<wsdl:input>
 				<soap12:body use="literal"/>
 			</wsdl:input>
@@ -372,33 +297,6 @@
 			</wsdl:output>
 			<wsdl:fault name="InvalidSessionFault">
 				<soap12:fault name="InvalidSessionFault" use="literal"/>
-			</wsdl:fault>
-		</wsdl:operation>
-		<wsdl:operation name="ClosePostRequestSession">
-			<soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/ClosePostRequestSession" style="document"/>
-			<wsdl:input>
-				<soap12:body use="literal"/>
-			</wsdl:input>
-			<wsdl:output>
-				<soap12:body use="literal"/>
-			</wsdl:output>
-			<wsdl:fault name="InvalidSessionFault">
-				<soap12:fault name="InvalidSessionFault" use="literal"/>
-			</wsdl:fault>
-		</wsdl:operation>
-		<wsdl:operation name="OpenReadResponseSession">
-			<soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/OpenReadResponseSession" style="document"/>
-			<wsdl:input>
-				<soap12:body use="literal"/>
-			</wsdl:input>
-			<wsdl:output>
-				<soap12:body use="literal"/>
-			</wsdl:output>
-			<wsdl:fault name="ChannelFault">
-				<soap12:fault name="ChannelFault" use="literal"/>
-			</wsdl:fault>
-			<wsdl:fault name="InvalidOperationFault">
-				<soap12:fault name="InvalidOperationFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="ReadResponse">
@@ -425,8 +323,8 @@
 				<soap12:fault name="InvalidSessionFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
-		<wsdl:operation name="CloseReadResponseSession">
-			<soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/CloseReadResponseSession" style="document"/>
+		<wsdl:operation name="CloseConsumerRequestSession">
+			<soap12:operation soapAction="http://www.openoandm.org/xml/ISBM/CloseConsumerRequestSession" style="document"/>
 			<wsdl:input>
 				<soap12:body use="literal"/>
 			</wsdl:input>
@@ -440,10 +338,10 @@
 	</wsdl:binding>
 
 	<wsdl:service name="ISBMConsumerRequestService">
-		<wsdl:port name="ISBMConsumerRequestServiceSoap" binding="tns:ISBMConsumerRequestServiceSoap">
+		<wsdl:port name="ISBMConsumerRequestServiceSoap" binding="isbm:ISBMConsumerRequestServiceSoap">
 			<soap:address location="http://localhost/ISBMConsumerRequestService"/>
 		</wsdl:port>
-		<wsdl:port name="ISBMConsumerRequestServiceSoap12" binding="tns:ISBMConsumerRequestServiceSoap12">
+		<wsdl:port name="ISBMConsumerRequestServiceSoap12" binding="isbm:ISBMConsumerRequestServiceSoap12">
 			<soap12:address location="http://localhost/ISBMConsumerRequestService"/>
 		</wsdl:port>
 	</wsdl:service>
