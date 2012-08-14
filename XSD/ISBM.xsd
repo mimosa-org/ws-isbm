@@ -1,11 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema targetNamespace="http://www.openoandm.org/xml/ISBM/"
            elementFormDefault="qualified"
-           xmlns="http://www.openoandm.org/xml/ISBM/"
-           xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd">
-
-  <xs:import namespace="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" schemaLocation="oasis-200401-wss-wssecurity-secext-1.0.xsd"/>
+           xmlns:isbm="http://www.openoandm.org/xml/ISBM/"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
   <!-- Common types -->
   <xs:element name="MessageContent">
@@ -51,7 +48,7 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="InvalidTopicFault">
+  <xs:element name="InvalidMessageFault">
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="1" maxOccurs="1" name="Description" type="xs:string"/>
@@ -66,21 +63,20 @@
     <xs:restriction base="xs:string">
       <xs:enumeration value="Publication"/>
       <xs:enumeration value="Request"/>
-      <xs:enumeration value="Response"/>
     </xs:restriction>
   </xs:simpleType>
+  <xs:element name="SecurityToken">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:any minOccurs="1" maxOccurs="1" namespace="##any" processContents="lax"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
   <xs:complexType name="Channel">
     <xs:sequence>
       <xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
-      <xs:element minOccurs="1" maxOccurs="1" name="ChannelType" type="ChannelType"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="ChannelType" type="isbm:ChannelType"/>
       <xs:element minOccurs="0" maxOccurs="1" name="ChannelDescription" type="xs:string"/>
-      <xs:element minOccurs="0" maxOccurs="unbounded" name="TopicName" type="xs:string"/>
-    </xs:sequence>
-  </xs:complexType>
-  <xs:complexType name="Topic">
-    <xs:sequence>
-      <xs:element minOccurs="1" maxOccurs="1" name="TopicName" type="xs:string"/>
-      <xs:element minOccurs="0" maxOccurs="1" name="TopicDescription" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -89,32 +85,20 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
-        <xs:element minOccurs="1" maxOccurs="1" name="ChannelType" type="ChannelType"/>
+        <xs:element minOccurs="1" maxOccurs="1" name="ChannelType" type="isbm:ChannelType"/>
         <xs:element minOccurs="0" maxOccurs="1" name="ChannelDescription" type="xs:string"/>
-        <xs:element minOccurs="0" maxOccurs="unbounded" ref="wsse:SecurityTokenReference"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="isbm:SecurityToken"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="CreateChannelResponse">
     <xs:complexType/>
   </xs:element>
-  <xs:element name="CreateTopic">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
-        <xs:element minOccurs="1" maxOccurs="1" name="TopicName" type="xs:string"/>
-        <xs:element minOccurs="0" maxOccurs="1" name="TopicDescription" type="xs:string"/>
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="CreateTopicResponse">
-    <xs:complexType/>
-  </xs:element>
   <xs:element name="AddSecurityTokens">
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
-        <xs:element minOccurs="1" maxOccurs="unbounded" ref="wsse:SecurityTokenReference"/>
+        <xs:element minOccurs="1" maxOccurs="unbounded" ref="isbm:SecurityToken"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -125,7 +109,7 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
-        <xs:element minOccurs="1" maxOccurs="unbounded" ref="wsse:SecurityTokenReference"/>
+        <xs:element minOccurs="1" maxOccurs="unbounded" ref="isbm:SecurityToken"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -142,17 +126,6 @@
   <xs:element name="DeleteChannelResponse">
     <xs:complexType/>
   </xs:element>
-  <xs:element name="DeleteTopic">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
-        <xs:element minOccurs="1" maxOccurs="1" name="TopicName" type="xs:string"/>
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="DeleteTopicResponse">
-    <xs:complexType/>
-  </xs:element>
   <xs:element name="GetChannel">
     <xs:complexType>
       <xs:sequence>
@@ -163,46 +136,22 @@
   <xs:element name="GetChannelResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="1" maxOccurs="1" name="Channel" type="Channel"/>
+        <xs:element minOccurs="1" maxOccurs="1" name="Channel" type="isbm:Channel"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="GetChannels">
-    <xs:complexType>
-      <xs:sequence>
-      </xs:sequence>
-    </xs:complexType>
+    <xs:complexType/>
   </xs:element>
   <xs:element name="GetChannelsResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" maxOccurs="unbounded" name="Channel" type="Channel"/>
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetTopics">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="GetTopicsResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="0" maxOccurs="unbounded" name="Topic" type="Topic"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" name="Channel" type="isbm:Channel"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
 
   <!-- Fault elements -->
-  <xs:element name="DuplicateChannelURIFault">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="1" maxOccurs="1" name="Description" type="xs:string"/>
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
   <xs:element name="InvalidSecurityTokenFault">
     <xs:complexType>
       <xs:sequence>
@@ -248,8 +197,8 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
-        <xs:element minOccurs="1" maxOccurs="1" ref="MessageContent"/>
-        <xs:element minOccurs="1" maxOccurs="unbounded" name="TopicName" type="xs:string"/>
+        <xs:element minOccurs="1" maxOccurs="1" ref="isbm:MessageContent"/>
+        <xs:element minOccurs="1" maxOccurs="unbounded" name="Topic" type="xs:string"/>
         <xs:element minOccurs="0" maxOccurs="1" name="Expiry" type="xs:duration"/>
       </xs:sequence>
     </xs:complexType>
@@ -289,8 +238,8 @@
   <xs:complexType name="PublicationMessage">
     <xs:sequence>
       <xs:element minOccurs="1" maxOccurs="1" name="MessageID" type="xs:string"/>
-      <xs:element minOccurs="1" maxOccurs="1" ref="MessageContent"/>
-      <xs:element minOccurs="1" maxOccurs="unbounded" name="TopicName" type="xs:string"/>
+      <xs:element minOccurs="1" maxOccurs="1" ref="isbm:MessageContent"/>
+      <xs:element minOccurs="1" maxOccurs="unbounded" name="Topic" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -299,10 +248,10 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
-        <xs:element minOccurs="1" maxOccurs="unbounded" name="TopicName" type="xs:string"/>
+        <xs:element minOccurs="1" maxOccurs="unbounded" name="Topic" type="xs:string"/>
         <xs:element minOccurs="0" maxOccurs="1" name="ListenerURI" type="xs:string"/>
         <xs:element minOccurs="0" maxOccurs="1" name="XPathExpression" type="xs:string"/>
-        <xs:element minOccurs="0" maxOccurs="unbounded" name="XPathNamespace" type="Namespace"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" name="XPathNamespace" type="isbm:Namespace"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -324,7 +273,7 @@
   <xs:element name="ReadPublicationResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" maxOccurs="1" name="PublicationMessage" type="PublicationMessage"/>
+        <xs:element minOccurs="0" maxOccurs="1" name="PublicationMessage" type="isbm:PublicationMessage"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -345,24 +294,24 @@
   <xs:complexType name="RequestMessage">
     <xs:sequence>
       <xs:element minOccurs="1" maxOccurs="1" name="MessageID" type="xs:string"/>
-      <xs:element minOccurs="1" maxOccurs="1" ref="MessageContent"/>
-      <xs:element minOccurs="1" maxOccurs="unbounded" name="TopicName" type="xs:string"/>
+      <xs:element minOccurs="1" maxOccurs="1" ref="isbm:MessageContent"/>
+      <xs:element minOccurs="1" maxOccurs="1" name="Topic" type="xs:string"/>
     </xs:sequence>
   </xs:complexType>
 
   <!-- Parameter elements -->
-  <xs:element name="OpenReadRequestSession">
+  <xs:element name="OpenProviderRequestSession">
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
-        <xs:element minOccurs="1" maxOccurs="unbounded" name="TopicName" type="xs:string"/>
+        <xs:element minOccurs="1" maxOccurs="unbounded" name="Topic" type="xs:string"/>
         <xs:element minOccurs="0" maxOccurs="1" name="ListenerURI" type="xs:string"/>
         <xs:element minOccurs="0" maxOccurs="1" name="XPathExpression" type="xs:string"/>
-        <xs:element minOccurs="0" maxOccurs="unbounded" name="XPathNamespace" type="Namespace"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" name="XPathNamespace" type="isbm:Namespace"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="OpenReadRequestSessionResponse">
+  <xs:element name="OpenProviderRequestSessionResponse">
     <xs:complexType>
       <xs:sequence>
         <xs:sequence>
@@ -381,7 +330,7 @@
   <xs:element name="ReadRequestResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" maxOccurs="1" name="RequestMessage" type="RequestMessage"/>
+        <xs:element minOccurs="0" maxOccurs="1" name="RequestMessage" type="isbm:RequestMessage"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -395,36 +344,12 @@
   <xs:element name="RemoveRequestResponse">
     <xs:complexType/>
   </xs:element>
-  <xs:element name="CloseReadRequestSession">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="CloseReadRequestSessionResponse">
-    <xs:complexType/>
-  </xs:element>
-  <xs:element name="OpenPostResponseSession">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="OpenPostResponseSessionResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
   <xs:element name="PostResponse">
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
         <xs:element minOccurs="1" maxOccurs="1" name="RequestMessageID" type="xs:string"/>
-        <xs:element minOccurs="1" maxOccurs="1" ref="MessageContent"/>
+        <xs:element minOccurs="1" maxOccurs="1" ref="isbm:MessageContent"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -435,14 +360,14 @@
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="ClosePostResponseSession">
+  <xs:element name="CloseProviderRequestSession">
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="ClosePostResponseSessionResponse">
+  <xs:element name="CloseProviderRequestSessionResponse">
     <xs:complexType/>
   </xs:element>
 
@@ -452,20 +377,20 @@
   <xs:complexType name="ResponseMessage">
     <xs:sequence>
       <xs:element minOccurs="1" maxOccurs="1" name="MessageID" type="xs:string"/>
-      <xs:element minOccurs="1" maxOccurs="1" ref="MessageContent"/>
+      <xs:element minOccurs="1" maxOccurs="1" ref="isbm:MessageContent"/>
     </xs:sequence>
   </xs:complexType>
 
   <!-- Parameter elements -->
-
-  <xs:element name="OpenPostRequestSession">
+  <xs:element name="OpenConsumerRequestSession">
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
+        <xs:element minOccurs="0" maxOccurs="1" name="ListenerURI" type="xs:string"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="OpenPostRequestSessionResponse">
+  <xs:element name="OpenConsumerRequestSessionResponse">
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
@@ -476,8 +401,8 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
-        <xs:element minOccurs="1" maxOccurs="1" ref="MessageContent"/>
-        <xs:element minOccurs="1" maxOccurs="1" name="TopicName" type="xs:string"/>
+        <xs:element minOccurs="1" maxOccurs="1" ref="isbm:MessageContent"/>
+        <xs:element minOccurs="1" maxOccurs="1" name="Topic" type="xs:string"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -485,31 +410,6 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="1" maxOccurs="1" name="MessageID" type="xs:string"/>
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="ClosePostRequestSession">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="ClosePostRequestSessionResponse">
-    <xs:complexType/>
-  </xs:element>
-  <xs:element name="OpenReadResponseSession">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
-        <xs:element minOccurs="0" maxOccurs="1" name="ListenerURI" type="xs:string"/>
-      </xs:sequence>
-    </xs:complexType>
-  </xs:element>
-  <xs:element name="OpenReadResponseSessionResponse">
-    <xs:complexType>
-      <xs:sequence>
-        <xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -524,7 +424,7 @@
   <xs:element name="ReadResponseResponse">
     <xs:complexType>
       <xs:sequence>
-        <xs:element minOccurs="0" maxOccurs="1" name="ResponseMessage" type="ResponseMessage"/>
+        <xs:element minOccurs="0" maxOccurs="1" name="ResponseMessage" type="isbm:ResponseMessage"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
@@ -532,20 +432,21 @@
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
+        <xs:element minOccurs="1" maxOccurs="1" name="RequestMessageID" type="xs:string"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
   <xs:element name="RemoveResponseResponse">
     <xs:complexType/>
   </xs:element>
-  <xs:element name="CloseReadResponseSession">
+  <xs:element name="CloseConsumerRequestSession">
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="CloseReadResponseSessionResponse">
+  <xs:element name="CloseConsumerRequestSessionResponse">
     <xs:complexType/>
   </xs:element>
 
