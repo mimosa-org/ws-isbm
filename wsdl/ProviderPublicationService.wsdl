@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	ws-ISBM 1.0 Provider Publication Service
+
+	Copyright MIMOSA 2014. All Rights Reserved.
+	License information for this file is provided in the file "LICENSE.txt" that is provided with this download package.
+
+	For support, more information, or to report errors, please contact MIMOSA at http://www.mimosa.org/contact.
+-->
+<wsdl:definitions
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:isbm="http://www.openoandm.org/ws-isbm/"
+	targetNamespace="http://www.openoandm.org/ws-isbm/"
+	name="ProviderPublicationService">
+
+	<wsdl:types>
+		<xs:schema elementFormDefault="qualified" targetNamespace="http://www.openoandm.org/ws-isbm/">
+			<!-- Types -->
+			<xs:element name="MessageContent">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:any minOccurs="1" maxOccurs="1" namespace="##any" processContents="lax"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<!-- Parameter elements -->
+			<xs:element name="OpenPublicationSession">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="OpenPublicationSessionResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PostPublication">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="1" ref="isbm:MessageContent"/>
+						<xs:element minOccurs="1" maxOccurs="unbounded" name="Topic" type="xs:string"/>
+						<xs:element minOccurs="0" maxOccurs="1" name="Expiry" type="xs:duration"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PostPublicationResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="MessageID" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ExpirePublication">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="1" name="MessageID" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ExpirePublicationResponse">
+				<xs:complexType/>
+			</xs:element>
+			<xs:element name="ClosePublicationSession">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ClosePublicationSessionResponse">
+				<xs:complexType/>
+			</xs:element>
+
+			<!-- Fault elements -->
+			<xs:element name="ChannelFault">
+				<xs:complexType/>
+			</xs:element>
+			<xs:element name="OperationFault">
+				<xs:complexType/>
+			</xs:element>
+			<xs:element name="SessionFault">
+				<xs:complexType/>
+			</xs:element>
+		</xs:schema>
+	</wsdl:types>
+
+	<wsdl:message name="OpenPublicationSessionIn">
+		<wsdl:part name="parameters" element="isbm:OpenPublicationSession"/>
+	</wsdl:message>
+	<wsdl:message name="OpenPublicationSessionOut">
+		<wsdl:part name="parameters" element="isbm:OpenPublicationSessionResponse"/>
+	</wsdl:message>
+	<wsdl:message name="PostPublicationIn">
+		<wsdl:part name="parameters" element="isbm:PostPublication"/>
+	</wsdl:message>
+	<wsdl:message name="PostPublicationOut">
+		<wsdl:part name="parameters" element="isbm:PostPublicationResponse"/>
+	</wsdl:message>
+	<wsdl:message name="ExpirePublicationIn">
+		<wsdl:part name="parameters" element="isbm:ExpirePublication"/>
+	</wsdl:message>
+	<wsdl:message name="ExpirePublicationOut">
+		<wsdl:part name="parameters" element="isbm:ExpirePublicationResponse"/>
+	</wsdl:message>
+	<wsdl:message name="ClosePublicationSessionIn">
+		<wsdl:part name="parameters" element="isbm:ClosePublicationSession"/>
+	</wsdl:message>
+	<wsdl:message name="ClosePublicationSessionOut">
+		<wsdl:part name="parameters" element="isbm:ClosePublicationSessionResponse"/>
+	</wsdl:message>
+	<wsdl:message name="ChannelFault">
+		<wsdl:part name="parameters" element="isbm:ChannelFault"/>
+	</wsdl:message>
+	<wsdl:message name="OperationFault">
+		<wsdl:part name="parameters" element="isbm:OperationFault"/>
+	</wsdl:message>
+	<wsdl:message name="SessionFault">
+		<wsdl:part name="parameters" element="isbm:SessionFault"/>
+	</wsdl:message>
+
+	<wsdl:portType name="ProviderPublicationService">
+		<wsdl:operation name="OpenPublicationSession">
+			<wsdl:documentation>Opens a publication session for a channel.</wsdl:documentation>
+			<wsdl:input message="isbm:OpenPublicationSessionIn"/>
+			<wsdl:output message="isbm:OpenPublicationSessionOut"/>
+			<wsdl:fault name="ChannelFault" message="isbm:ChannelFault"/>
+			<wsdl:fault name="OperationFault" message="isbm:OperationFault"/>
+		</wsdl:operation>
+		<wsdl:operation name="PostPublication">
+			<wsdl:documentation>Posts a publication message on a channel.</wsdl:documentation>
+			<wsdl:input message="isbm:PostPublicationIn"/>
+			<wsdl:output message="isbm:PostPublicationOut"/>
+			<wsdl:fault name="SessionFault" message="isbm:SessionFault"/>
+		</wsdl:operation>
+		<wsdl:operation name="ExpirePublication">
+			<wsdl:documentation>Expires a posted publication.</wsdl:documentation>
+			<wsdl:input message="isbm:ExpirePublicationIn"/>
+			<wsdl:output message="isbm:ExpirePublicationOut"/>
+			<wsdl:fault name="SessionFault" message="isbm:SessionFault"/>
+		</wsdl:operation>
+		<wsdl:operation name="ClosePublicationSession">
+			<wsdl:documentation>Closes a publication session.</wsdl:documentation>
+			<wsdl:input message="isbm:ClosePublicationSessionIn"/>
+			<wsdl:output message="isbm:ClosePublicationSessionOut"/>
+			<wsdl:fault name="SessionFault" message="isbm:SessionFault"/>
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="ProviderPublicationServiceSoap" type="isbm:ProviderPublicationService">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="OpenPublicationSession">
+			<soap:operation soapAction="http://www.openoandm.org/ws-isbm/OpenPublicationSession" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="ChannelFault">
+				<soap:fault name="ChannelFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="OperationFault">
+				<soap:fault name="OperationFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="PostPublication">
+			<soap:operation soapAction="http://www.openoandm.org/ws-isbm/PostPublication" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="OperationFault">
+				<soap:fault name="OperationFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="SessionFault">
+				<soap:fault name="SessionFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="InvalidTopicFault">
+				<soap:fault name="InvalidTopicFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="ExpirePublication">
+			<soap:operation soapAction="http://www.openoandm.org/ws-isbm/ExpirePublication" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="SessionFault">
+				<soap:fault name="SessionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="ClosePublicationSession">
+			<soap:operation soapAction="http://www.openoandm.org/ws-isbm/ClosePublicationSession" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="SessionFault">
+				<soap:fault name="SessionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:binding name="ProviderPublicationServiceSoap12" type="isbm:ProviderPublicationService">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="OpenPublicationSession">
+			<soap12:operation soapAction="http://www.openoandm.org/ws-isbm/OpenPublicationSession" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="ChannelFault">
+				<soap12:fault name="ChannelFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="OperationFault">
+				<soap12:fault name="OperationFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="PostPublication">
+			<soap12:operation soapAction="http://www.openoandm.org/ws-isbm/PostPublication" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="SessionFault">
+				<soap12:fault name="SessionFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="InvalidTopicFault">
+				<soap12:fault name="InvalidTopicFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="ExpirePublication">
+			<soap12:operation soapAction="http://www.openoandm.org/ws-isbm/ExpirePublication" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="SessionFault">
+				<soap12:fault name="SessionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="ClosePublicationSession">
+			<soap12:operation soapAction="http://www.openoandm.org/ws-isbm/ClosePublicationSession" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="SessionFault">
+				<soap12:fault name="SessionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="ProviderPublicationService">
+		<wsdl:port name="ProviderPublicationServiceSoap" binding="isbm:ProviderPublicationServiceSoap">
+			<soap:address location="https://example.com/ProviderPublicationService"/>
+		</wsdl:port>
+		<wsdl:port name="ProviderPublicationServiceSoap12" binding="isbm:ProviderPublicationServiceSoap12">
+			<soap12:address location="https://example.com/ProviderPublicationService"/>
+		</wsdl:port>
+	</wsdl:service>
+
+</wsdl:definitions>

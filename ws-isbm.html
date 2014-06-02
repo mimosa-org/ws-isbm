@@ -1,0 +1,2224 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>ws-ISBM 1.0</title>
+		<link href="assets/bootstrap.min.css" rel="stylesheet">
+		<link href="assets/ws-isbm.min.css" rel="stylesheet">
+		<script src="assets/jquery.min.js"></script>
+		<script src="assets/bootstrap.min.js"></script>
+	</head>
+	<body id="top" data-spy="scroll" data-target=".sidebar">
+		<div class="container">
+			<div class="logos">
+				<img src="assets/openoandm_logo.png" class="img-responsive" alt="OpenO&amp;M logo">
+				<img src="assets/ws-isbm_logo.png" class="img-responsive" alt="ws-ISBM logo">
+			</div>
+			<h1>ws-ISBM 1.0</h1>
+			<h3>Web Service Information Service Bus Model</h3>
+			<h3>OpenO&amp;M Standard 1 June 2014</h3>
+			<dl>
+				<dt>This Document</dt>
+				<dd><a href="http://www.openoandm.org/ws-isbm/1.0/ws-isbm.html" class="url-link">http://www.openoandm.org/ws-isbm/1.0/ws-isbm.html</a></dd>
+				<dt>WSDLs</dt>
+				<dd><a href="http://www.openoandm.org/ws-isbm/1.0/wsdl/ChannelManagementService.wsdl" class="url-link">http://www.openoandm.org/ws-isbm/1.0/wsdl/ChannelManagementService.wsdl</a></dd>
+				<dd><a href="http://www.openoandm.org/ws-isbm/1.0/wsdl/NotificationService.wsdl" class="url-link">http://www.openoandm.org/ws-isbm/1.0/wsdl/NotificationService.wsdl</a></dd>
+				<dd><a href="http://www.openoandm.org/ws-isbm/1.0/wsdl/ProviderPublicationService.wsdl" class="url-link">http://www.openoandm.org/ws-isbm/1.0/wsdl/ProviderPublicationService.wsdl</a></dd>
+				<dd><a href="http://www.openoandm.org/ws-isbm/1.0/wsdl/ConsumerPublicationService.wsdl" class="url-link">http://www.openoandm.org/ws-isbm/1.0/wsdl/ConsumerPublicationService.wsdl</a></dd>
+				<dd><a href="http://www.openoandm.org/ws-isbm/1.0/wsdl/ProviderRequestService.wsdl" class="url-link">http://www.openoandm.org/ws-isbm/1.0/wsdl/ProviderRequestService.wsdl</a></dd>
+				<dd><a href="http://www.openoandm.org/ws-isbm/1.0/wsdl/ConsumerRequestService.wsdl" class="url-link">http://www.openoandm.org/ws-isbm/1.0/wsdl/ConsumerRequestService.wsdl</a></dd>
+				<dt>Packaged Specification</dt>
+				<dd><a href="http://www.openoandm.org/ws-isbm/ws-isbm-1.0.zip" class="url-link">http://www.openoandm.org/ws-isbm/ws-isbm-1.0.zip</a></dd>
+				<dt>Latest Version</dt>
+				<dd><a href="http://www.openoandm.org/ws-isbm" class="url-link">http://www.openoandm.org/ws-isbm</a></dd>
+				<dt>Editors</dt>
+				<dd>
+					<dl>
+						<dt>MIMOSA</dt>
+						<dd>Avin Mathew, Assetricity</dd>
+						<dd>Ken Bever, Assetricity</dd>
+					</dl>
+					<dl>
+						<dt>ISA</dt>
+						<dd>Dennis Brandl, BR&amp;L Consulting</dd>
+					</dl>
+				</dd>
+			</dl>
+		</div>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-9" role="main">
+					<h2 id="abstract">Abstract</h2>
+					<p>This document defines a SOAP Web Service implementation of the ISA 95.00.06 Messaging Service Model. The ws-ISBM defines a minimal interface subset to Enterprise Service Buses (ESB) and other message exchange middleware, using a standard interface consisting of channels and topics. The benefit from this approach is to allow applications to expose a single, standardized interface rather than having to be custom built for every version and format of ESB or message exchange system.</p>
+					<h2 id="status" class="no-page-break">Status</h2>
+					<p>This specification was last revised and approved by OpenO&amp;M on the above date. Check the <a href="http://www.openoandm.org/ws-isbm">Latest Version</a> for possible later revisions of this document.</p>
+					<p>This document is considered stable and may be used as reference material or cited as a normative reference from another document.</p>
+					<p>The latest stable version of the editor's draft of this specification is always available on the <a href="https://github.com/mimosa-org/ws-isbm">MIMOSA ws-ISBM Git repository</a>.</p>
+					<p>If you wish to make comments regarding this specification in a manner that is tracked by OpenO&amp;M, please submit them via <a href="https://github.com/mimosa-org/ws-isbm/issues">the public bug database</a>. You can alternatively <a href="http://www.mimosa.org/contact">contact MIMOSA directly</a> and arrangements will be made to transpose appropriate remarks to the public bug database. All feedback is welcome.</p>
+					<h2 id="notices">Notices</h2>
+					<div class="well">
+					<p>Copyright MIMOSA 2014. All Rights Reserved.</p>
+					<p>All capitalized terms in the following text have the meanings assigned to them in the MIMOSA Intellectual Property Rights Policy (the "MIMOSA IPR Policy"). The full Policy may be found at the <a href="http://www.mimosa.org/sites/default/files/MIMOSA_IPR_Policy.pdf">MIMOSA website</a>.</p>
+					<p>The limited permissions granted above are perpetual and will not be revoked by MIMOSA or its successors or assigns.</p>
+					<p>This document and the information contained herein is provided on an "AS IS" basis and MIMOSA DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF THE INFORMATION HEREIN WILL NOT INFRINGE ANY OWNERSHIP RIGHTS OR ANY IMPLIED WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.</p>
+					<p>MIMOSA requests that any MIMOSA Party or any other party that believes it has patent claims that would necessarily be infringed by implementations of this MIMOSA Final Deliverable, to notify MIMOSA TC Administrator and provide an indication of its willingness to grant patent licenses to such patent claims in a manner consistent with the IPR Mode of the MIMOSA Technical Committee that produced this deliverable.</p>
+					<p>MIMOSA invites any party to contact the MIMOSA TC Administrator if it is aware of a claim of ownership of any patent claims that would necessarily be infringed by implementations of this MIMOSA Final Deliverable by a patent holder that is not willing to provide a license to such patent claims in a manner consistent with the IPR Mode of the MIMOSA Technical Committee that produced this MIMOSA Final Deliverable. MIMOSA may include such claims on its website, but disclaims any obligation to do so.</p>
+					<p>MIMOSA takes no position regarding the validity or scope of any intellectual property or other rights that might be claimed to pertain to the implementation or use of the technology described in this MIMOSA Final Deliverable or the extent to which any license under such rights might or might not be available; neither does it represent that it has made any effort to identify any such rights. Information on MIMOSA's procedures with respect to rights in any document or deliverable produced by a MIMOSA Technical Committee can be found on the MIMOSA website. Copies of claims of rights made available for publication and any assurances of licenses to be made available, or the result of an attempt made to obtain a general license or permission for the use of such proprietary rights by implementers or users of this MIMOSA Final Deliverable, can be obtained from the MIMOSA TC Administrator. MIMOSA makes no representation that any information or list of intellectual property rights will at any time be complete, or that any claims in such list are, in fact, Essential Claims.</p>
+					</div>
+					<p>Material from ANSI/ISA-95 series of standards used with permission of <a href="http://www.isa.org">ISA - The Instrumentation, Systems, and Automation Society</a>.</p>
+					<p>While the information, data, and standards provided in this publication were developed and are presented in good faith in accordance with a reasonable process that was subject to intellectual property and antitrust policies to benefit the industry as a whole, the publication is provided "as is" for information and guidance only, and there is no representation or warranty of any type or kind, including but not limited to warranties of merchantability or fitness for a particular purpose, and no warranty that use of the information, data, or standards will not infringe patent, copyright, trademark, trade secret, or other intellectual property rights of any party.</p>
+					<h2 id="introduction"><span class="secno">1</span>Introduction</h2>
+					<p>This ws-ISBM specification defines a SOAP Web Service implementation of the ISA 95.00.06 Messaging Service Model.</p>
+					<p>The ws-ISBM defines a minimal interface subset to Enterprise Service Buses (ESB) and other message exchange middleware using a standard Web Service interface. Publish-subscribe and request-response messaging patterns are supported through a consistent and unified model. Message routing is conducted through shared channels and topics, and optionally, XPath filtering for granular content-based filtering. An asyncronous Web Service callback is also provided to clients for notification of applicable messages. Token-based security for channels is specified to support multiple authorization models, from basic credential exchange to federated identity providers.</p>
+					<p>The benefit of a ws-ISBM implementation is to allow applications to expose a single, standardized interface rather than having to be custom built for every version and format of ESB or message exchange system. The goal is to further interoperability in application to application communications.</p>
+					<h3 id="notational-conventions"><span class="secno">1.2</span>Notational Conventions</h3>
+					<p>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and "OPTIONAL" in this document are to be interpreted as described in <a href="http://www.ietf.org/rfc/rfc2119.txt">RFC 2119</a>.</p>
+					<p>This specification uses the following syntax to define XML structures: <code><em>Element Name</em> (<em>Type</em>) [<em>Cardinality</em>]</code>. The namespaces for Types are defined in <a href="#namespaces">the following section</a>. For example, the Topic element defined as an XML Schema <code>string</code> with one to many cardinality would be defined as: <code>Topic (xs:string) [1..*]</code>.</p>
+					<h3 id="namespaces"><span class="secno">1.3</span>Namespaces</h3>
+					<p>The following namespaces are used in this document:</p>
+					<table class="table">
+						<tr>
+							<th>Prefix</th>
+							<th>Namespace</th>
+						</tr>
+						<tr>
+							<td>xs</td>
+							<td>http://www.w3.org/2001/XMLSchema</td>
+						</tr>
+						<tr>
+							<td>isbm</td>
+							<td>http://www.openoandm.org/ws-isbm/</td>
+						</tr>
+					</table>
+					<h2 id="service-requirements"><span class="secno">2</span>Service Requirements</h2>
+					<p>The following items define shared requirements that are applicable across the various services defined in <a href="#service-definitions">Service Definitions</a>. These requirements supplement the service requirements specified by ISA 95.00.06 but are contextualized for SOAP Web Services.</p>
+					<h3 id="message-content-format"><span class="secno">2.1</span>Message Content Format</h3>
+					<p>Content is associated with a message through the use of an XML Schema <code>any</code> element. The XML content MUST be valid XML. A ws-ISBM Service Provider SHOULD preserve significant whitespace and comments within the XML content.</p>
+					<p><span class="label label-info">Note</span> As only an XML element is associated with a message, an XML declaration specifically for the content is not supported. Instead, the message content will inherit the XML declaration of the SOAP body.</p>
+					<h3 id="security"><span class="secno">2.2</span>Security</h3>
+					<p>Security in the ws-ISBM specification only provide authorization of channels. Authorization of services is considered out-of-scope.</p>
+					<p>All ws-ISBM implementations MUST support transport layer security (e.g. SSL/TLS) in order to secure tokens and messages, and to prevent replay attacks.</p>
+					<p>All ws-ISBM implementations MUST support the <a href="https://www.oasis-open.org/committees/download.php/16782/wss-v1.1-spec-os-UsernameTokenProfile.pdf">WS-Security UsernameToken</a> using <code>PasswordText</code> as a basic level of security token. Examples of its use can be found in <a href="#sample-http-flows">Sample HTTP Flows</a>.</p>
+					<p>A ws-ISBM Service Provider MAY choose to support additional forms of security tokens (e.g. SAML assertions, OAuth tokens) and it is RECOMMENDED that a ws-ISBM Service Provider support out-of-band token exchange standards such as <a href="http://saml.xml.org/saml-specifications">SAML</a>, <a href="http://docs.oasis-open.org/wsfed/federation/v1.2/os/ws-federation-1.2-spec-os.html">WS-Federation</a> or <a href="http://oauth.net">OAuth</a>.</p>
+					<p>As security tokens in the <a href="#channel-management-service">Channel Management Service</a> are specified using XML Schema <code>any</code> element, tokens MUST be able to be represented in an XML format. For tokens that do not have a canonical XML representation, a ws-ISBM Service Provider MUST define the supported formats.</p>
+					<p>A ws-ISBM Service Provider MUST validate security tokens for every service operation except for the Channel Management Service <a href="#create-channel">CreateChannel operation</a> (since the channel does not exist at the point in time when invoking CreateChannel). For the provider and consumer services, tokens are validated upon every operation to ensure that an application has valid credentials even after a session is opened (in the event of token revocation).</p>
+					<h3 id="error-handling"><span class="secno">2.3</span>Error Handling</h3>
+					
+					<h4 id="soap-faults"><span class="secno">2.3.1</span>SOAP Faults</h4>
+					<p>SOAP Faults MUST have an accompanying human readable explanation. For a SOAP 1.1 implementation this is provided through the SOAP <code>faultstring</code> element (see <a href="http://www.w3.org/TR/soap11/#_Toc478383507">SOAP 1.1, SOAP Fault</a>). For a SOAP 1.2 implementation this is provided through the SOAP <code>Reason</code> element (see <a href="http://www.w3.org/TR/soap12-part1/#faultstringelement">SOAP 1.2, SOAP Reason Element</a>).</p>
+					<h4 id="parameter-faults"><span class="secno">2.3.2</span>Parameter Faults</h4>
+					<p>If any parameter for an operation is malformed or not optional and blank, then an undeclared <code>isbm:ParameterFault</code> SHOULD be returned to aid clients in determining the type of error. The fault SHOULD carry the offending parameter name/s.</p>
+					<h4 id="invalid-notification-url"><span class="secno">2.3.3</span>Invalid Notification URL</h4>
+					<p>If a provider/consumer application provides an invalid URL or a URL that does not host a NotifyListener service, the ws-ISBM Service Provider MAY choose not to send or defer a NotifyListener SOAP request.</p>
+					<h3 id="content-based-filtering"><span class="secno">2.4</span>Content-Based Filtering</h3>
+					<p>To allow efficient content-based filtering of messages, an XPath expression MAY be added to a subscription or read request session to provide a filtering definition. The XPath expression MUST be defined as an XPath v1.0 expression. An XPath evaluation that returns an empty value or node set MUST NOT cause a notification to be generated nor will the message be visible to the receiving system. For an XPath expression that use namespaces, multiple namespace prefixes and names are added upon session creation.</p>
+					<p><span class="label label-info">Note</span> An empty result from an XPath evaluation will result in the whole message being is filtered; the message content itself is not filtered.</p>
+					<h2 id="service-definitions"><span class="secno">3</span>Service Definitions</h2>
+					<p>All services defined in ISA 95.00.06 are defined as SOAP Web Services in this specification. The SOAP service definitions below are to be interpreted in the context of the corresponding ISA 95.00.06 service.</p>
+					<h3 id="terminology"><span class="secno">3.1</span>Terminology</h3>
+					<dl>
+						<dt>ChannelDescription</dt>
+						<dd>The description of a channel.</dd>
+						<dt>ChannelType</dt>
+						<dd>Indicates whether the channel is for publications or requests/responses. Defined ChannelTypes are <code>Publication</code> and <code>Request</code>.</dd>
+						<dt>ChannelURI</dt>
+						<dd>The primary identifier for a channel.</dd>
+						<dt>ListenerURL</dt>
+						<dd>The URL endpoint, reachable by the ws-ISBM Service Provider, which hosts a ws-ISBM Notification Service. Used to indicate when a new message is available for a session.</dd>
+						<dt>MessageContent</dt>
+						<dd>The XML content of a message.</dd>
+						<dt>MessageExpiry</dt>
+						<dd>The duration until the expiration of the publication message.</dd>
+						<dt>MessageID</dt>
+						<dd>An identifier generated by the ws-ISBM Service Provider upon creation of a message.</dd>
+						<dt>NamespaceName</dt>
+						<dd>The namespace name used for an XPath filter expression.</dd>
+						<dt>NamespacePrefix</dt>
+						<dd>The namespace prefix used for an XPath filter expression.</dd>
+						<dt>SessionID</dt>
+						<dd>An identifier generated by the ws-ISBM Service Provider upon creation of a channel. Identifiers SHOULD be made non-obvious and not easily guessable.</dd>
+						<dt>Topic</dt>
+						<dd>The topic name.</dd>
+						<dt>XPathExpression</dt>
+						<dd>The XPath 1.0 expression that is used to filter message content.</dd>
+					</dl>
+					<h3 id="channel-management-service"><span class="secno">3.2</span>Channel Management Service</h3>
+					<p>The Channel Management Service is <a href="http://www.openoandm.org/ws-isbm/1.0/wsdl/ChannelManagementService.wsdl">available as a WSDL description</a>.</p>
+					<h4 id="create-channel"><span class="secno">3.2.1</span>Create Channel</h4>
+					<table class="table operation">
+						<tr>
+							<th>Name</th>
+							<td>CreateChannel</td>
+						</tr>
+						<tr>
+							<th>Description</th>
+							<td>Creates a new channel.</td>
+						</tr>
+						<tr>
+							<th>Input</th>
+							<td>
+								<p>ChannelURI (xs:string) [1]</p>
+								<p>ChannelType (isbm:ChannelType) [1]</p>
+								<p>ChannelDescription (xs:string) [0..1]</p>
+								<p>SecurityToken (xs:any) [0..*]</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Behavior</th>
+							<td>
+								<p>If the ChannelURI already exists then a ChannelFault is returned.</p>
+								<p>The SecurityTokens are assigned to the channel upon its creation.</p>
+								<p>If duplicate SecurityTokens exist, these result in a single token being assigned to the channel to maintain a distinct list.</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Output</th>
+							<td>N/A</td>
+						</tr>
+						<tr>
+							<th>Faults</th>
+							<td>ChannelFault</td>
+						</tr>
+					</table>
+					<h4 id="add-security-token"><span class="secno">3.2.2</span>Add Security Tokens</h4>
+					<table class="table operation">
+						<tr>
+							<th>Name</th>
+							<td>AddSecurityTokens</td>
+						</tr>
+						<tr>
+							<th>Description</th>
+							<td>Adds security tokens to a channel.</td>
+						</tr>
+						<tr>
+							<th>Input</th>
+							<td>
+								<p>ChannelURI (xs:string) [1]</p>
+								<p>SecurityToken (xs:any) [1..*]</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Behavior</th>
+							<td>
+								<p>If the ChannelURI does not exist, then a ChannelFault is returned.</p>
+								<p>If the specified channel is assigned security tokens and the provided token does not match a token assigned to the channel, then a ChannelFault is returned.</p>
+								<p>If a specified SecurityToken is already assigned to the channel, then no action is taken to maintain a distinct list.</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Output</th>
+							<td>N/A</td>
+						</tr>
+						<tr>
+							<th>Faults</th>
+							<td>ChannelFault</td>
+						</tr>
+					</table>
+					<h4 id="remove-security-token"><span class="secno">3.2.3</span>Remove Security Tokens</h4>
+					<table class="table operation">
+						<tr>
+							<th>Name</th>
+							<td>RemoveSecurityTokens</td>
+						</tr>
+						<tr>
+							<th>Description</th>
+							<td>Removes security tokens from a channel.</td>
+						</tr>
+						<tr>
+							<th>Input</th>
+							<td>
+								<p>ChannelURI (xs:string) [1]</p>
+								<p>SecurityToken (xs:any) [1..*]</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Behavior</th>
+							<td>
+								<p>If the ChannelURI does not exist, then a ChannelFault is returned.</p>
+								<p>If the specified channel is assigned security tokens and the provided token does not match a token assigned to the channel, then a ChannelFault is returned.</p>
+								<p>If any specified SecurityToken is not assigned to the channel, then an SecurityTokenFault is returned. No tokens are removed from the channel, even if they are valid.</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Output</th>
+							<td>N/A</td>
+						</tr>
+						<tr>
+							<th>Faults</th>
+							<td>
+								<p>ChannelFault</p>
+								<p>SecurityTokenFault</p>
+							</td>
+						</tr>
+					</table>
+					<h4 id="delete-channel"><span class="secno">3.2.4</span>Delete Channel</h4>
+					<table class="table operation">
+						<tr>
+							<th>Name</th>
+							<td>DeleteChannel</td>
+						</tr>
+						<tr>
+							<th>Description</th>
+							<td>Deletes a channel.</td>
+						</tr>
+						<tr>
+							<th>Input</th>
+							<td>ChannelURI (xs:string) [1]</td>
+						</tr>
+						<tr>
+							<th>Behavior</th>
+							<td>
+								<p>If the ChannelURI does not exist, then a ChannelFault is returned.</p>
+								<p>If the specified channel is assigned security tokens and the provided token does not match a token assigned to the channel, then a ChannelFault is returned.</p>
+								<p>The channel along with associated sessions and messages are deleted. No notification is provided to any applications with active sessions.</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Output</th>
+							<td>N/A</td>
+						</tr>
+						<tr>
+							<th>Faults</th>
+							<td>ChannelFault</td>
+						</tr>
+					</table>
+					<h4 id="get-channel"><span class="secno">3.2.5</span>Get Channel</h4>
+					<table class="table operation">
+						<tr>
+							<th>Name</th>
+							<td>GetChannel</td>
+						</tr>
+						<tr>
+							<th>Description</th>
+							<td>Gets information about a channel.</td>
+						</tr>
+						<tr>
+							<th>Input</th>
+							<td>ChannelURI (xs:string) [1]</td>
+						</tr>
+						<tr>
+							<th>Behavior</th>
+							<td>
+								<p>If the ChannelURI does not exist, then a ChannelFault is returned.</p>
+								<p>If the specified channel is assigned security tokens and the provided token does not match a token assigned to the channel, then a ChannelFault is returned.</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Output</th>
+							<td>
+								<p>Channel (isbm:Channel) [1], composed of:</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;ChannelURI (xs:string) [1]</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;ChannelType (isbm:ChannelType) [1]</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;ChannelDescription (xs:string) [0..1]</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Faults</th>
+							<td>ChannelFault</td>
+						</tr>
+					</table>
+					<h4 id="get-channels"><span class="secno">3.2.6</span>Get Channels</h4>
+					<table class="table operation">
+						<tr>
+							<th>Name</th>
+							<td>GetChannels</td>
+						</tr>
+						<tr>
+							<th>Description</th>
+							<td>Gets information about all channels.</td>
+						</tr>
+						<tr>
+							<th>Input</th>
+							<td>N/A</td>
+						</tr>
+						<tr>
+							<th>Behavior</th>
+							<td>The channels returned are filtered by those that match the security token. Any  channel that does not have security tokens assigned are returned regardless.</td>
+						</tr>
+						<tr>
+							<th>Output</th>
+							<td>
+								<p>Channel (isbm:Channel) [0..*], composed of:</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;ChannelURI (xs:string) [1]</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;ChannelType (isbm:ChannelType) [1]</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;ChannelDescription (xs:string) [0..1]</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Faults</th>
+							<td>N/A</td>
+						</tr>
+					</table>
+					<h3 id="notification-service"><span class="secno">3.3</span>Notification Service</h3>
+					<p>The Notification Service is <a href="http://www.openoandm.org/ws-isbm/1.0/wsdl/NotificationService.wsdl">available as a WSDL description</a>.</p>
+					<h4 id="notify-listener"><span class="secno">3.3.1</span>Notify Listener</h4>
+					<table class="table operation">
+						<tr>
+							<th>Name</th>
+							<td>NotifyListener</td>
+						</tr>
+						<tr>
+							<th>Description</th>
+							<td>Provides a notification of a new message being able to be read for a session. The Listener URL invoked was given when the application desiring notifications subscribed to the channel.</td>
+						</tr>
+						<tr>
+							<th>Input</th>
+							<td>
+								<p>SessionID (xs:string) [1]</p>
+								<p>MessageID (xs:string) [1]</p>
+								<p>Topic (xs:string) [0..*]</p>
+								<p>RequestMessageID (xs:string) [0..1]</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Behavior</th>
+							<td>
+								<p>Topic MUST NOT be used for consumer request session response notification.</p>
+								<p>RequestMessageID allows correlation with the original request and thus it MUST only be used for consumer request session response notification.</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Output</th>
+							<td>N/A</td>
+						</tr>
+						<tr>
+							<th>Faults</th>
+							<td>N/A</td>
+						</tr>
+					</table>
+					<h3 id="provider-publication-service"><span class="secno">3.4</span>Provider Publication Service</h3>
+					<p>The Provider Publication Service is <a href="http://www.openoandm.org/ws-isbm/1.0/wsdl/ProviderPublicationService.wsdl">available as a WSDL description</a>.</p>
+					<h4 id="open-publication-session"><span class="secno">3.4.1</span>Open Publication Session</h4>
+					<table class="table operation">
+						<tr>
+							<th>Name</th>
+							<td>OpenPublicationSession</td>
+						</tr>
+						<tr>
+							<th>Description</th>
+							<td>Opens a publication session for a channel.</td>
+						</tr>
+						<tr>
+							<th>Input</th>
+							<td>ChannelURI (xs:string) [1]</td>
+						</tr>
+						<tr>
+							<th>Behavior</th>
+							<td>
+								<p>If the ChannelURI does not exist, then a ChannelFault is returned.</p>
+								<p>If the specified channel is assigned security tokens and the provided token does not match a token assigned to the channel, then a ChannelFault is returned.</p>
+								<p>If the channel type is not a Publication type, then an OperationFault is returned.</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Output</th>
+							<td>SessionID (xs:string) [1]</td>
+						</tr>
+						<tr>
+							<th>Faults</th>
+							<td>
+								<p>ChannelFault</p>
+								<p>OperationFault</p>
+							</td>
+						</tr>
+					</table>
+					<h4 id="post-publication"><span class="secno">3.4.2</span>Post Publication</h4>
+					<table class="table operation">
+						<tr>
+							<th>Name</th>
+							<td>PostPublication</td>
+						</tr>
+						<tr>
+							<th>Description</th>
+							<td>Posts a publication message on a channel. The ws-ISBM Service Provider creates a message with the MessageContent and a MessageID that uniquely identifies message, and makes it available for subscribers.</td>
+						</tr>
+						<tr>
+							<th>Input</th>
+							<td>
+								<p>SessionID (xs:string) [1]</p>
+								<p>MessageContent (xs:any) [1]</p>
+								<p>Topic (xs:string) [1..*]</p>
+								<p>Expiry (xs:duration) [0..1]</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Behavior</th>
+							<td>
+								<p>If the SessionID does not exist or does not correspond to a publication session, then a SessionFault is returned.</p>
+								<p>A negative Expiry duration is considered equivalent to a zero duration.</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Output</th>
+							<td>MessageID (xs:string) [1]</td>
+						</tr>
+						<tr>
+							<th>Faults</th>
+							<td>SessionFault</td>
+						</tr>
+					</table>
+					<h4 id="expire-publication"><span class="secno">3.4.3</span>Expire Publication</h4>
+					<table class="table operation">
+						<tr>
+							<th>Name</th>
+							<td>ExpirePublication</td>
+						</tr>
+						<tr>
+							<th>Description</th>
+							<td>Expires a posted publication. If an already read message subsequently expires, it is still available to the consumer to ensure a RemovePublication operation removes the correct message.</td>
+						</tr>
+						<tr>
+							<th>Input</th>
+							<td>
+								<p>SessionID (xs:string) [1]</p>
+								<p>MessageID (xs:string) [1]</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Behavior</th>
+							<td>
+								<p>If the SessionID does not exist or does not correspond to a publication session, then a SessionFault is returned.</p>
+								<p>If the MessageID does not correspond with the SessionID or the corresponding message has already expired, then no action is taken.</p>
+								<p>The message is expired for all topics associated with the message.</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Output</th>
+							<td>N/A</td>
+						</tr>
+						<tr>
+							<th>Faults</th>
+							<td>SessionFault</td>
+						</tr>
+					</table>
+					<h4 id="close-publication-session"><span class="secno">3.4.4</span>Close Publication Session</h4>
+					<table class="table operation">
+						<tr>
+							<th>Name</th>
+							<td>ClosePublicationSession</td>
+						</tr>
+						<tr>
+							<th>Description</th>
+							<td>Closes a publication session.</td>
+						</tr>
+						<tr>
+							<th>Input</th>
+							<td>SessionID (xs:string) [1]</td>
+						</tr>
+						<tr>
+							<th>Behavior</th>
+							<td>
+								<p>If the SessionID does not exist (non-existent or already closed) or does not correspond to a publication session, then a SessionFault is returned.</p>
+								<p>All unexpired messages that have been posted during the session will be expired.</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Output</th>
+							<td>N/A</td>
+						</tr>
+						<tr>
+							<th>Faults</th>
+							<td>SessionFault</td>
+						</tr>
+					</table>
+					<h3 id="consumer-publication-service"><span class="secno">3.5</span>Consumer Publication Service</h3>
+					<p>The Consumer Publication Service is <a href="http://www.openoandm.org/ws-isbm/1.0/wsdl/ConsumerPublicationService.wsdl">available as a WSDL description</a>.</p>
+					<h4 id="open-subscription-session"><span class="secno">3.5.1</span>Open Subscription Session</h4>
+					<table class="table operation">
+						<tr>
+							<th>Name</th>
+							<td>OpenSubscriptionSession</td>
+						</tr>
+						<tr>
+							<th>Description</th>
+							<td>Opens a subscription session for a channel.</td>
+						</tr>
+						<tr>
+							<th>Input</th>
+							<td>
+								<p>ChannelURI (xs:string) [1]</p>
+								<p>Topic (xs:string) [1..*]</p>
+								<p>ListenerURL (xs:string) [0..1]</p>
+								<p>XPathExpression (xs:string) [0..1]</p>
+								<p>XPathNamespace (isbm:Namespace) [0..*], composed of:</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;NamespacePrefix (xs:string) [1]</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;NamespaceName (xs:string) [1]</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Behavior</th>
+							<td>
+								<p>If the ChannelURI does not exist, then a ChannelFault is returned.</p>
+								<p>If the specified channel is assigned security tokens and the provided token does not match a token assigned to the channel, then a ChannelFault is returned.</p>
+								<p>If the channel type is not a Publication type, then an OperationFault is returned.</p>
+								<p>If multiple NamespacePrefixes exist with different NamespaceNames, then a NamespaceFault is returned.</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Output</th>
+							<td>SessionID (xs:string) [1]</td>
+						</tr>
+						<tr>
+							<th>Faults</th>
+							<td>
+								<p>ChannelFault</p>
+								<p>NamespaceFault</p>
+								<p>OperationFault</p>
+							</td>
+						</tr>
+					</table>
+					<h4 id="read-publication"><span class="secno">3.5.2</span>Read Publication</h4>
+					<table class="table operation">
+						<tr>
+							<th>Name</th>
+							<td>ReadPublication</td>
+						</tr>
+						<tr>
+							<th>Description</th>
+							<td>Returns the first non-expired publication message or a previously read expired message that satisfies the session message filters. If there are no publication messages for the session, then null is returned</td>
+						</tr>
+						<tr>
+							<th>Input</th>
+							<td>SessionID (xs:string) [1]</td>
+						</tr>
+						<tr>
+							<th>Behavior</th>
+							<td>If the SessionID does not exist or does not correspond to a subscription session, then a SessionFault is returned.</td>
+						</tr>
+						<tr>
+							<th>Output</th>
+							<td>
+								<p>PublicationMessage (isbm:PublicationMessage) [0..1], composed of:</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;MessageID (xs:string) [1]</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;MessageContent (xs:any) [1]</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;Topic (xs:string) [1..*]</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Faults</th>
+							<td>SessionFault</td>
+						</tr>
+					</table>
+					<h4 id="remove-publication"><span class="secno">3.5.3</span>Remove Publication</h4>
+					<table class="table operation">
+						<tr>
+							<th>Name</th>
+							<td>RemovePublication</td>
+						</tr>
+						<tr>
+							<th>Description</th>
+							<td>Removes the first, if any, publication message in the subscription queue.</td>
+						</tr>
+						<tr>
+							<th>Input</th>
+							<td>SessionID (xs:string) [1]</td>
+						</tr>
+						<tr>
+							<th>Behavior</th>
+							<td>If the SessionID does not exist or does not correspond to a subscription session, then a SessionFault is returned.</td>
+						</tr>
+						<tr>
+							<th>Output</th>
+							<td>N/A</td>
+						</tr>
+						<tr>
+							<th>Faults</th>
+							<td>SessionFault</td>
+						</tr>
+					</table>
+					<h4 id="close-subscription-session"><span class="secno">3.5.4</span>Close Subscription Session</h4>
+					<table class="table operation">
+						<tr>
+							<th>Name</th>
+							<td>CloseSubscriptionSession</td>
+						</tr>
+						<tr>
+							<th>Description</th>
+							<td>Closes a subscription session.</td>
+						</tr>
+						<tr>
+							<th>Input</th>
+							<td>SessionID (xs:string) [1]</td>
+						</tr>
+						<tr>
+							<th>Behavior</th>
+							<td>If the SessionID does not exist (non-existent or already closed) or does not correspond to a publication session, then a SessionFault is returned.</td>
+						</tr>
+						<tr>
+							<th>Output</th>
+							<td>N/A</td>
+						</tr>
+						<tr>
+							<th>Faults</th>
+							<td>SessionFault</td>
+						</tr>
+					</table>
+					<h3 id="provider-request-service"><span class="secno">3.6</span>Provider Request Service</h3>
+					<p>The Provider Request Service is <a href="http://www.openoandm.org/ws-isbm/1.0/wsdl/ProviderRequestService.wsdl">available as a WSDL description</a>.</p>
+					<h4 id="open-provider-request-session"><span class="secno">3.6.1</span>Open Provider Request Session</h4>
+					<table class="table operation">
+						<tr>
+							<th>Name</th>
+							<td>OpenProviderRequestSession</td>
+						</tr>
+						<tr>
+							<th>Description</th>
+							<td>Opens a provider request session for a channel for reading requests and posting responses.</td>
+						</tr>
+						<tr>
+							<th>Input</th>
+							<td>
+								<p>ChannelURI (xs:string) [1]</p>
+								<p>Topic (xs:string) [1..*]</p>
+								<p>ListenerURL (xs:string) [0..1]</p>
+								<p>XPathExpression (xs:string) [0..1]</p>
+								<p>XPathNamespace (isbm:Namespace) [0..*], composed of:</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;NamespacePrefix (xs:string) [1]</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;NamespaceName (xs:string) [1]</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Behavior</th>
+							<td>
+								<p>If the ChannelURI does not exist, then a ChannelFault is returned.</p>
+								<p>If the specified channel is assigned security tokens and the provided token does not match a token assigned to the channel, then a ChannelFault is returned.</p>
+								<p>If the channel type is not a Request type, then an OperationFault is returned.</p>
+								<p>If multiple NamespacePrefixes exist with different NamespaceNames, then a NamespaceFault is returned.</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Output</th>
+							<td>SessionID (xs:string) [1]</td>
+						</tr>
+						<tr>
+							<th>Faults</th>
+							<td>
+								<p>ChannelFault</p>
+								<p>NamespaceFault</p>
+								<p>OperationFault</p>
+							</td>
+						</tr>
+					</table>
+					<h4 id="read-request"><span class="secno">3.6.2</span>Read Request</h4>
+					<table class="table operation">
+						<tr>
+							<th>Name</th>
+							<td>ReadRequest</td>
+						</tr>
+						<tr>
+							<th>Description</th>
+							<td>Returns the first request message in the message queue for the session. Note: this service does not remove the message from the message queue.</td>
+						</tr>
+						<tr>
+							<th>Input</th>
+							<td>SessionID (xs:string) [1]</td>
+						</tr>
+						<tr>
+							<th>Behavior</th>
+							<td>
+								<p>If the SessionID does not exist or does not correspond to a provider request session, then a SessionFault is returned.</p>
+								<p>The returned Topic will correspond to the first topic that matched the posted request.</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Output</th>
+							<td>
+								<p>RequestMessage (isbm:RequestMessage) [0..1], composed of:</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;MessageID (xs:string) [1]</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;MessageContent (xs:any) [1]</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;Topic (xs:string) [1]</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Faults</th>
+							<td>SessionFault</td>
+						</tr>
+					</table>
+					<h4 id="remove-request"><span class="secno">3.6.3</span>Remove Request</h4>
+					<table class="table operation">
+						<tr>
+							<th>Name</th>
+							<td>RemoveRequest</td>
+						</tr>
+						<tr>
+							<th>Description</th>
+							<td>Deletes the first request message, if any, in the message queue for the session.</td>
+						</tr>
+						<tr>
+							<th>Input</th>
+							<td>SessionID (xs:string) [1]</td>
+						</tr>
+						<tr>
+							<th>Behavior</th>
+							<td>If the SessionID does not exist or does not correspond to a provider request session, then a SessionFault is returned.</td>
+						</tr>
+						<tr>
+							<th>Output</th>
+							<td>N/A</td>
+						</tr>
+						<tr>
+							<th>Faults</th>
+							<td>SessionFault</td>
+						</tr>
+					</table>
+					<h4 id="post-response"><span class="secno">3.6.4</span>Post Response</h4>
+					<table class="table operation">
+						<tr>
+							<th>Name</th>
+							<td>PostResponse</td>
+						</tr>
+						<tr>
+							<th>Description</th>
+							<td>Posts a response message on a channel.</td>
+						</tr>
+						<tr>
+							<th>Input</th>
+							<td>
+								<p>SessionID (xs:string) [1]</p>
+								<p>RequestMessageID (xs:string) [1]</p>
+								<p>MessageContent (xs:any) [1]</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Behavior</th>
+							<td>
+								<p>The ws-ISBM Service Provider creates a message with the MessageContent and a MessageID that uniquely identifies message, and makes the response available to the requesting application.</p>
+								<p>If the SessionID does not exist or does not correspond to a provider request session, then a SessionFault is returned.</p>
+								<p>If there is no request message that can be matched to RequestMessageID, then no action is taken.</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Output</th>
+							<td>N/A</td>
+						</tr>
+						<tr>
+							<th>Faults</th>
+							<td>SessionFault</td>
+						</tr>
+					</table>
+					<h4 id="close-provider-request-session"><span class="secno">3.6.5</span>Close Provider Request Session</h4>
+					<table class="table operation">
+						<tr>
+							<th>Name</th>
+							<td>CloseProviderRequestSession</td>
+						</tr>
+						<tr>
+							<th>Description</th>
+							<td>Closes a provider request session.</td>
+						</tr>
+						<tr>
+							<th>Input</th>
+							<td>SessionID (xs:string) [1]</td>
+						</tr>
+						<tr>
+							<th>Behavior</th>
+							<td>If the SessionID does not exist (non-existent or already closed) or does not correspond to a Request session, then a SessionFault is returned.</td>
+						</tr>
+						<tr>
+							<th>Output</th>
+							<td>N/A</td>
+						</tr>
+						<tr>
+							<th>Faults</th>
+							<td>SessionFault</td>
+						</tr>
+					</table>
+					<h3 id="consumer-request-service"><span class="secno">3.7</span>Consumer Request Service</h3>
+					<p>The Consumer Request Service is <a href="http://www.openoandm.org/ws-isbm/1.0/wsdl/ConsumerRequestService.wsdl">available as a WSDL description</a>.</p>
+					<h4 id="open-consumer-request-session"><span class="secno">3.7.1</span>Open Consumer Request Session</h4>
+					<table class="table operation">
+						<tr>
+							<th>Name</th>
+							<td>OpenConsumerRequestSession</td>
+						</tr>
+						<tr>
+							<th>Description</th>
+							<td>Opens a consumer request session for a channel for posting requests and reading responses.</td>
+						</tr>
+						<tr>
+							<th>Input</th>
+							<td>
+								<p>ChannelURI (xs:string) [1]</p>
+								<p>ListenerURL (xs:string) [0..1]</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Behavior</th>
+							<td>
+								<p>If the ChannelURI does not exist, then a ChannelFault is returned.</p>
+								<p>If the specified channel is assigned security tokens and the provided token does not match a token assigned to the channel, then a ChannelFault is returned.</p>
+								<p>If the channel type is not a Request type, then an OperationFault is returned.</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Output</th>
+							<td>SessionID (xs:string) [1]</td>
+						</tr>
+						<tr>
+							<th>Faults</th>
+							<td>
+								<p>ChannelFault</p>
+								<p>OperationFault</p>
+							</td>
+						</tr>
+					</table>
+					<h4 id="post-request"><span class="secno">3.7.2</span>Post Request</h4>
+					<table class="table operation">
+						<tr>
+							<th>Name</th>
+							<td>PostRequest</td>
+						</tr>
+						<tr>
+							<th>Description</th>
+							<td>Posts a request message on a channel.</td>
+						</tr>
+						<tr>
+							<th>Input</th>
+							<td>
+								<p>SessionID (xs:string) [1]</p>
+								<p>MessageContent (xs:any) [1]</p>
+								<p>Topic (xs:string) [1]</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Behavior</th>
+							<td>
+								<p>The ws-ISBM Service Provider creates a message with the MessageContent and a MessageID that uniquely identifies message, and makes the message available to the appropriate provider applications on the channel.</p>
+								<p>If the SessionID does not exist or does not correspond to a consumer request session, then a SessionFault is returned.</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Output</th>
+							<td>MessageID (xs:string) [1]</td>
+						</tr>
+						<tr>
+							<th>Faults</th>
+							<td>SessionFault</td>
+						</tr>
+					</table>
+					<h4 id="read-response"><span class="secno">3.7.3</span>Read Response</h4>
+					<table class="table operation">
+						<tr>
+							<th>Name</th>
+							<td>ReadResponse</td>
+						</tr>
+						<tr>
+							<th>Description</th>
+							<td>Returns the first response message, if any, in the message queue associated with the request.</td>
+						</tr>
+						<tr>
+							<th>Input</th>
+							<td>
+								<p>SessionID (xs:string) [1]</p>
+								<p>RequestMessageID (xs:string) [1]</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Behavior</th>
+							<td>
+								<p>If the SessionID does not exist or does not correspond to a consumer request session, then a SessionFault is returned.</p>
+								<p>If the RequestMessageID does not correspond to a message in the message queue, then no message is returned.</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Output</th>
+							<td>
+								<p>ResponseMessage (isbm:ResponseMessage) [0..1], composed of:</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;MessageID (xs:string) [1]</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;MessageContent (xs:any) [1]</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Faults</th>
+							<td>SessionFault</td>
+						</tr>
+					</table>
+					<h4 id="remove-response"><span class="secno">3.7.4</span>Remove Response</h4>
+					<table class="table operation">
+						<tr>
+							<th>Name</th>
+							<td>RemoveResponse</td>
+						</tr>
+						<tr>
+							<th>Description</th>
+							<td>Deletes the first response message, if any, in the message queue associated with the request.</td>
+						</tr>
+						<tr>
+							<th>Input</th>
+							<td>
+								<p>SessionID (xs:string) [1]</p>
+								<p>RequestMessageID (xs:string) [1]</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Behavior</th>
+							<td>
+								<p>If the SessionID does not exist or does not correspond to a consumer request session, then a SessionFault is returned.</p>
+								<p>If the RequestMessageID does not correspond to a message in the message queue, then no action is taken.</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Output</th>
+							<td>N/A</td>
+						</tr>
+						<tr>
+							<th>Faults</th>
+							<td>SessionFault</td>
+						</tr>
+					</table>
+					<h4 id="close-consumer-request-session"><span class="secno">3.7.5</span>Close Consumer Request Session</h4>
+					<table class="table operation">
+						<tr>
+							<th>Name</th>
+							<td>CloseConsumerRequestSession</td>
+						</tr>
+						<tr>
+							<th>Description</th>
+							<td>Closes a consumer request session.</td>
+						</tr>
+						<tr>
+							<th>Input</th>
+							<td>SessionID (xs:string) [1]</td>
+						</tr>
+						<tr>
+							<th>Behavior</th>
+							<td>If the SessionID does not exist (non-existent or already closed) or does not correspond to a Request session, then a SessionFault is returned.</td>
+						</tr>
+						<tr>
+							<th>Output</th>
+							<td>N/A</td>
+						</tr>
+						<tr>
+							<th>Faults</th>
+							<td>SessionFault</td>
+						</tr>
+					</table>
+					<h2 id="conformance"><span class="secno">4</span>Conformance</h2>
+					<p>Any assessment of conformance of a ws-ISBM implementation MUST be qualified by the following:</p>
+					<ol>
+						<li>Support for the Channel Management Service</li>
+						<li>Support for the Notification Service</li>
+						<li>Support for the Provider Publication Service</li>
+						<li>Support for the Consumer Publication Service</li>
+						<li>Support for the Provider Request Service</li>
+						<li>Support for the Consumer Request Service</li>
+						<li>Support for SOAP 1.0 and SOAP 1.2 services</li>
+						<li>Support for Filter Expressions in an XPath 1.0 format</li>
+						<li>Support for Security Tokens using WS-Security UsernameToken</li>
+						<li>Support for other Security Tokens formats</li>
+						<li>A statement of the total conformance concerning services and security methods supported or, in case of partial conformance, a statement identifying explicitly the areas of non-conformance</li>
+					</ol>
+					<h2 id="sample-http-flows"><span class="secno">Appendix A</span>Example HTTP Flows</h2>
+					<h3 id="channel-management-example"><span class="secno">A.1</span>Channel Management Example</h3>
+					<img src="assets/channel_management_example.png" class="img-responsive" alt="Channel Management Example">
+					<h4>1. CreateChannel</h4>
+					<p>The Application creates a channel on the ISBM Service Provider and assigns a HTTP Basic Authentication security token.</p>
+					<p><span class="label label-info">Note</span> XML special characters must be escaped, as seen with the <b>&lt;</b> character in the <code>Password</code> element.
+					<h5>HTTP Request</h5>
+<pre>
+POST /ChannelManagementService HTTP/1.1
+Host: ws-isbm.example.com
+Content-Type: text/xml; charset=utf-8
+Content-Length: 598
+SOAPAction: "http://www.openoandm.org/ws-isbm/CreateChannel"
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:CreateChannel</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:ChannelURI&gt;</span>/Enterprise/Site/Area/WorkCenter<span class="nt">&lt;/isbm:ChannelURI&gt;</span>
+      <span class="nt">&lt;isbm:ChannelType&gt;</span>Publication<span class="nt">&lt;/isbm:ChannelType&gt;</span>
+      <span class="nt">&lt;isbm:SecurityToken&gt;</span>
+        <span class="nt">&lt;isbm:BasicAuth&gt;</span>
+          <span class="nt">&lt;isbm:UserID&gt;</span>Application1<span class="nt">&lt;/isbm:UserID&gt;</span>
+          <span class="nt">&lt;isbm:Password&gt;</span><span class="ni">&amp;lt;</span>s9.vQfLDx9LgL<span class="nt">&lt;/isbm:Password&gt;</span>
+        <span class="nt">&lt;/isbm:BasicAuth&gt;</span>
+      <span class="nt">&lt;/isbm:SecurityToken&gt;</span>
+    <span class="nt">&lt;/isbm:CreateChannel&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h5>HTTP Response</h5>
+<pre>
+HTTP/1.1 200 OK
+Content-Type: text/xml; charset=utf-8
+Content-Length: 238
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:CreateChannelResponse</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h4>2. AddSecurityToken</h4>
+					<p>The Application assigns an additional security token to the channel.</p>
+					<h5>HTTP Request</h5>
+<pre>
+POST /ChannelManagementService HTTP/1.1
+Host: ws-isbm.example.com
+Content-Type: text/xml; charset=utf-8
+Content-Length: 892
+SOAPAction: "http://www.openoandm.org/ws-isbm/AddSecurityToken"
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Header&gt;</span>
+    <span class="nt">&lt;wsse:Security</span> <span class="na">xmlns:wsse=</span><span class="s">&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;wsse:UsernameToken&gt;</span>
+        <span class="nt">&lt;wsse:Username&gt;</span>Application1<span class="nt">&lt;/wsse:Username&gt;</span>
+        <span class="nt">&lt;wsse:Password&gt;</span><span class="ni">&amp;lt;</span>s9.vQfLDx9LgL<span class="nt">&lt;/wsse:Password&gt;</span>
+      <span class="nt">&lt;/wsse:UsernameToken&gt;</span>
+    <span class="nt">&lt;/wsse:Security&gt;</span>
+  <span class="nt">&lt;/soap:Header&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:AddSecurityToken</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:ChannelURI&gt;</span>/Enterprise/Site/Area/WorkCenter<span class="nt">&lt;/isbm:ChannelURI&gt;</span>
+      <span class="nt">&lt;isbm:SecurityToken&gt;</span>
+        <span class="nt">&lt;wsse:UsernameToken&gt;</span>
+          <span class="nt">&lt;wsse:Username&gt;</span>Application2<span class="nt">&lt;/wsse:Username&gt;</span>
+          <span class="nt">&lt;wsse:Password&gt;</span>chHM?rFum{48mg<span class="nt">&lt;/wsse:Password&gt;</span>
+        <span class="nt">&lt;/wsse:UsernameToken&gt;</span>
+      <span class="nt">&lt;/isbm:SecurityToken&gt;</span>
+    <span class="nt">&lt;/isbm:AddSecurityToken&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h5>HTTP Response</h5>
+<pre>
+HTTP/1.1 200 OK
+Content-Type: text/xml; charset=utf-8
+Content-Length: 241
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:AddSecurityTokenResponse</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h4>3. RemoveSecurityToken</h4>
+					<p>The Application removes the original security token from the channel.</p>
+					<h5>HTTP Request</h5>
+<pre>
+POST /ChannelManagementService HTTP/1.1
+Host: ws-isbm.example.com
+Content-Type: text/xml; charset=utf-8
+Content-Length: 898
+SOAPAction: "http://www.openoandm.org/ws-isbm/RemoveSecurityToken"
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Header&gt;</span>
+    <span class="nt">&lt;wsse:Security</span> <span class="na">xmlns:wsse=</span><span class="s">&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;wsse:UsernameToken&gt;</span>
+        <span class="nt">&lt;wsse:Username&gt;</span>Application2<span class="nt">&lt;/wsse:Username&gt;</span>
+        <span class="nt">&lt;wsse:Password&gt;</span>chHM?rFum{48mg<span class="nt">&lt;/wsse:Password&gt;</span>
+      <span class="nt">&lt;/wsse:UsernameToken&gt;</span>
+    <span class="nt">&lt;/wsse:Security&gt;</span>
+  <span class="nt">&lt;/soap:Header&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:RemoveSecurityToken</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:ChannelURI&gt;</span>/Enterprise/Site/Area/WorkCenter<span class="nt">&lt;/isbm:ChannelURI&gt;</span>
+      <span class="nt">&lt;isbm:SecurityToken&gt;</span>
+        <span class="nt">&lt;wsse:UsernameToken&gt;</span>
+          <span class="nt">&lt;wsse:Username&gt;</span>Application1<span class="nt">&lt;/wsse:Username&gt;</span>
+          <span class="nt">&lt;wsse:Password&gt;</span><span class="ni">&amp;lt;</span>s9.vQfLDx9LgL<span class="nt">&lt;/wsse:Password&gt;</span>
+        <span class="nt">&lt;/wsse:UsernameToken&gt;</span>
+      <span class="nt">&lt;/isbm:SecurityToken&gt;</span>
+    <span class="nt">&lt;/isbm:RemoveSecurityToken&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h5>HTTP Response</h5>
+<pre>
+HTTP/1.1 200 OK
+Content-Type: text/xml; charset=utf-8
+Content-Length: 244
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:RemoveSecurityTokenResponse</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h4>4. GetChannel</h4>
+					<p>The Application attempts to retrieve channel information using the original security token and receives an authorization failure.</p>
+					<h5>HTTP Request</h5>
+<pre>
+POST /ChannelManagementService HTTP/1.1
+Host: ws-isbm.example.com
+Content-Type: text/xml; charset=utf-8
+Content-Length: 656
+SOAPAction: "http://www.openoandm.org/ws-isbm/GetChannel"
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Header&gt;</span>
+    <span class="nt">&lt;wsse:Security</span> <span class="na">xmlns:wsse=</span><span class="s">&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;wsse:UsernameToken&gt;</span>
+        <span class="nt">&lt;wsse:Username&gt;</span>Application1<span class="nt">&lt;/wsse:Username&gt;</span>
+        <span class="nt">&lt;wsse:Password&gt;</span><span class="ni">&amp;lt;</span>s9.vQfLDx9LgL<span class="nt">&lt;/wsse:Password&gt;</span>
+      <span class="nt">&lt;/wsse:UsernameToken&gt;</span>
+    <span class="nt">&lt;/wsse:Security&gt;</span>
+  <span class="nt">&lt;/soap:Header&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:GetChannel</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:ChannelURI&gt;</span>/Enterprise/Site/Area/WorkCenter<span class="nt">&lt;/isbm:ChannelURI&gt;</span>
+    <span class="nt">&lt;/isbm:GetChannel&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h5>HTTP Response</h5>
+<pre>
+HTTP/1.1 500 Internal Server Error
+Content-Type: text/xml; charset=utf-8
+Content-Length: 401
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;soap:Fault&gt;</span>
+      <span class="nt">&lt;faultcode&gt;</span>soap:Client<span class="nt">&lt;/faultcode&gt;</span>
+      <span class="nt">&lt;faultstring&gt;</span>Channel is not accessible.<span class="nt">&lt;/faultstring&gt;</span>
+      <span class="nt">&lt;detail&gt;</span>
+        <span class="nt">&lt;isbm:ChannelFault</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/xml/ISBM/&quot;</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;/detail&gt;</span>
+    <span class="nt">&lt;/soap:Fault&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h4>5. GetChannels</h4>
+					<p>The Application retrieves information about channels filtered by the newly assigned security token.</p>
+					<h5>HTTP Request</h5>
+<pre>
+POST /ChannelManagementService HTTP/1.1
+Host: ws-isbm.example.com
+Content-Type: text/xml; charset=utf-8
+Content-Length: 559
+SOAPAction: "http://www.openoandm.org/ws-isbm/GetChannels"
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Header&gt;</span>
+    <span class="nt">&lt;wsse:Security</span> <span class="na">xmlns:wsse=</span><span class="s">&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;wsse:UsernameToken&gt;</span>
+        <span class="nt">&lt;wsse:Username&gt;</span>Application2<span class="nt">&lt;/wsse:Username&gt;</span>
+        <span class="nt">&lt;wsse:Password&gt;</span>chHM?rFum{48mg<span class="nt">&lt;/wsse:Password&gt;</span>
+      <span class="nt">&lt;/wsse:UsernameToken&gt;</span>
+    <span class="nt">&lt;/wsse:Security&gt;</span>
+  <span class="nt">&lt;/soap:Header&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:GetChannels</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h5>HTTP Response</h5>
+<pre>
+HTTP/1.1 200 OK
+Content-Type: text/xml; charset=utf-8
+Content-Length: 442
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:GetChannelsResponse</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:Channel&gt;</span>
+        <span class="nt">&lt;isbm:ChannelURI&gt;</span>/Enterprise/Site/Area/WorkCenter<span class="nt">&lt;/isbm:ChannelURI&gt;</span>
+        <span class="nt">&lt;isbm:ChannelType&gt;</span>Publication<span class="nt">&lt;/isbm:ChannelType&gt;</span>
+      <span class="nt">&lt;/isbm:Channel&gt;</span>
+    <span class="nt">&lt;/isbm:GetChannelsResponse&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h4>6. DeleteChannel</h4>
+					<p>The Application removes the channel from the ws-ISBM Service Provider.</p>
+					<h5>HTTP Request</h5>
+<pre>
+POST /ChannelManagementService HTTP/1.1
+Host: ws-isbm.example.com
+Content-Type: text/xml; charset=utf-8
+Content-Length: 659
+SOAPAction: "http://www.openoandm.org/ws-isbm/DeleteChannel"
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Header&gt;</span>
+    <span class="nt">&lt;wsse:Security</span> <span class="na">xmlns:wsse=</span><span class="s">&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;wsse:UsernameToken&gt;</span>
+        <span class="nt">&lt;wsse:Username&gt;</span>Application2<span class="nt">&lt;/wsse:Username&gt;</span>
+        <span class="nt">&lt;wsse:Password&gt;</span>chHM?rFum{48mg<span class="nt">&lt;/wsse:Password&gt;</span>
+      <span class="nt">&lt;/wsse:UsernameToken&gt;</span>
+    <span class="nt">&lt;/wsse:Security&gt;</span>
+  <span class="nt">&lt;/soap:Header&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:DeleteChannel</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:ChannelURI&gt;</span>/Enterprise/Site/Area/WorkCenter<span class="nt">&lt;/isbm:ChannelURI&gt;</span>
+    <span class="nt">&lt;/isbm:DeleteChannel&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h5>HTTP Response</h5>
+<pre>
+HTTP/1.1 200 OK
+Content-Type: text/xml; charset=utf-8
+Content-Length: 238
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:DeleteChannelResponse</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h3 id="publish-subscribe-example"><span class="secno">A.2</span>Publish-Subscribe Example</h3>
+					<img src="assets/publish-subscribe_example.png" class="img-responsive" alt="Publish-Subscribe Example">
+					<h4>1. OpenSubscriptionSession</h4>
+					<p>The Consumer Application opens a subscription session with the ISBM Service Provider and receives a session identifier.</p>
+					<h5>HTTP Request</h5>
+<pre>
+POST /ConsumerPublicationService HTTP/1.1
+Host: ws-isbm.example.com
+Content-Type: text/xml; charset=utf-8
+Content-Length: 812
+SOAPAction: "http://www.openoandm.org/ws-isbm/OpenSubscriptionSession"
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Header&gt;</span>
+    <span class="nt">&lt;wsse:Security</span> <span class="na">xmlns:wsse=</span><span class="s">&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;wsse:UsernameToken&gt;</span>
+        <span class="nt">&lt;wsse:Username&gt;</span>ConsumerApplication<span class="nt">&lt;/wsse:Username&gt;</span>
+        <span class="nt">&lt;wsse:Password&gt;</span>Dj8(bCU)4bnhjc<span class="nt">&lt;/wsse:Password&gt;</span>
+      <span class="nt">&lt;/wsse:UsernameToken&gt;</span>
+    <span class="nt">&lt;/wsse:Security&gt;</span>
+  <span class="nt">&lt;/soap:Header&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:OpenSubscriptionSession</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:ChannelURI&gt;</span>/Enterprise/Site/Area/WorkCenter<span class="nt">&lt;/isbm:ChannelURI&gt;</span>
+      <span class="nt">&lt;isbm:Topic&gt;</span>Text<span class="nt">&lt;/isbm:Topic&gt;</span>
+      <span class="nt">&lt;isbm:ListenerURL&gt;</span>http://consumer.example.com/NotificationService<span class="nt">&lt;/isbm:ListenerURL&gt;</span>
+    <span class="nt">&lt;/isbm:OpenPublicationSession&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h5>HTTP Response</h5>
+<pre>
+HTTP/1.1 200 OK
+Content-Type: text/xml; charset=utf-8
+Content-Length: 366
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:OpenSubscriptionSessionResponse</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:SessionID&gt;</span>e94c645a-6450-411e-8ec7-4b70620d3a98<span class="nt">&lt;/isbm:SessionID&gt;</span>
+    <span class="nt">&lt;/isbm:OpenSubscriptionSessionResponse&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h4>2. OpenPublicationSession</h4>
+					<p>The Provider Application opens a publication session with the ISBM Service Provider and receives a session identifier.</p>
+					<h5>HTTP Request</h5>
+<pre>
+POST /ProviderPublicationService HTTP/1.1
+Host: ws-isbm.example.com
+Content-Type: text/xml; charset=utf-8
+Content-Length: 684
+SOAPAction: "http://www.openoandm.org/ws-isbm/OpenPublicationSession"
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Header&gt;</span>
+    <span class="nt">&lt;wsse:Security</span> <span class="na">xmlns:wsse=</span><span class="s">&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;wsse:UsernameToken&gt;</span>
+        <span class="nt">&lt;wsse:Username&gt;</span>ProviderApplication<span class="nt">&lt;/wsse:Username&gt;</span>
+        <span class="nt">&lt;wsse:Password&gt;</span>qEJaz4F?U4rW;q<span class="nt">&lt;/wsse:Password&gt;</span>
+      <span class="nt">&lt;/wsse:UsernameToken&gt;</span>
+    <span class="nt">&lt;/wsse:Security&gt;</span>
+  <span class="nt">&lt;/soap:Header&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:OpenPublicationSession</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:ChannelURI&gt;</span>/Enterprise/Site/Area/WorkCenter<span class="nt">&lt;/isbm:ChannelURI&gt;</span>
+    <span class="nt">&lt;/isbm:OpenPublicationSession&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h5>HTTP Response</h5>
+<pre>
+HTTP/1.1 200 OK
+Content-Type: text/xml; charset=utf-8
+Content-Length: 364
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:OpenPublicationSessionResponse</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:SessionID&gt;</span>ac0ee730-ca88-421a-b348-ce0a1babdb1c<span class="nt">&lt;/isbm:SessionID&gt;</span>
+    <span class="nt">&lt;/isbm:OpenPublicationSessionResponse&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h4>3. PostPublication</h4>
+					<p>The Provider Application posts a publication message to the ISBM Service Provider and receives a message identifier.</p>
+					<h5>HTTP Request</h5>
+<pre>
+POST /ProviderPublicationService HTTP/1.1
+Host: ws-isbm.example.com
+Content-Type: text/xml; charset=utf-8
+Content-Length: 799
+SOAPAction: "http://www.openoandm.org/ws-isbm/PostPublication"
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Header&gt;</span>
+    <span class="nt">&lt;wsse:Security</span> <span class="na">xmlns:wsse=</span><span class="s">&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;wsse:UsernameToken&gt;</span>
+        <span class="nt">&lt;wsse:Username&gt;</span>ProviderApplication<span class="nt">&lt;/wsse:Username&gt;</span>
+        <span class="nt">&lt;wsse:Password&gt;</span>qEJaz4F?U4rW;q<span class="nt">&lt;/wsse:Password&gt;</span>
+      <span class="nt">&lt;/wsse:UsernameToken&gt;</span>
+    <span class="nt">&lt;/wsse:Security&gt;</span>
+  <span class="nt">&lt;/soap:Header&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:PostPublication</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:SessionID&gt;</span>ac0ee730-ca88-421a-b348-ce0a1babdb1c<span class="nt">&lt;/isbm:SessionID&gt;</span>
+      <span class="nt">&lt;isbm:MessageContent&gt;</span>
+        <span class="nt">&lt;Text&gt;</span>Hello World!<span class="nt">&lt;/Text&gt;</span>
+      <span class="nt">&lt;/isbm:MessageContent&gt;</span>
+      <span class="nt">&lt;isbm:Topic&gt;</span>Text<span class="nt">&lt;/isbm:Topic&gt;</span>
+    <span class="nt">&lt;/isbm:PostPublication&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h5>HTTP Response</h5>
+<pre>
+HTTP/1.1 200 OK
+Content-Type: text/xml; charset=utf-8
+Content-Length: 350
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:PostPublicationResponse</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:MessageID&gt;</span>8007a3fa-70e3-4e90-a2b9-d8469cae2e5a<span class="nt">&lt;/isbm:MessageID&gt;</span>
+    <span class="nt">&lt;/isbm:PostPublicationResponse&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h4>4. NotifyListener</h4>
+					<p>The ISBM Service Provider notifies the Consumer Application of an applicable publication message.</p>
+					<h5>HTTP Request</h5>
+<pre>
+POST /NotifyListener HTTP/1.1
+Host: consumer.example.com
+Content-Type: text/xml; charset=utf-8
+Content-Length: 444
+SOAPAction: "http://www.openoandm.org/ws-isbm/NotifyListener"
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:NotifyListener</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:SessionID&gt;</span>e94c645a-6450-411e-8ec7-4b70620d3a98<span class="nt">&lt;/isbm:SessionID&gt;</span>
+      <span class="nt">&lt;isbm:MessageID&gt;</span>8007a3fa-70e3-4e90-a2b9-d8469cae2e5a<span class="nt">&lt;/isbm:MessageID&gt;</span>
+      <span class="nt">&lt;isbm:Topic&gt;</span>Text<span class="nt">&lt;/isbm:Topic&gt;</span>
+    <span class="nt">&lt;/isbm:NotifyListener&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h5>HTTP Response</h5>
+<pre>
+HTTP/1.1 200 OK
+Content-Type: text/xml; charset=utf-8
+Content-Length: 239
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:NotifyListenerResponse</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h4>5. ReadPublication</h4>
+					<p>The Consumer Application reads the publication message from the ISBM Service Provider.</p>
+					<h5>HTTP Request</h5>
+<pre>
+POST /ConsumerPublicationService HTTP/1.1
+Host: ws-isbm.example.com
+Content-Type: text/xml; charset=utf-8
+Content-Length: 672
+SOAPAction: "http://www.openoandm.org/ws-isbm/ReadPublication"
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Header&gt;</span>
+    <span class="nt">&lt;wsse:Security</span> <span class="na">xmlns:wsse=</span><span class="s">&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;wsse:UsernameToken&gt;</span>
+        <span class="nt">&lt;wsse:Username&gt;</span>ConsumerApplication<span class="nt">&lt;/wsse:Username&gt;</span>
+        <span class="nt">&lt;wsse:Password&gt;</span>Dj8(bCU)4bnhjc<span class="nt">&lt;/wsse:Password&gt;</span>
+      <span class="nt">&lt;/wsse:UsernameToken&gt;</span>
+    <span class="nt">&lt;/wsse:Security&gt;</span>
+  <span class="nt">&lt;/soap:Header&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:ReadPublication</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:SessionID&gt;</span>e94c645a-6450-411e-8ec7-4b70620d3a98<span class="nt">&lt;/isbm:SessionID&gt;</span>
+    <span class="nt">&lt;/isbm:ReadPublication&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h5>HTTP Response</h5>
+<pre>
+HTTP/1.1 200 OK
+Content-Type: text/xml; charset=utf-8
+Content-Length: 543
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:ReadPublicationResponse</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:PublicationMessage&gt;</span>
+        <span class="nt">&lt;isbm:MessageID&gt;</span>8007a3fa-70e3-4e90-a2b9-d8469cae2e5a<span class="nt">&lt;/isbm:MessageID&gt;</span>
+        <span class="nt">&lt;isbm:MessageContent&gt;</span>
+          <span class="nt">&lt;Text&gt;</span>Hello World!<span class="nt">&lt;/Text&gt;</span>
+        <span class="nt">&lt;/isbm:MessageContent&gt;</span>
+        <span class="nt">&lt;isbm:Topic&gt;</span>Text<span class="nt">&lt;/isbm:Topic&gt;</span>
+      <span class="nt">&lt;/isbm:MessageID&gt;</span>
+    <span class="nt">&lt;/isbm:ReadPublicationResponse&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h4>6. ExpirePublication</h4>
+					<p>The Provider Application manually expires the publication message from the ISBM Service Provider. The message is still visible to the Consumer Application since it has already been read.</p>
+					<h5>HTTP Request</h5>
+<pre>
+POST /ProviderPublicationService HTTP/1.1
+Host: ws-isbm.example.com
+Content-Type: text/xml; charset=utf-8
+Content-Length: 752
+SOAPAction: "http://www.openoandm.org/ws-isbm/ExpirePublication"
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Header&gt;</span>
+    <span class="nt">&lt;wsse:Security</span> <span class="na">xmlns:wsse=</span><span class="s">&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;wsse:UsernameToken&gt;</span>
+        <span class="nt">&lt;wsse:Username&gt;</span>ProviderApplication<span class="nt">&lt;/wsse:Username&gt;</span>
+        <span class="nt">&lt;wsse:Password&gt;</span>qEJaz4F?U4rW;q<span class="nt">&lt;/wsse:Password&gt;</span>
+      <span class="nt">&lt;/wsse:UsernameToken&gt;</span>
+    <span class="nt">&lt;/wsse:Security&gt;</span>
+  <span class="nt">&lt;/soap:Header&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:ExpirePublication</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:SessionID&gt;</span>ac0ee730-ca88-421a-b348-ce0a1babdb1c<span class="nt">&lt;/isbm:SessionID&gt;</span>
+      <span class="nt">&lt;isbm:MessageID&gt;</span>8007a3fa-70e3-4e90-a2b9-d8469cae2e5a<span class="nt">&lt;/isbm:MessageID&gt;</span>
+    <span class="nt">&lt;/isbm:ExpirePublication&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h5>HTTP Response</h5>
+<pre>
+HTTP/1.1 200 OK
+Content-Type: text/xml; charset=utf-8
+Content-Length: 242
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:ExpirePublicationResponse</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h4>7. RemovePublication</h4>
+					<p>The Consumer Application removes the publication message from the ISBM Service Provider.</p>
+					<h5>HTTP Request</h5>
+<pre>
+POST /ConsumerPublicationService HTTP/1.1
+Host: ws-isbm.example.com
+Content-Type: text/xml; charset=utf-8
+Content-Length: 677
+SOAPAction: "http://www.openoandm.org/ws-isbm/RemovePublication"
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Header&gt;</span>
+    <span class="nt">&lt;wsse:Security</span> <span class="na">xmlns:wsse=</span><span class="s">&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;wsse:UsernameToken&gt;</span>
+        <span class="nt">&lt;wsse:Username&gt;</span>ConsumerApplication<span class="nt">&lt;/wsse:Username&gt;</span>
+        <span class="nt">&lt;wsse:Password&gt;</span>Dj8(bCU)4bnhjc<span class="nt">&lt;/wsse:Password&gt;</span>
+      <span class="nt">&lt;/wsse:UsernameToken&gt;</span>
+    <span class="nt">&lt;/wsse:Security&gt;</span>
+  <span class="nt">&lt;/soap:Header&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:RemovePublication</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:SessionID&gt;</span>e94c645a-6450-411e-8ec7-4b70620d3a98<span class="err">&lt;</span><span class="nt">&lt;/isbm:SessionID&gt;</span>
+    <span class="nt">&lt;/isbm:RemovePublication&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h5>HTTP Response</h5>
+<pre>
+HTTP/1.1 200 OK
+Content-Type: text/xml; charset=utf-8
+Content-Length: 242
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:RemovePublicationResponse</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h4>8. ClosePublicationSession</h4>
+					<p>The Provider Application closes the publication session with the ISBM Service Provider.</p>
+					<h5>HTTP Request</h5>
+<pre>
+POST /ProviderPublicationService HTTP/1.1
+Host: ws-isbm.example.com
+Content-Type: text/xml; charset=utf-8
+Content-Length: 688
+SOAPAction: "http://www.openoandm.org/ws-isbm/ClosePublicationSession"
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Header&gt;</span>
+    <span class="nt">&lt;wsse:Security</span> <span class="na">xmlns:wsse=</span><span class="s">&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;wsse:UsernameToken&gt;</span>
+        <span class="nt">&lt;wsse:Username&gt;</span>ProviderApplication<span class="nt">&lt;/wsse:Username&gt;</span>
+        <span class="nt">&lt;wsse:Password&gt;</span>qEJaz4F?U4rW;q<span class="nt">&lt;/wsse:Password&gt;</span>
+      <span class="nt">&lt;/wsse:UsernameToken&gt;</span>
+    <span class="nt">&lt;/wsse:Security&gt;</span>
+  <span class="nt">&lt;/soap:Header&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:ClosePublicationSession</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:SessionID&gt;</span>ac0ee730-ca88-421a-b348-ce0a1babdb1c<span class="nt">&lt;/isbm:SessionID&gt;</span>
+    <span class="nt">&lt;/isbm:ClosePublicationSession&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h5>HTTP Response</h5>
+<pre>
+HTTP/1.1 200 OK
+Content-Type: text/xml; charset=utf-8
+Content-Length: 248
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:ClosePublicationSessionResponse</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h4>9. CloseSubscriptionSession</h4>
+					<p>The Consumer Application closes the subscription session with the ISBM Service Provider.</p>
+					<h5>HTTP Request</h5>
+<pre>
+POST /ConsumerPublicationService HTTP/1.1
+Host: ws-isbm.example.com
+Content-Type: text/xml; charset=utf-8
+Content-Length: 690
+SOAPAction: "http://www.openoandm.org/ws-isbm/ClosePublicationSession"
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Header&gt;</span>
+    <span class="nt">&lt;wsse:Security</span> <span class="na">xmlns:wsse=</span><span class="s">&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;wsse:UsernameToken&gt;</span>
+        <span class="nt">&lt;wsse:Username&gt;</span>ConsumerApplication<span class="nt">&lt;/wsse:Username&gt;</span>
+        <span class="nt">&lt;wsse:Password&gt;</span>Dj8(bCU)4bnhjc<span class="nt">&lt;/wsse:Password&gt;</span>
+      <span class="nt">&lt;/wsse:UsernameToken&gt;</span>
+    <span class="nt">&lt;/wsse:Security&gt;</span>
+  <span class="nt">&lt;/soap:Header&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:CloseSubscriptionSession</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:SessionID&gt;</span>e94c645a-6450-411e-8ec7-4b70620d3a98<span class="nt">&lt;/isbm:SessionID&gt;</span>
+    <span class="nt">&lt;/isbm:CloseSubscriptionSession&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h5>HTTP Response</h5>
+<pre>
+HTTP/1.1 200 OK
+Content-Type: text/xml; charset=utf-8
+Content-Length: 249
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:CloseSubscriptionSessionResponse</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h3 id="request-response-example"><span class="secno">A.3</span>Request-Response Example</h3>
+					<img src="assets/request-response_example.png" class="img-responsive" alt="Request-Response Example">
+					<h4>1. OpenProviderRequestSession</h4>
+					<p>The Provider Application opens a provider request session with the ISBM Service Provider and receives a session identifier.</p>
+					<h5>HTTP Request</h5>
+<pre>
+POST /ProviderRequestService HTTP/1.1
+Host: ws-isbm.example.com
+Content-Type: text/xml; charset=utf-8
+Content-Length: 819
+SOAPAction: "http://www.openoandm.org/ws-isbm/OpenProviderRequestSession"
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Header&gt;</span>
+    <span class="nt">&lt;wsse:Security</span> <span class="na">xmlns:wsse=</span><span class="s">&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;wsse:UsernameToken&gt;</span>
+        <span class="nt">&lt;wsse:Username&gt;</span>ProviderApplication<span class="nt">&lt;/wsse:Username&gt;</span>
+        <span class="nt">&lt;wsse:Password&gt;</span>9gy#gXENxph8?W<span class="nt">&lt;/wsse:Password&gt;</span>
+      <span class="nt">&lt;/wsse:UsernameToken&gt;</span>
+    <span class="nt">&lt;/wsse:Security&gt;</span>
+  <span class="nt">&lt;/soap:Header&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:OpenProviderRequestSession</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:ChannelURI&gt;</span>/Enterprise/Site/Area/WorkCenter<span class="nt">&lt;/isbm:ChannelURI&gt;</span>
+      <span class="nt">&lt;isbm:Topic&gt;</span>Text<span class="nt">&lt;/isbm:Topic&gt;</span>
+      <span class="nt">&lt;isbm:ListenerURL&gt;</span>http://provider.example.com/NotificationService<span class="nt">&lt;/isbm:ListenerURL&gt;</span>
+    <span class="nt">&lt;/isbm:OpenProviderRequestSession&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h5>HTTP Response</h5>
+<pre>
+HTTP/1.1 200 OK
+Content-Type: text/xml; charset=utf-8
+Content-Length: 372
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:OpenProviderRequestSessionResponse</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:SessionID&gt;</span>16ee00f6-8fa9-4e80-8c36-a9d6d2bdb551<span class="nt">&lt;/isbm:SessionID&gt;</span>
+    <span class="nt">&lt;/isbm:OpenProviderRequestSessionResponse&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h4>2. OpenConsumerRequestSession</h4>
+					<p>The Consumer Application opens a consumer request session with the ISBM Service Provider and receives a session identifier.</p>
+					<h5>HTTP Request</h5>
+<pre>
+POST /ConsumerRequestService HTTP/1.1
+Host: ws-isbm.example.com
+Content-Type: text/xml; charset=utf-8
+Content-Length: 783
+SOAPAction: "http://www.openoandm.org/ws-isbm/OpenConsumerRequestSession"
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Header&gt;</span>
+    <span class="nt">&lt;wsse:Security</span> <span class="na">xmlns:wsse=</span><span class="s">&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;wsse:UsernameToken&gt;</span>
+        <span class="nt">&lt;wsse:Username&gt;</span>ConsumerApplication<span class="nt">&lt;/wsse:Username&gt;</span>
+        <span class="nt">&lt;wsse:Password&gt;</span>^Um.7oFM9jrnnC<span class="nt">&lt;/wsse:Password&gt;</span>
+      <span class="nt">&lt;/wsse:UsernameToken&gt;</span>
+    <span class="nt">&lt;/wsse:Security&gt;</span>
+  <span class="nt">&lt;/soap:Header&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:OpenConsumerRequestSession</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:ChannelURI&gt;</span>/Enterprise/Site/Area/WorkCenter<span class="nt">&lt;/isbm:ChannelURI&gt;</span>
+      <span class="nt">&lt;isbm:ListenerURL&gt;</span>http://consumer.example.com/NotificationService<span class="nt">&lt;/isbm:ListenerURL&gt;</span>
+    <span class="nt">&lt;/isbm:OpenConsumerRequestSession&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h5>HTTP Response</h5>
+<pre>
+HTTP/1.1 200 OK
+Content-Type: text/xml; charset=utf-8
+Content-Length: 372
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:OpenConsumerRequestSessionResponse</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:SessionID&gt;</span>a9b5c71a-d1b5-4fc8-81d1-ba1fee3af0df<span class="nt">&lt;/isbm:SessionID&gt;</span>
+    <span class="nt">&lt;/isbm:OpenConsumerRequestSessionResponse&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h4>3. PostRequest</h4>
+					<p>The Consumer Application posts a request message to the ISBM Service Provider and receives a message identifier.</p>
+					<h5>HTTP Request</h5>
+<pre>
+POST /ConsumerRequestService HTTP/1.1
+Host: ws-isbm.example.com
+Content-Type: text/xml; charset=utf-8
+Content-Length: 748
+SOAPAction: "http://www.openoandm.org/ws-isbm/PostRequest"
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Header&gt;</span>
+    <span class="nt">&lt;wsse:Security</span> <span class="na">xmlns:wsse=</span><span class="s">&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;wsse:UsernameToken&gt;</span>
+        <span class="nt">&lt;wsse:Username&gt;</span>ConsumerApplication<span class="nt">&lt;/wsse:Username&gt;</span>
+        <span class="nt">&lt;wsse:Password&gt;</span>^Um.7oFM9jrnnC<span class="nt">&lt;/wsse:Password&gt;</span>
+      <span class="nt">&lt;/wsse:UsernameToken&gt;</span>
+    <span class="nt">&lt;/wsse:Security&gt;</span>
+  <span class="nt">&lt;/soap:Header&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:PostRequest</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:SessionID&gt;</span>a9b5c71a-d1b5-4fc8-81d1-ba1fee3af0df<span class="nt">&lt;/isbm:SessionID&gt;</span>
+      <span class="nt">&lt;isbm:MessageContent&gt;</span>
+        <span class="nt">&lt;Text&gt;</span>Ping!<span class="nt">&lt;/Text&gt;</span>
+      <span class="nt">&lt;/isbm:MessageContent&gt;</span>
+    <span class="nt">&lt;/isbm:PostRequest&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h5>HTTP Response</h5>
+<pre>
+HTTP/1.1 200 OK
+Content-Type: text/xml; charset=utf-8
+Content-Length: 342
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:PostRequestResponse</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:MessageID&gt;</span>e8cfecb1-d2fc-4167-88f7-c90d60fc53ee<span class="nt">&lt;/isbm:MessageID&gt;</span>
+    <span class="nt">&lt;/isbm:PostRequestResponse&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h4>4. NotifyListener</h4>
+					<p>The ISBM Service Provider notifies the Provider Application of an applicable request message.</p>
+					<h5>HTTP Request</h5>
+<pre>
+POST /NotifyListener HTTP/1.1
+Host: provider.example.com
+Content-Type: text/xml; charset=utf-8
+Content-Length: 444
+SOAPAction: "http://www.openoandm.org/ws-isbm/NotifyListener"
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:NotifyListener</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:SessionID&gt;</span>16ee00f6-8fa9-4e80-8c36-a9d6d2bdb551<span class="nt">&lt;/isbm:SessionID&gt;</span>
+      <span class="nt">&lt;isbm:MessageID&gt;</span>e8cfecb1-d2fc-4167-88f7-c90d60fc53ee<span class="nt">&lt;/isbm:MessageID&gt;</span>
+      <span class="nt">&lt;isbm:Topic&gt;</span>Text<span class="nt">&lt;/isbm:Topic&gt;</span>
+    <span class="nt">&lt;/isbm:NotifyListener&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h5>HTTP Response</h5>
+<pre>
+HTTP/1.1 200 OK
+Content-Type: text/xml; charset=utf-8
+Content-Length: 239
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:NotifyListenerResponse</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h4>5. ReadRequest</h4>
+					<p>The Provider Application reads the request message from the ISBM Service Provider.</p>
+					<h5>HTTP Request</h5>
+<pre>
+POST /ProviderRequestService HTTP/1.1
+Host: ws-isbm.example.com
+Content-Type: text/xml; charset=utf-8
+Content-Length: 664
+SOAPAction: "http://www.openoandm.org/ws-isbm/ReadRequest"
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Header&gt;</span>
+    <span class="nt">&lt;wsse:Security</span> <span class="na">xmlns:wsse=</span><span class="s">&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;wsse:UsernameToken&gt;</span>
+        <span class="nt">&lt;wsse:Username&gt;</span>ProviderApplication<span class="nt">&lt;/wsse:Username&gt;</span>
+        <span class="nt">&lt;wsse:Password&gt;</span>9gy#gXENxph8?W<span class="nt">&lt;/wsse:Password&gt;</span>
+      <span class="nt">&lt;/wsse:UsernameToken&gt;</span>
+    <span class="nt">&lt;/wsse:Security&gt;</span>
+  <span class="nt">&lt;/soap:Header&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:ReadRequest</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:SessionID&gt;</span>16ee00f6-8fa9-4e80-8c36-a9d6d2bdb551<span class="nt">&lt;/isbm:SessionID&gt;</span>
+    <span class="nt">&lt;/isbm:ReadRequest&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h5>HTTP Response</h5>
+<pre>
+HTTP/1.1 200 OK
+Content-Type: text/xml; charset=utf-8
+Content-Length: 462
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:ReadRequestResponse</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:MessageID&gt;</span>e8cfecb1-d2fc-4167-88f7-c90d60fc53ee<span class="nt">&lt;/isbm:MessageID&gt;</span>
+      <span class="nt">&lt;isbm:MessageContent&gt;</span>
+        <span class="nt">&lt;Text&gt;</span>Ping!<span class="nt">&lt;/Text&gt;</span>
+      <span class="nt">&lt;/isbm:MessageContent&gt;</span>
+      <span class="nt">&lt;isbm:Topic&gt;</span>Text<span class="nt">&lt;/isbm:Topic&gt;</span>
+    <span class="nt">&lt;/isbm:ReadRequestResponse&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h4>6. RemoveRequest</h4>
+					<p>The Provider Application removes the request message from the ISBM Service Provider.</p>
+					<h5>HTTP Request</h5>
+<pre>
+POST /ProviderRequestService HTTP/1.1
+Host: ws-isbm.example.com
+Content-Type: text/xml; charset=utf-8
+Content-Length: 669
+SOAPAction: "http://www.openoandm.org/ws-isbm/RemoveRequest"
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Header&gt;</span>
+    <span class="nt">&lt;wsse:Security</span> <span class="na">xmlns:wsse=</span><span class="s">&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;wsse:UsernameToken&gt;</span>
+        <span class="nt">&lt;wsse:Username&gt;</span>ProviderApplication<span class="nt">&lt;/wsse:Username&gt;</span>
+        <span class="nt">&lt;wsse:Password&gt;</span>9gy#gXENxph8?W<span class="nt">&lt;/wsse:Password&gt;</span>
+      <span class="nt">&lt;/wsse:UsernameToken&gt;</span>
+    <span class="nt">&lt;/wsse:Security&gt;</span>
+  <span class="nt">&lt;/soap:Header&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:RemoveRequest</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:SessionID&gt;</span>16ee00f6-8fa9-4e80-8c36-a9d6d2bdb551<span class="err">&lt;</span><span class="nt">&lt;/isbm:SessionID&gt;</span>
+    <span class="nt">&lt;/isbm:RemoveRequest&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h5>HTTP Response</h5>
+<pre>
+HTTP/1.1 200 OK
+Content-Type: text/xml; charset=utf-8
+Content-Length: 238
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:RemoveRequestResponse</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h4>7. PostResponse</h4>
+					<p>The Provider Application posts a response message to the ISBM Service Provider.</p>
+					<h5>HTTP Request</h5>
+<pre>
+POST /ProviderRequestService HTTP/1.1
+Host: ws-isbm.example.com
+Content-Type: text/xml; charset=utf-8
+Content-Length: 840
+SOAPAction: "http://www.openoandm.org/ws-isbm/PostResponse"
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Header&gt;</span>
+    <span class="nt">&lt;wsse:Security</span> <span class="na">xmlns:wsse=</span><span class="s">&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;wsse:UsernameToken&gt;</span>
+        <span class="nt">&lt;wsse:Username&gt;</span>ProviderApplication<span class="nt">&lt;/wsse:Username&gt;</span>
+        <span class="nt">&lt;wsse:Password&gt;</span>9gy#gXENxph8?W<span class="nt">&lt;/wsse:Password&gt;</span>
+      <span class="nt">&lt;/wsse:UsernameToken&gt;</span>
+    <span class="nt">&lt;/wsse:Security&gt;</span>
+  <span class="nt">&lt;/soap:Header&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:PostResponse</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:SessionID&gt;</span>16ee00f6-8fa9-4e80-8c36-a9d6d2bdb551<span class="nt">&lt;/isbm:SessionID&gt;</span>
+      <span class="nt">&lt;isbm:RequestMessageID&gt;</span>e8cfecb1-d2fc-4167-88f7-c90d60fc53ee<span class="nt">&lt;/isbm:RequestMessageID&gt;</span>
+      <span class="nt">&lt;isbm:MessageContent&gt;</span>
+        <span class="nt">&lt;Text&gt;</span>Pong!<span class="nt">&lt;/Text&gt;</span>
+      <span class="nt">&lt;/isbm:MessageContent&gt;</span>
+    <span class="nt">&lt;/isbm:PostResponse&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h5>HTTP Response</h5>
+<pre>
+HTTP/1.1 200 OK
+Content-Type: text/xml; charset=utf-8
+Content-Length: 237
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:PostResponseResponse</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h4>8. NotifyListener</h4>
+					<p>The ISBM Service Provider notifies the Consumer Application of an applicable response message.</p>
+					<h5>HTTP Request</h5>
+<pre>
+POST /NotifyListener HTTP/1.1
+Host: consumer.example.com
+Content-Type: text/xml; charset=utf-8
+Content-Length: 498
+SOAPAction: "http://www.openoandm.org/ws-isbm/NotifyListener"
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:NotifyListener</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:SessionID&gt;</span>a9b5c71a-d1b5-4fc8-81d1-ba1fee3af0df<span class="nt">&lt;/isbm:SessionID&gt;</span>
+      <span class="nt">&lt;isbm:MessageID&gt;</span>af250a33-d5af-4c25-bb57-56802d8fea79<span class="nt">&lt;/isbm:MessageID&gt;</span>
+      <span class="nt">&lt;isbm:RequestMessageID&gt;</span>e8cfecb1-d2fc-4167-88f7-c90d60fc53ee<span class="nt">&lt;/isbm:RequestMessageID&gt;</span>
+    <span class="nt">&lt;/isbm:NotifyListener&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h5>HTTP Response</h5>
+<pre>
+HTTP/1.1 200 OK
+Content-Type: text/xml; charset=utf-8
+Content-Length: 239
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:NotifyListenerResponse</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h4>9. ReadResponse</h4>
+					<p>The Consumer Application reads the response message from the ISBM Service Provider.</p>
+					<h5>HTTP Request</h5>
+<pre>
+POST /ConsumerRequestService HTTP/1.1
+Host: ws-isbm.example.com
+Content-Type: text/xml; charset=utf-8
+Content-Length: 756
+SOAPAction: "http://www.openoandm.org/ws-isbm/ReadResponse"
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Header&gt;</span>
+    <span class="nt">&lt;wsse:Security</span> <span class="na">xmlns:wsse=</span><span class="s">&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;wsse:UsernameToken&gt;</span>
+        <span class="nt">&lt;wsse:Username&gt;</span>ConsumerApplication<span class="nt">&lt;/wsse:Username&gt;</span>
+        <span class="nt">&lt;wsse:Password&gt;</span>^Um.7oFM9jrnnC<span class="nt">&lt;/wsse:Password&gt;</span>
+      <span class="nt">&lt;/wsse:UsernameToken&gt;</span>
+    <span class="nt">&lt;/wsse:Security&gt;</span>
+  <span class="nt">&lt;/soap:Header&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:ReadResponse</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:SessionID&gt;</span>a9b5c71a-d1b5-4fc8-81d1-ba1fee3af0df<span class="nt">&lt;/isbm:SessionID&gt;</span>
+      <span class="nt">&lt;isbm:RequestMessageID&gt;</span>e8cfecb1-d2fc-4167-88f7-c90d60fc53ee<span class="nt">&lt;/isbm:RequestMessageID&gt;</span>
+    <span class="nt">&lt;/isbm:ReadResponse&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h5>HTTP Response</h5>
+<pre>
+HTTP/1.1 200 OK
+Content-Type: text/xml; charset=utf-8
+Content-Length: 428
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:ReadResponseResponse</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:MessageID&gt;</span>af250a33-d5af-4c25-bb57-56802d8fea79<span class="nt">&lt;/isbm:MessageID&gt;</span>
+      <span class="nt">&lt;isbm:MessageContent&gt;</span>
+        <span class="nt">&lt;Text&gt;</span>Pong!<span class="nt">&lt;/Text&gt;</span>
+      <span class="nt">&lt;/isbm:MessageContent&gt;</span>
+    <span class="nt">&lt;/isbm:ReadResponseResponse&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h4>10. RemoveResponse</h4>
+					<p>The Consumer Application removes the response message from the ISBM Service Provider.</p>
+					<h5>HTTP Request</h5>
+<pre>
+POST /ConsumerPublicationService HTTP/1.1
+Host: ws-isbm.example.com
+Content-Type: text/xml; charset=utf-8
+Content-Length: 760
+SOAPAction: "http://www.openoandm.org/ws-isbm/RemoveResponse"
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Header&gt;</span>
+    <span class="nt">&lt;wsse:Security</span> <span class="na">xmlns:wsse=</span><span class="s">&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;wsse:UsernameToken&gt;</span>
+        <span class="nt">&lt;wsse:Username&gt;</span>ConsumerApplication<span class="nt">&lt;/wsse:Username&gt;</span>
+        <span class="nt">&lt;wsse:Password&gt;</span>^Um.7oFM9jrnnC<span class="nt">&lt;/wsse:Password&gt;</span>
+      <span class="nt">&lt;/wsse:UsernameToken&gt;</span>
+    <span class="nt">&lt;/wsse:Security&gt;</span>
+  <span class="nt">&lt;/soap:Header&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:RemoveResponse</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:SessionID&gt;</span>a9b5c71a-d1b5-4fc8-81d1-ba1fee3af0df<span class="nt">&lt;/isbm:SessionID&gt;</span>
+      <span class="nt">&lt;isbm:RequestMessageID&gt;</span>e8cfecb1-d2fc-4167-88f7-c90d60fc53ee<span class="nt">&lt;/isbm:RequestMessageID&gt;</span>
+    <span class="nt">&lt;/isbm:RemoveResponse&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h5>HTTP Response</h5>
+<pre>
+HTTP/1.1 200 OK
+Content-Type: text/xml; charset=utf-8
+Content-Length: 239
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:RemoveResponseResponse</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h4>11. CloseConsumerRequestSession</h4>
+					<p>The Consumer Application closes the consumer request session with the ISBM Service Provider.</p>
+					<h5>HTTP Request</h5>
+<pre>
+POST /ConsumerRequestService HTTP/1.1
+Host: ws-isbm.example.com
+Content-Type: text/xml; charset=utf-8
+Content-Length: 696
+SOAPAction: "http://www.openoandm.org/ws-isbm/CloseConsumerRequestSession"
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Header&gt;</span>
+    <span class="nt">&lt;wsse:Security</span> <span class="na">xmlns:wsse=</span><span class="s">&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;wsse:UsernameToken&gt;</span>
+        <span class="nt">&lt;wsse:Username&gt;</span>ConsumerApplication<span class="nt">&lt;/wsse:Username&gt;</span>
+        <span class="nt">&lt;wsse:Password&gt;</span>^Um.7oFM9jrnnC<span class="nt">&lt;/wsse:Password&gt;</span>
+      <span class="nt">&lt;/wsse:UsernameToken&gt;</span>
+    <span class="nt">&lt;/wsse:Security&gt;</span>
+  <span class="nt">&lt;/soap:Header&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:CloseConsumerRequestSession</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:SessionID&gt;</span>a9b5c71a-d1b5-4fc8-81d1-ba1fee3af0df<span class="nt">&lt;/isbm:SessionID&gt;</span>
+    <span class="nt">&lt;/isbm:CloseConsumerRequestSession&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h5>HTTP Response</h5>
+<pre>
+HTTP/1.1 200 OK
+Content-Type: text/xml; charset=utf-8
+Content-Length: 252
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:CloseConsumerRequestSessionResponse</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h4>12. CloseProviderRequestSession</h4>
+					<p>The Provider Application closes the provider request session with the ISBM Service Provider.</p>
+					<h5>HTTP Request</h5>
+<pre>
+POST /ProviderRequestService HTTP/1.1
+Host: ws-isbm.example.com
+Content-Type: text/xml; charset=utf-8
+Content-Length: 696
+SOAPAction: "http://www.openoandm.org/ws-isbm/CloseProviderRequestSession"
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Header&gt;</span>
+    <span class="nt">&lt;wsse:Security</span> <span class="na">xmlns:wsse=</span><span class="s">&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;wsse:UsernameToken&gt;</span>
+        <span class="nt">&lt;wsse:Username&gt;</span>ProviderApplication<span class="nt">&lt;/wsse:Username&gt;</span>
+        <span class="nt">&lt;wsse:Password&gt;</span>9gy#gXENxph8?W<span class="nt">&lt;/wsse:Password&gt;</span>
+      <span class="nt">&lt;/wsse:UsernameToken&gt;</span>
+    <span class="nt">&lt;/wsse:Security&gt;</span>
+  <span class="nt">&lt;/soap:Header&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:CloseProviderRequestSession</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;isbm:SessionID&gt;</span>16ee00f6-8fa9-4e80-8c36-a9d6d2bdb551<span class="nt">&lt;/isbm:SessionID&gt;</span>
+    <span class="nt">&lt;/isbm:CloseProviderRequestSession&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h5>HTTP Response</h5>
+<pre>
+HTTP/1.1 200 OK
+Content-Type: text/xml; charset=utf-8
+Content-Length: 252
+
+<span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;soap:Body&gt;</span>
+    <span class="nt">&lt;isbm:CloseProviderRequestSessionResponse</span> <span class="na">xmlns:isbm=</span><span class="s">&quot;http://www.openoandm.org/ws-isbm/&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/soap:Body&gt;</span>
+<span class="nt">&lt;/soap:Envelope&gt;</span>
+</pre>
+					<h2 id="acknowledgements">Acknowledgements</h2>
+					<p>The following individuals have participated in the creation of this specification and are gratefully acknowledged:</p>
+					<ul>
+						<li>Adrian Park, Intergraph</li>
+						<li>Brandon Mathis, Assetricity</li>
+						<li>Chris Madison, IBM</li>
+						<li>Chuck Pharris, SAP</li>
+						<li>Frode Myren, IBM</li>
+						<li>Georg Grossmann, University of South Australia</li>
+						<li>James Fort, Microsoft</li>
+						<li>Keith Wells, IBM</li>
+						<li>Mahesh Punyamurthula, Microsoft</li>
+						<li>Manesh Raveendran, Terawe</li>
+						<li>Paul Nguyen, Microsoft</li>
+						<li>Randy Armstrong, OPC Foundation</li>
+						<li>Rick Solis, ExxonMobil</li>
+						<li>Robert Chumbley, IBM</li>
+						<li>Sebastian Steinhauer, SAP</li>
+					</ul>
+				</div>
+				<div class="col-md-3 hidden-print" role="complementary">
+					<div class="sidebar" data-spy="affix" data-offset-top="697" role="complementary">
+						<ul class="nav sidenav">
+							<li><a href="#abstract">Abstract</a></li>
+							<li><a href="#status">Status</a></li>
+							<li><a href="#notices">Notices</a></li>
+							<li>
+								<a href="#introduction"><span class="secno">1</span>Introduction</a>
+								<ul class="nav">
+									<li><a href="#notational-conventions"><span class="secno">1.1</span>Notational Conventions</a></li>
+									<li><a href="#namespaces"><span class="secno">1.2</span>Namespaces</a></li>
+								</ul>
+							</li>
+							<li>
+								<a href="#service-requirements"><span class="secno">2</span>Service Requirements</a>
+								<ul class="nav">
+									<li><a href="#message-content-format"><span class="secno">2.1</span>Message Content Format</a></li>
+									<li><a href="#security"><span class="secno">2.2</span>Security</a></li>
+									<li><a href="#error-handling"><span class="secno">2.3</span>Error Handling</a></li>
+									<li><a href="#content-based-filtering"><span class="secno">2.4</span>Content-Based Filtering</a></li>
+								</ul>
+							</li>
+							<li>
+								<a href="#service-definitions"><span class="secno">3</span>Service Definitions</a>
+								<ul class="nav">
+									<li><a href="#terminology"><span class="secno">3.1</span>Terminology</a></li>
+									<li><a href="#channel-management-service"><span class="secno">3.2</span>Channel Management Service</a></li>
+									<li><a href="#notification-service"><span class="secno">3.3</span>Notification Service</a></li>
+									<li><a href="#provider-publication-service"><span class="secno">3.4</span>Provider Publication Service</a></li>
+									<li><a href="#consumer-publication-service"><span class="secno">3.5</span>Consumer Publication Service</a></li>
+									<li><a href="#provider-request-service"><span class="secno">3.6</span>Provider Request Service</a></li>
+									<li><a href="#consumer-request-service"><span class="secno">3.7</span>Consumer Request Service</a></li>
+								</ul>
+							</li>
+							<li><a href="#conformance"><span class="secno">4</span>Conformance</a></li>
+							<li>
+								<a href="#sample-http-flows"><span class="secno">Appendix A</span>Example HTTP Flows</a>
+								<ul class="nav">
+									<li><a href="#channel-management-example"><span class="secno">A.1</span>Channel Management Example</a></li>
+									<li><a href="#publish-subscribe-example"><span class="secno">A.2</span>Publish-Subscribe Example</a></li>
+									<li><a href="#request-response-example"><span class="secno">A.3</span>Request-Response Example</a></li>
+								</ul>
+							</li>
+							<li><a href="#acknowledgements">Acknowledgements</a></li>
+						</ul>
+						<a class="back-to-top" href="#top">Back to top</a>
+					  </div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

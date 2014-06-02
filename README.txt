@@ -1,0 +1,5 @@
+This ws-ISBM specification defines a SOAP Web Service implementation of the ISA 95.00.06 Messaging Service Model.
+
+The ws-ISBM defines a minimal interface subset to Enterprise Service Buses (ESB) and other message exchange middleware using a standard Web Service interface. Publish-subscribe and request-response messaging patterns are supported through a consistent and unified model. Message routing is conducted through shared channels and topics, and optionally, XPath filtering for granular content-based filtering. An asyncronous Web Service callback is also provided to clients for notification of applicable messages. Token-based security for channels is specified to support multiple authorization models, from basic credential exchange to federated identity providers.
+
+The benefit of a ws-ISBM implementation is to allow applications to expose a single, standardized interface rather than having to be custom built for every version and format of ESB or message exchange system. The goal is to further interoperability in application to application communications.

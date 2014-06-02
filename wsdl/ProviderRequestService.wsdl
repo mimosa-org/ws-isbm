@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	ws-ISBM 1.0 Provider Request Service
+
+	Copyright MIMOSA 2014. All Rights Reserved.
+	License information for this file is provided in the file "LICENSE.txt" that is provided with this download package.
+
+	For support, more information, or to report errors, please contact MIMOSA at http://www.mimosa.org/contact.
+-->
+<wsdl:definitions
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:isbm="http://www.openoandm.org/ws-isbm/"
+	targetNamespace="http://www.openoandm.org/ws-isbm/"
+	name="ProviderRequestService">
+
+	<wsdl:types>
+		<xs:schema elementFormDefault="qualified" targetNamespace="http://www.openoandm.org/ws-isbm/">
+			<!-- Types -->
+			<xs:element name="MessageContent">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:any minOccurs="1" maxOccurs="1" namespace="##any" processContents="lax"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:complexType name="RequestMessage">
+				<xs:sequence>
+					<xs:element minOccurs="1" maxOccurs="1" name="MessageID" type="xs:string"/>
+					<xs:element minOccurs="1" maxOccurs="1" ref="isbm:MessageContent"/>
+					<xs:element minOccurs="1" maxOccurs="1" name="Topic" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+			<xs:complexType name="Namespace">
+				<xs:sequence>
+					<xs:element minOccurs="1" maxOccurs="1" name="NamespacePrefix" type="xs:string"/>
+					<xs:element minOccurs="1" maxOccurs="1" name="NamespaceName" type="xs:string"/>
+				</xs:sequence>
+			</xs:complexType>
+
+			<!-- Parameter elements -->
+			<xs:element name="OpenProviderRequestSession">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="unbounded" name="Topic" type="xs:string"/>
+						<xs:element minOccurs="0" maxOccurs="1" name="ListenerURL" type="xs:string"/>
+						<xs:element minOccurs="0" maxOccurs="1" name="XPathExpression" type="xs:string"/>
+						<xs:element minOccurs="0" maxOccurs="unbounded" name="XPathNamespace" type="isbm:Namespace"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="OpenProviderRequestSessionResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:sequence>
+							<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
+						</xs:sequence>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReadRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ReadRequestResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="RequestMessage" type="isbm:RequestMessage"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RemoveRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RemoveRequestResponse">
+				<xs:complexType/>
+			</xs:element>
+			<xs:element name="PostResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="1" name="RequestMessageID" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="1" ref="isbm:MessageContent"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PostResponseResponse">
+				<xs:complexType/>
+			</xs:element>
+			<xs:element name="CloseProviderRequestSession">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="CloseProviderRequestSessionResponse">
+				<xs:complexType/>
+			</xs:element>
+
+			<!-- Fault elements -->
+			<xs:element name="ChannelFault">
+				<xs:complexType/>
+			</xs:element>
+			<xs:element name="NamespaceFault">
+				<xs:complexType/>
+			</xs:element>
+			<xs:element name="OperationFault">
+				<xs:complexType/>
+			</xs:element>
+			<xs:element name="SessionFault">
+				<xs:complexType/>
+			</xs:element>
+		</xs:schema>
+	</wsdl:types>
+
+	<wsdl:message name="OpenProviderRequestSessionIn">
+		<wsdl:part name="parameters" element="isbm:OpenProviderRequestSession"/>
+	</wsdl:message>
+	<wsdl:message name="OpenProviderRequestSessionOut">
+		<wsdl:part name="parameters" element="isbm:OpenProviderRequestSessionResponse"/>
+	</wsdl:message>
+	<wsdl:message name="ReadRequestIn">
+		<wsdl:part name="parameters" element="isbm:ReadRequest"/>
+	</wsdl:message>
+	<wsdl:message name="ReadRequestOut">
+		<wsdl:part name="parameters" element="isbm:ReadRequestResponse"/>
+	</wsdl:message>
+	<wsdl:message name="RemoveRequestIn">
+		<wsdl:part name="parameters" element="isbm:RemoveRequest"/>
+	</wsdl:message>
+	<wsdl:message name="RemoveRequestOut">
+		<wsdl:part name="parameters" element="isbm:RemoveRequestResponse"/>
+	</wsdl:message>
+	<wsdl:message name="PostResponseIn">
+		<wsdl:part name="parameters" element="isbm:PostResponse"/>
+	</wsdl:message>
+	<wsdl:message name="PostResponseOut">
+		<wsdl:part name="parameters" element="isbm:PostResponseResponse"/>
+	</wsdl:message>
+	<wsdl:message name="CloseProviderRequestSessionIn">
+		<wsdl:part name="parameters" element="isbm:CloseProviderRequestSession"/>
+	</wsdl:message>
+	<wsdl:message name="CloseProviderRequestSessionOut">
+		<wsdl:part name="parameters" element="isbm:CloseProviderRequestSessionResponse"/>
+	</wsdl:message>
+	<wsdl:message name="ChannelFault">
+		<wsdl:part name="parameters" element="isbm:ChannelFault"/>
+	</wsdl:message>
+	<wsdl:message name="NamespaceFault">
+		<wsdl:part name="parameters" element="isbm:NamespaceFault"/>
+	</wsdl:message>
+	<wsdl:message name="OperationFault">
+		<wsdl:part name="parameters" element="isbm:OperationFault"/>
+	</wsdl:message>
+	<wsdl:message name="SessionFault">
+		<wsdl:part name="parameters" element="isbm:SessionFault"/>
+	</wsdl:message>
+
+	<wsdl:portType name="ProviderRequestService">
+		<wsdl:operation name="OpenProviderRequestSession">
+			<wsdl:documentation>Opens a provider request session for a channel for reading requests and posting responses.</wsdl:documentation>
+			<wsdl:input message="isbm:OpenProviderRequestSessionIn"/>
+			<wsdl:output message="isbm:OpenProviderRequestSessionOut"/>
+			<wsdl:fault name="ChannelFault" message="isbm:ChannelFault"/>
+			<wsdl:fault name="NamespaceFault" message="isbm:NamespaceFault"/>
+			<wsdl:fault name="OperationFault" message="isbm:OperationFault"/>
+		</wsdl:operation>
+		<wsdl:operation name="ReadRequest">
+			<wsdl:documentation>Returns the first request message in the message queue for the session. Note: this service does not remove the message from the message queue.</wsdl:documentation>
+			<wsdl:input message="isbm:ReadRequestIn"/>
+			<wsdl:output message="isbm:ReadRequestOut"/>
+			<wsdl:fault name="SessionFault" message="isbm:SessionFault"/>
+		</wsdl:operation>
+		<wsdl:operation name="RemoveRequest">
+			<wsdl:documentation>Deletes the first request message in the message queue for the session.</wsdl:documentation>
+			<wsdl:input message="isbm:RemoveRequestIn"/>
+			<wsdl:output message="isbm:RemoveRequestOut"/>
+			<wsdl:fault name="SessionFault" message="isbm:SessionFault"/>
+		</wsdl:operation>
+		<wsdl:operation name="PostResponse">
+			<wsdl:documentation>Posts a response message on a channel.</wsdl:documentation>
+			<wsdl:input message="isbm:PostResponseIn"/>
+			<wsdl:output message="isbm:PostResponseOut"/>
+			<wsdl:fault name="SessionFault" message="isbm:SessionFault"/>
+		</wsdl:operation>
+		<wsdl:operation name="CloseProviderRequestSession">
+			<wsdl:documentation>Closes a provider request session.</wsdl:documentation>
+			<wsdl:input message="isbm:CloseProviderRequestSessionIn"/>
+			<wsdl:output message="isbm:CloseProviderRequestSessionOut"/>
+			<wsdl:fault name="SessionFault" message="isbm:SessionFault"/>
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="ProviderRequestServiceSoap" type="isbm:ProviderRequestService">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="OpenProviderRequestSession">
+			<soap:operation soapAction="http://www.openoandm.org/ws-isbm/OpenProviderRequestSession" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="ChannelFault">
+				<soap:fault name="ChannelFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="NamespaceFault">
+				<soap:fault name="NamespaceFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="OperationFault">
+				<soap:fault name="OperationFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="ReadRequest">
+			<soap:operation soapAction="http://www.openoandm.org/ws-isbm/ReadRequest" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="SessionFault">
+				<soap:fault name="SessionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="RemoveRequest">
+			<soap:operation soapAction="http://www.openoandm.org/ws-isbm/RemoveRequest" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="SessionFault">
+				<soap:fault name="SessionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="PostResponse">
+			<soap:operation soapAction="http://www.openoandm.org/ws-isbm/PostResponse" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="SessionFault">
+				<soap:fault name="SessionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="CloseProviderRequestSession">
+			<soap:operation soapAction="http://www.openoandm.org/ws-isbm/CloseProviderRequestSession" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="SessionFault">
+				<soap:fault name="SessionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:binding name="ProviderRequestServiceSoap12" type="isbm:ProviderRequestService">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="OpenProviderRequestSession">
+			<soap12:operation soapAction="http://www.openoandm.org/ws-isbm/OpenProviderRequestSession" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="ChannelFault">
+				<soap12:fault name="ChannelFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="NamespaceFault">
+				<soap12:fault name="NamespaceFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="OperationFault">
+				<soap12:fault name="OperationFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="ReadRequest">
+			<soap12:operation soapAction="http://www.openoandm.org/ws-isbm/ReadRequest" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="SessionFault">
+				<soap12:fault name="SessionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="RemoveRequest">
+			<soap12:operation soapAction="http://www.openoandm.org/ws-isbm/RemoveRequest" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="SessionFault">
+				<soap12:fault name="SessionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="PostResponse">
+			<soap12:operation soapAction="http://www.openoandm.org/ws-isbm/PostResponse" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="SessionFault">
+				<soap12:fault name="SessionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="CloseProviderRequestSession">
+			<soap12:operation soapAction="http://www.openoandm.org/ws-isbm/CloseProviderRequestSession" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="SessionFault">
+				<soap12:fault name="SessionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="ProviderRequestService">
+		<wsdl:port name="ProviderRequestServiceSoap" binding="isbm:ProviderRequestServiceSoap">
+			<soap:address location="https://example.com/ProviderRequestService"/>
+		</wsdl:port>
+		<wsdl:port name="ProviderRequestServiceSoap12" binding="isbm:ProviderRequestServiceSoap12">
+			<soap12:address location="https://example.com/ISBMProviderRequestService"/>
+		</wsdl:port>
+	</wsdl:service>
+
+</wsdl:definitions>
