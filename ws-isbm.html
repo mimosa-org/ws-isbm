@@ -283,7 +283,7 @@
 							<td>ChannelFault</td>
 						</tr>
 					</table>
-					<h4 id="add-security-token"><span class="secno">3.2.2</span>Add Security Tokens</h4>
+					<h4 id="add-security-tokens"><span class="secno">3.2.2</span>Add Security Tokens</h4>
 					<table class="table operation">
 						<tr>
 							<th>Name</th>
@@ -317,7 +317,7 @@
 							<td>ChannelFault</td>
 						</tr>
 					</table>
-					<h4 id="remove-security-token"><span class="secno">3.2.3</span>Remove Security Tokens</h4>
+					<h4 id="remove-security-tokens"><span class="secno">3.2.3</span>Remove Security Tokens</h4>
 					<table class="table operation">
 						<tr>
 							<th>Name</th>
@@ -2289,20 +2289,77 @@ Content-Length: 252
 								<ul class="nav">
 									<li><a href="#message-content-format"><span class="secno">2.1</span>Message Content Format</a></li>
 									<li><a href="#security"><span class="secno">2.2</span>Security</a></li>
-									<li><a href="#error-handling"><span class="secno">2.3</span>Error Handling</a></li>
+									<li>
+										<a href="#error-handling"><span class="secno">2.3</span>Error Handling</a>
+										<ul class="nav">
+											<li><a href="#soap-faults"><span class="secno">2.3.1</span>SOAP Faults</a></li>
+											<li><a href="#parameter-faults"><span class="secno">2.3.2</span>Parameter Faults</a></li>
+											<li><a href="#invalid-notification-url"><span class="secno">2.3.3</span>Invalid Notification URL</a></li>
+										</ul>
+									</li>
 									<li><a href="#content-based-filtering"><span class="secno">2.4</span>Content-Based Filtering</a></li>
+									<li><a href="#message-expiry"><span class="secno">2.5</span>Message Expiry</a></li>
 								</ul>
 							</li>
 							<li>
 								<a href="#service-definitions"><span class="secno">3</span>Service Definitions</a>
 								<ul class="nav">
 									<li><a href="#terminology"><span class="secno">3.1</span>Terminology</a></li>
-									<li><a href="#channel-management-service"><span class="secno">3.2</span>Channel Management Service</a></li>
-									<li><a href="#notification-service"><span class="secno">3.3</span>Notification Service</a></li>
-									<li><a href="#provider-publication-service"><span class="secno">3.4</span>Provider Publication Service</a></li>
-									<li><a href="#consumer-publication-service"><span class="secno">3.5</span>Consumer Publication Service</a></li>
-									<li><a href="#provider-request-service"><span class="secno">3.6</span>Provider Request Service</a></li>
-									<li><a href="#consumer-request-service"><span class="secno">3.7</span>Consumer Request Service</a></li>
+									<li>
+										<a href="#channel-management-service"><span class="secno">3.2</span>Channel Management Service</a>
+										<ul class="nav">
+											<li><a href="#create-channel"><span class="secno">3.2.1</span>Create Channel</a></li>
+											<li><a href="#add-security-tokens"><span class="secno">3.2.2</span>Add Security Tokens</a></li>
+											<li><a href="#remove-security-tokens"><span class="secno">3.2.3</span>Remove Security Tokens</a></li>
+											<li><a href="#delete-channel"><span class="secno">3.2.4</span>Delete Channel</a></li>
+											<li><a href="#get-channel"><span class="secno">3.2.5</span>Get Channel</a></li>
+											<li><a href="#get-channels"><span class="secno">3.2.6</span>Get Channels</a></li>
+										</ul>
+									</li>
+									<li>
+										<a href="#notification-service"><span class="secno">3.3</span>Notification Service</a>
+										<ul class="nav">
+											<li><a href="#notify-listener"><span class="secno">3.3.1</span>Notify Listener</a></li>
+										</ul>
+									</li>
+									<li>
+										<a href="#provider-publication-service"><span class="secno">3.4</span>Provider Publication Service</a>
+										<ul class="nav">
+											<li><a href="#open-publication-session"><span class="secno">3.4.1</span>Open Publication Session</a></li>
+											<li><a href="#post-publication"><span class="secno">3.4.2</span>Post Publication</a></li>
+											<li><a href="#expire-publication"><span class="secno">3.4.3</span>Expire Publication</a></li>
+											<li><a href="#close-publication-session"><span class="secno">3.4.4</span>Close Publication Session</a></li>
+										</ul>
+									</li>
+									<li>
+										<a href="#consumer-publication-service"><span class="secno">3.5</span>Consumer Publication Service</a>
+										<ul class="nav">
+											<li><a href="#open-subscription-session"><span class="secno">3.5.1</span>Open Subscription Session</a></li>
+											<li><a href="#read-publication"><span class="secno">3.5.2</span>Read Publication</a></li>
+											<li><a href="#remove-publication"><span class="secno">3.5.3</span>Remove Publication</a></li>
+											<li><a href="#close-subscription-session"><span class="secno">3.5.4</span>Close Subscription Session</a></li>
+										</ul>
+									</li>
+									<li>
+										<a href="#provider-request-service"><span class="secno">3.6</span>Provider Request Service</a>
+										<ul class="nav">
+											<li><a href="#open-provider-request-session"><span class="secno">3.6.1</span>Open Provider Request Session</a></li>
+											<li><a href="#read-request"><span class="secno">3.6.2</span>Read Request</a></li>
+											<li><a href="#remove-request"><span class="secno">3.6.3</span>Remove Request</a></li>
+											<li><a href="#post-response"><span class="secno">3.6.4</span>Post Response</a></li>
+											<li><a href="#close-provider-request-session"><span class="secno">3.6.5</span>Close Provider Request Session</a></li>
+										</ul>
+									</li>
+									<li>
+										<a href="#consumer-request-service"><span class="secno">3.7</span>Consumer Request Service</a>
+										<ul class="nav">
+											<li><a href="#open-consumer-request-session"><span class="secno">3.7.1</span>Open Consumer Request Session</a></li>
+											<li><a href="#post-request"><span class="secno">3.7.2</span>Post Request</a></li>
+											<li><a href="#read-response"><span class="secno">3.7.3</span>Read Response</a></li>
+											<li><a href="#remove-response"><span class="secno">3.7.4</span>Remove Response</a></li>
+											<li><a href="#close-consumer-request-session"><span class="secno">3.7.5</span>Close Consumer Request Session</a></li>
+										</ul>
+									</li>
 								</ul>
 							</li>
 							<li><a href="#conformance"><span class="secno">4</span>Conformance</a></li>

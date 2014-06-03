@@ -48,7 +48,7 @@ blockquote p {
 /* Table of Contents vs Sidebar */
 @media (max-width: 991px) {
 	.toc {
-		display: visible;
+		display: block;
 	}
 	.sidebar {
 		display: none;
@@ -59,7 +59,7 @@ blockquote p {
 		display: none;
 	}
 	.sidebar {
-		display: visible;
+		display: block;
 	}
 }
 
@@ -88,11 +88,9 @@ ul.toc a::after {
 	margin-bottom: 20px;
 }
 .sidebar .nav > li > a {
-	display: block;
 	font-size: 13px;
-	font-weight: 500;
 	color: #999;
-	padding: 4px 20px;
+	padding: 4px 4px 4px 20px;
 }
 .sidebar .nav > li > a:hover, .sidebar .nav > li > a:focus {
 	padding-left: 19px;
@@ -102,23 +100,38 @@ ul.toc a::after {
 }
 .sidebar .nav > .active > a, .sidebar .nav > .active:hover > a, .sidebar .nav > .active:focus > a {
 	padding-left: 18px;
-	font-weight: 700;
+	font-weight: bold;
 	color: #1d037b;
 	background-color: transparent;
 	border-left: 2px solid #1d037b;
 }
+/* Second level nav */
 .sidebar .nav .nav > li > a {
-	padding-top: 1px;
-	padding-bottom: 1px;
-	padding-left: 30px;
 	font-size: 12px;
+	padding: 2px 2px 2px 30px;
 }
 .sidebar .nav .nav > li > a:hover, .sidebar .nav .nav > li > a:focus {
 	padding-left: 29px;
 }
 .sidebar .nav .nav > .active > a, .sidebar .nav .nav > .active:hover > a, .sidebar .nav .nav > .active:focus > a {
-	font-weight: 500;
 	padding-left: 28px;
+}
+/* Third level nav */
+.sidebar .nav .nav .nav> li > a {
+	font-size: 12px;
+	padding: 1px 1px 1px 40px;
+}
+.sidebar .nav .nav .nav > li > a:hover, .sidebar .nav .nav .nav > li > a:focus {
+	padding-left: 39px;
+}
+.sidebar .nav .nav > li > ul {
+	display: none;
+}
+.sidebar .nav .nav > .active > ul {
+	display: block;
+}
+.sidebar .nav .nav .nav > .active > a, .sidebar .nav .nav .nav > .active:hover > a, .sidebar .nav .nav .nav > .active:focus > a {
+	padding-left: 38px;
 }
 .back-to-top {
 	margin-top: 20px;
