@@ -69,12 +69,111 @@
 					</div>
 					<p>Material from ANSI/ISA-95 series of standards used with permission of <a href="http://www.isa.org">ISA - The Instrumentation, Systems, and Automation Society</a>.</p>
 					<p>While the information, data, and standards provided in this publication were developed and are presented in good faith in accordance with a reasonable process that was subject to intellectual property and antitrust policies to benefit the industry as a whole, the publication is provided "as is" for information and guidance only, and there is no representation or warranty of any type or kind, including but not limited to warranties of merchantability or fitness for a particular purpose, and no warranty that use of the information, data, or standards will not infringe patent, copyright, trademark, trade secret, or other intellectual property rights of any party.</p>
+					<div class="toc">
+						<h2>Table of Contents</h2>
+						<ul class="toc">
+							<li>
+								<a href="#introduction"><span class="secno">1</span>Introduction</a>
+								<ul class="toc">
+									<li><a href="#notational-conventions"><span class="secno">1.1</span>Notational Conventions</a></li>
+									<li><a href="#namespaces"><span class="secno">1.2</span>Namespaces</a></li>
+								</ul>
+							</li>
+							<li>
+								<a href="#service-requirements"><span class="secno">2</span>Service Requirements</a>
+								<ul class="toc">
+									<li><a href="#message-content-format"><span class="secno">2.1</span>Message Content Format</a></li>
+									<li><a href="#security"><span class="secno">2.2</span>Security</a></li>
+									<li>
+										<a href="#error-handling"><span class="secno">2.3</span>Error Handling</a>
+										<ul class="toc">
+											<li><a href="#soap-faults"><span class="secno">2.3.1</span>SOAP Faults</a></li>
+											<li><a href="#parameter-faults"><span class="secno">2.3.2</span>Parameter Faults</a></li>
+											<li><a href="#invalid-notification-url"><span class="secno">2.3.3</span>Invalid Notification URL</a></li>
+										</ul>
+									</li>
+									<li><a href="#content-based-filtering"><span class="secno">2.4</span>Content-Based Filtering</a></li>
+								</ul>
+							</li>
+							<li>
+								<a href="#service-definitions"><span class="secno">3</span>Service Definitions</a>
+								<ul class="toc">
+									<li><a href="#terminology"><span class="secno">3.1</span>Terminology</a></li>
+									<li>
+										<a href="#channel-management-service"><span class="secno">3.2</span>Channel Management Service</a>
+										<ul class="toc">
+											<li><a href="#create-channel"><span class="secno">3.2.1</span>Create Channel</a></li>
+											<li><a href="#add-security-tokens"><span class="secno">3.2.2</span>Add Security Tokens</a></li>
+											<li><a href="#remove-security-tokens"><span class="secno">3.2.3</span>Remove Security Tokens</a></li>
+											<li><a href="#delete-channel"><span class="secno">3.2.4</span>Delete Channel</a></li>
+											<li><a href="#get-channel"><span class="secno">3.2.5</span>Get Channel</a></li>
+											<li><a href="#get-channels"><span class="secno">3.2.6</span>Get Channels</a></li>
+										</ul>
+									</li>
+									<li>
+										<a href="#notification-service"><span class="secno">3.3</span>Notification Service</a>
+										<ul class="toc">
+											<li><a href="#notify-listener"><span class="secno">3.3.1</span>Notify Listener</a></li>
+										</ul>
+									</li>
+									<li>
+										<a href="#provider-publication-service"><span class="secno">3.4</span>Provider Publication Service</a>
+										<ul class="toc">
+											<li><a href="#open-publication-session"><span class="secno">3.4.1</span>Open Publication Session</a></li>
+											<li><a href="#post-publication"><span class="secno">3.4.2</span>Post Publication</a></li>
+											<li><a href="#expire-publication"><span class="secno">3.4.3</span>Expire Publication</a></li>
+											<li><a href="#close-publication-session"><span class="secno">3.4.4</span>Close Publication Session</a></li>
+										</ul>
+									</li>
+									<li>
+										<a href="#consumer-publication-service"><span class="secno">3.5</span>Consumer Publication Service</a>
+										<ul class="toc">
+											<li><a href="#open-subscription-session"><span class="secno">3.5.1</span>Open Subscription Session</a></li>
+											<li><a href="#read-publication"><span class="secno">3.5.2</span>Read Publication</a></li>
+											<li><a href="#remove-publication"><span class="secno">3.5.3</span>Remove Publication</a></li>
+											<li><a href="#close-subscription-session"><span class="secno">3.5.4</span>Close Subscription Session</a></li>
+										</ul>
+									</li>
+									<li>
+										<a href="#provider-request-service"><span class="secno">3.6</span>Provider Request Service</a>
+										<ul class="toc">
+											<li><a href="#open-provider-request-session"><span class="secno">3.6.1</span>Open Provider Request Session</a></li>
+											<li><a href="#read-request"><span class="secno">3.6.2</span>Read Request</a></li>
+											<li><a href="#remove-request"><span class="secno">3.6.3</span>Remove Request</a></li>
+											<li><a href="#post-response"><span class="secno">3.6.4</span>Post Response</a></li>
+											<li><a href="#close-provider-request-session"><span class="secno">3.6.5</span>Close Provider Request Session</a></li>
+										</ul>
+									</li>
+									<li>
+										<a href="#consumer-request-service"><span class="secno">3.7</span>Consumer Request Service</a>
+										<ul class="toc">
+											<li><a href="#open-consumer-request-session"><span class="secno">3.7.1</span>Open Consumer Request Session</a></li>
+											<li><a href="#post-request"><span class="secno">3.7.2</span>Post Request</a></li>
+											<li><a href="#read-response"><span class="secno">3.7.3</span>Read Response</a></li>
+											<li><a href="#remove-response"><span class="secno">3.7.4</span>Remove Response</a></li>
+											<li><a href="#close-consumer-request-session"><span class="secno">3.7.5</span>Close Consumer Request Session</a></li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<li><a href="#conformance"><span class="secno">4</span>Conformance</a></li>
+							<li>
+								<a href="#sample-http-flows"><span class="secno">Appendix A</span>Example HTTP Flows</a>
+								<ul class="toc">
+									<li><a href="#channel-management-example"><span class="secno">A.1</span>Channel Management Example</a></li>
+									<li><a href="#publish-subscribe-example"><span class="secno">A.2</span>Publish-Subscribe Example</a></li>
+									<li><a href="#request-response-example"><span class="secno">A.3</span>Request-Response Example</a></li>
+								</ul>
+							</li>
+							<li><a href="#acknowledgements">Acknowledgements</a></li>
+						</ul>
+					</div>
 					<h2 id="introduction"><span class="secno">1</span>Introduction</h2>
 					<p>This ws-ISBM specification defines a SOAP Web Service implementation of the ISA 95.00.06 Messaging Service Model.</p>
 					<p>The ws-ISBM defines a minimal interface subset to Enterprise Service Buses (ESB) and other message exchange middleware using a standard Web Service interface. Publish-subscribe and request-response messaging patterns are supported through a consistent and unified model. Message routing is conducted through shared channels and topics, and optionally, XPath filtering for granular content-based filtering. An asyncronous Web Service callback is also provided to clients for notification of applicable messages. Token-based security for channels is specified to support multiple authorization models, from basic credential exchange to federated identity providers.</p>
 					<p>The benefit of a ws-ISBM implementation is to allow applications to expose a single, standardized interface rather than having to be custom built for every version and format of ESB or message exchange system. The goal is to further interoperability in application to application communications.</p>
 					<h3 id="notational-conventions"><span class="secno">1.2</span>Notational Conventions</h3>
-					<p>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",  "MAY", and "OPTIONAL" in this document are to be interpreted as described in <a href="http://www.ietf.org/rfc/rfc2119.txt">RFC 2119</a>.</p>
+					<p>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <a href="http://www.ietf.org/rfc/rfc2119.txt">RFC 2119</a>.</p>
 					<p>This specification uses the following syntax to define XML structures: <code><em>Element Name</em> (<em>Type</em>) [<em>Cardinality</em>]</code>. The namespaces for Types are defined in <a href="#namespaces">the following section</a>. For example, the Topic element defined as an XML Schema <code>string</code> with one to many cardinality would be defined as: <code>Topic (xs:string) [1..*]</code>.</p>
 					<h3 id="namespaces"><span class="secno">1.3</span>Namespaces</h3>
 					<p>The following namespaces are used in this document:</p>
@@ -109,7 +208,7 @@
 					<h4 id="soap-faults"><span class="secno">2.3.1</span>SOAP Faults</h4>
 					<p>SOAP Faults MUST have an accompanying human readable explanation. For a SOAP 1.1 implementation this is provided through the SOAP <code>faultstring</code> element (see <a href="http://www.w3.org/TR/soap11/#_Toc478383507">SOAP 1.1, SOAP Fault</a>). For a SOAP 1.2 implementation this is provided through the SOAP <code>Reason</code> element (see <a href="http://www.w3.org/TR/soap12-part1/#faultstringelement">SOAP 1.2, SOAP Reason Element</a>).</p>
 					<h4 id="parameter-faults"><span class="secno">2.3.2</span>Parameter Faults</h4>
-					<p>If any parameter for an operation is malformed or not optional and blank, then an undeclared <code>isbm:ParameterFault</code> SHOULD be returned to aid clients in determining the type of error. The fault SHOULD carry the offending parameter name/s.</p>
+					<p>If any parameter for an operation is malformed or not optional and blank, then a ws-ISBM Service Provider MUST return a SOAP Fault and SHOULD include undeclared <code>isbm:ParameterFault</code> element in the fault details to aid clients in determining the type of error. The fault MUST carry the offending parameter name/s.</p>
 					<h4 id="invalid-notification-url"><span class="secno">2.3.3</span>Invalid Notification URL</h4>
 					<p>If a provider/consumer application provides an invalid URL or a URL that does not host a NotifyListener service, the ws-ISBM Service Provider MAY choose not to send or defer a NotifyListener SOAP request.</p>
 					<h3 id="content-based-filtering"><span class="secno">2.4</span>Content-Based Filtering</h3>
@@ -125,18 +224,20 @@
 						<dd>Indicates whether the channel is for publications or requests/responses. Defined ChannelTypes are <code>Publication</code> and <code>Request</code>.</dd>
 						<dt>ChannelURI</dt>
 						<dd>The primary identifier for a channel.</dd>
+						<dt>Expiry</dt>
+						<dd>The duration until the expiration of the message.</dd>
 						<dt>ListenerURL</dt>
 						<dd>The URL endpoint, reachable by the ws-ISBM Service Provider, which hosts a ws-ISBM Notification Service. Used to indicate when a new message is available for a session.</dd>
 						<dt>MessageContent</dt>
 						<dd>The XML content of a message.</dd>
-						<dt>MessageExpiry</dt>
-						<dd>The duration until the expiration of the publication message.</dd>
 						<dt>MessageID</dt>
 						<dd>An identifier generated by the ws-ISBM Service Provider upon creation of a message.</dd>
 						<dt>NamespaceName</dt>
 						<dd>The namespace name used for an XPath filter expression.</dd>
 						<dt>NamespacePrefix</dt>
 						<dd>The namespace prefix used for an XPath filter expression.</dd>
+						<dt>SecurityToken</dt>
+						<dd>A token that can be assigned to a channel to control authorization.</dd>
 						<dt>SessionID</dt>
 						<dd>An identifier generated by the ws-ISBM Service Provider upon creation of a channel. Identifiers SHOULD be made non-obvious and not easily guessable.</dd>
 						<dt>Topic</dt>
@@ -335,7 +436,7 @@
 						</tr>
 						<tr>
 							<th>Behavior</th>
-							<td>The channels returned are filtered by those that match the security token. Any  channel that does not have security tokens assigned are returned regardless.</td>
+							<td>The channels returned are filtered by those that match the security token. Any channel that does not have security tokens assigned are returned regardless.</td>
 						</tr>
 						<tr>
 							<th>Output</th>
@@ -2216,7 +2317,7 @@ Content-Length: 252
 							<li><a href="#acknowledgements">Acknowledgements</a></li>
 						</ul>
 						<a class="back-to-top" href="#top">Back to top</a>
-					  </div>
+					</div>
 				</div>
 			</div>
 		</div>
