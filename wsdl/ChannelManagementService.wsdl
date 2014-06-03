@@ -360,8 +360,7 @@
 			<soap:address location="https://example.com/ChannelManagementService"/>
 		</wsdl:port>
 		<wsdl:port name="ChannelManagementServiceSoap12" binding="isbm:ChannelManagementServiceSoap12">
-			<soap12:address location="http://example.com/ChannelManagementService"/>
+			<soap12:address location="http://example.com/ChannelManagementService12"/>
 		</wsdl:port>
 	</wsdl:service>
-
 </wsdl:definitions>

@@ -181,14 +181,8 @@
 			<wsdl:output>
 				<soap:body use="literal"/>
 			</wsdl:output>
-			<wsdl:fault name="OperationFault">
-				<soap:fault name="OperationFault" use="literal"/>
-			</wsdl:fault>
 			<wsdl:fault name="SessionFault">
 				<soap:fault name="SessionFault" use="literal"/>
-			</wsdl:fault>
-			<wsdl:fault name="InvalidTopicFault">
-				<soap:fault name="InvalidTopicFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="ExpirePublication">
@@ -245,9 +239,6 @@
 			<wsdl:fault name="SessionFault">
 				<soap12:fault name="SessionFault" use="literal"/>
 			</wsdl:fault>
-			<wsdl:fault name="InvalidTopicFault">
-				<soap12:fault name="InvalidTopicFault" use="literal"/>
-			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="ExpirePublication">
 			<soap12:operation soapAction="http://www.openoandm.org/ws-isbm/ExpirePublication" style="document"/>
@@ -280,8 +271,7 @@
 			<soap:address location="https://example.com/ProviderPublicationService"/>
 		</wsdl:port>
 		<wsdl:port name="ProviderPublicationServiceSoap12" binding="isbm:ProviderPublicationServiceSoap12">
-			<soap12:address location="https://example.com/ProviderPublicationService"/>
+			<soap12:address location="https://example.com/ProviderPublicationService12"/>
 		</wsdl:port>
 	</wsdl:service>
-
 </wsdl:definitions>

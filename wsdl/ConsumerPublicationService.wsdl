@@ -309,8 +309,7 @@
 			<soap:address location="https://example.com/ConsumerPublicationService"/>
 		</wsdl:port>
 		<wsdl:port name="ConsumerPublicationServiceSoap12" binding="isbm:ConsumerPublicationServiceSoap12">
-			<soap12:address location="https://example.com/ConsumerPublicationService"/>
+			<soap12:address location="https://example.com/ConsumerPublicationService12"/>
 		</wsdl:port>
 	</wsdl:service>
-
 </wsdl:definitions>

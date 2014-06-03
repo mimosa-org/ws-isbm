@@ -81,8 +81,7 @@
 			<soap:address location="http://example.com/NotificationService"/>
 		</wsdl:port>
 		<wsdl:port name="NotificationServiceSoap12" binding="isbm:NotificationServiceSoap12">
-			<soap12:address location="http://example.com/NotificationService"/>
+			<soap12:address location="http://example.com/NotificationService12"/>
 		</wsdl:port>
 	</wsdl:service>
-
 </wsdl:definitions>

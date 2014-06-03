@@ -347,8 +347,7 @@
 			<soap:address location="https://example.com/ProviderRequestService"/>
 		</wsdl:port>
 		<wsdl:port name="ProviderRequestServiceSoap12" binding="isbm:ProviderRequestServiceSoap12">
-			<soap12:address location="https://example.com/ISBMProviderRequestService"/>
+			<soap12:address location="https://example.com/ProviderRequestService12"/>
 		</wsdl:port>
 	</wsdl:service>
-
 </wsdl:definitions>
