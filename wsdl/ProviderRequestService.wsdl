@@ -95,7 +95,11 @@
 				</xs:complexType>
 			</xs:element>
 			<xs:element name="PostResponseResponse">
-				<xs:complexType/>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="MessageID" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
 			</xs:element>
 			<xs:element name="CloseProviderRequestSession">
 				<xs:complexType>

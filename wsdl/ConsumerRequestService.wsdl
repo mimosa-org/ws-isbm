@@ -55,6 +55,7 @@
 						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
 						<xs:element minOccurs="1" maxOccurs="1" ref="isbm:MessageContent"/>
 						<xs:element minOccurs="1" maxOccurs="1" name="Topic" type="xs:string"/>
+						<xs:element minOccurs="0" maxOccurs="1" name="Expiry" type="xs:duration"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -64,6 +65,17 @@
 						<xs:element minOccurs="1" maxOccurs="1" name="MessageID" type="xs:string"/>
 					</xs:sequence>
 				</xs:complexType>
+			</xs:element>
+			<xs:element name="ExpireRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="1" name="MessageID" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ExpireRequestResponse">
+				<xs:complexType/>
 			</xs:element>
 			<xs:element name="ReadResponse">
 				<xs:complexType>
@@ -127,6 +139,12 @@
 	<wsdl:message name="PostRequestOut">
 		<wsdl:part name="parameters" element="isbm:PostRequestResponse"/>
 	</wsdl:message>
+	<wsdl:message name="ExpireRequestIn">
+		<wsdl:part name="parameters" element="isbm:ExpireRequest"/>
+	</wsdl:message>
+	<wsdl:message name="ExpireRequestOut">
+		<wsdl:part name="parameters" element="isbm:ExpireRequestResponse"/>
+	</wsdl:message>
 	<wsdl:message name="ReadResponseIn">
 		<wsdl:part name="parameters" element="isbm:ReadResponse"/>
 	</wsdl:message>
@@ -169,6 +187,12 @@
 			<wsdl:output message="isbm:PostRequestOut"/>
 			<wsdl:fault name="SessionFault" message="isbm:SessionFault"/>
 		</wsdl:operation>
+		<wsdl:operation name="ExpireRequest">
+			<wsdl:documentation>Expires a posted request message.</wsdl:documentation>
+			<wsdl:input message="isbm:ExpireRequestIn"/>
+			<wsdl:output message="isbm:ExpireRequestOut"/>
+			<wsdl:fault name="SessionFault" message="isbm:SessionFault"/>
+		</wsdl:operation>
 		<wsdl:operation name="ReadResponse">
 			<wsdl:documentation>Returns the first response message in the message queue for the session. Note: this service does not remove the message from the message queue.</wsdl:documentation>
 			<wsdl:input message="isbm:ReadResponseIn"/>
@@ -208,6 +232,18 @@
 		</wsdl:operation>
 		<wsdl:operation name="PostRequest">
 			<soap:operation soapAction="http://www.openoandm.org/ws-isbm/PostRequest" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="SessionFault">
+				<soap:fault name="SessionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="ExpireRequest">
+			<soap:operation soapAction="http://www.openoandm.org/ws-isbm/ExpireRequest" style="document"/>
 			<wsdl:input>
 				<soap:body use="literal"/>
 			</wsdl:input>
@@ -275,6 +311,18 @@
 		</wsdl:operation>
 		<wsdl:operation name="PostRequest">
 			<soap12:operation soapAction="http://www.openoandm.org/ws-isbm/PostRequest" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="SessionFault">
+				<soap12:fault name="SessionFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="ExpireRequest">
+			<soap12:operation soapAction="http://www.openoandm.org/ws-isbm/ExpireRequest" style="document"/>
 			<wsdl:input>
 				<soap12:body use="literal"/>
 			</wsdl:input>

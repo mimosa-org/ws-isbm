@@ -93,6 +93,7 @@
 										</ul>
 									</li>
 									<li><a href="#content-based-filtering"><span class="secno">2.4</span>Content-Based Filtering</a></li>
+									<li><a href="#message-expiry"><span class="secno">2.5</span>Message Expiry</a></li>
 								</ul>
 							</li>
 							<li>
@@ -149,16 +150,17 @@
 										<ul class="toc">
 											<li><a href="#open-consumer-request-session"><span class="secno">3.7.1</span>Open Consumer Request Session</a></li>
 											<li><a href="#post-request"><span class="secno">3.7.2</span>Post Request</a></li>
-											<li><a href="#read-response"><span class="secno">3.7.3</span>Read Response</a></li>
-											<li><a href="#remove-response"><span class="secno">3.7.4</span>Remove Response</a></li>
-											<li><a href="#close-consumer-request-session"><span class="secno">3.7.5</span>Close Consumer Request Session</a></li>
+											<li><a href="#expire-request"><span class="secno">3.7.3</span>Expire Request</a></li>
+											<li><a href="#read-response"><span class="secno">3.7.4</span>Read Response</a></li>
+											<li><a href="#remove-response"><span class="secno">3.7.5</span>Remove Response</a></li>
+											<li><a href="#close-consumer-request-session"><span class="secno">3.7.6</span>Close Consumer Request Session</a></li>
 										</ul>
 									</li>
 								</ul>
 							</li>
 							<li><a href="#conformance"><span class="secno">4</span>Conformance</a></li>
 							<li>
-								<a href="#sample-http-flows"><span class="secno">Appendix A</span>Example HTTP Flows</a>
+								<a href="#example-http-flows"><span class="secno">Appendix A</span>Example HTTP Flows</a>
 								<ul class="toc">
 									<li><a href="#channel-management-example"><span class="secno">A.1</span>Channel Management Example</a></li>
 									<li><a href="#publish-subscribe-example"><span class="secno">A.2</span>Publish-Subscribe Example</a></li>
@@ -199,7 +201,7 @@
 					<h3 id="security"><span class="secno">2.2</span>Security</h3>
 					<p>Security in the ws-ISBM specification only provide authorization of channels. Authorization of services is considered out-of-scope.</p>
 					<p>All ws-ISBM implementations MUST support transport layer security (e.g. SSL/TLS) in order to secure tokens and messages, and to prevent replay attacks.</p>
-					<p>All ws-ISBM implementations MUST support the <a href="https://www.oasis-open.org/committees/download.php/16782/wss-v1.1-spec-os-UsernameTokenProfile.pdf">WS-Security UsernameToken</a> using <code>PasswordText</code> as a basic level of security token. Examples of its use can be found in <a href="#sample-http-flows">Sample HTTP Flows</a>.</p>
+					<p>All ws-ISBM implementations MUST support the <a href="https://www.oasis-open.org/committees/download.php/16782/wss-v1.1-spec-os-UsernameTokenProfile.pdf">WS-Security UsernameToken</a> using <code>PasswordText</code> as a basic level of security token. Examples of its use can be found in <a href="#example-http-flows">Example HTTP Flows</a>.</p>
 					<p>A ws-ISBM Service Provider MAY choose to support additional forms of security tokens (e.g. SAML assertions, OAuth tokens) and it is RECOMMENDED that a ws-ISBM Service Provider support out-of-band token exchange standards such as <a href="http://saml.xml.org/saml-specifications">SAML</a>, <a href="http://docs.oasis-open.org/wsfed/federation/v1.2/os/ws-federation-1.2-spec-os.html">WS-Federation</a> or <a href="http://oauth.net">OAuth</a>.</p>
 					<p>As security tokens in the <a href="#channel-management-service">Channel Management Service</a> are specified using XML Schema <code>any</code> element, tokens MUST be able to be represented in an XML format. For tokens that do not have a canonical XML representation, a ws-ISBM Service Provider MUST define the supported formats.</p>
 					<p>A ws-ISBM Service Provider MUST validate security tokens for every service operation except for the Channel Management Service <a href="#create-channel">CreateChannel operation</a> (since the channel does not exist at the point in time when invoking CreateChannel). For the provider and consumer services, tokens are validated upon every operation to ensure that an application has valid credentials even after a session is opened (in the event of token revocation).</p>
@@ -208,14 +210,20 @@
 					<h4 id="soap-faults"><span class="secno">2.3.1</span>SOAP Faults</h4>
 					<p>SOAP Faults MUST have an accompanying human readable explanation. For a SOAP 1.1 implementation this is provided through the SOAP <code>faultstring</code> element (see <a href="http://www.w3.org/TR/soap11/#_Toc478383507">SOAP 1.1, SOAP Fault</a>). For a SOAP 1.2 implementation this is provided through the SOAP <code>Reason</code> element (see <a href="http://www.w3.org/TR/soap12-part1/#faultstringelement">SOAP 1.2, SOAP Reason Element</a>).</p>
 					<h4 id="parameter-faults"><span class="secno">2.3.2</span>Parameter Faults</h4>
-					<p>If any parameter for an operation is malformed or not optional and blank, then a ws-ISBM Service Provider MUST return a SOAP Fault and SHOULD include undeclared <code>isbm:ParameterFault</code> element in the fault details to aid clients in determining the type of error. The fault MUST carry the offending parameter name/s.</p>
+					<p>If any parameter for an operation is malformed or not optional and blank, then a ws-ISBM Service Provider MUST return a SOAP Fault and SHOULD include undeclared <code>isbm:ParameterFault</code> element in the fault details to aid senders in determining the type of error. The fault MUST carry the offending parameter name/s.</p>
 					<h4 id="invalid-notification-url"><span class="secno">2.3.3</span>Invalid Notification URL</h4>
 					<p>If a provider/consumer application provides an invalid URL or a URL that does not host a NotifyListener service, the ws-ISBM Service Provider MAY choose not to send or defer a NotifyListener SOAP request.</p>
 					<h3 id="content-based-filtering"><span class="secno">2.4</span>Content-Based Filtering</h3>
 					<p>To allow efficient content-based filtering of messages, an XPath expression MAY be added to a subscription or read request session to provide a filtering definition. The XPath expression MUST be defined as an XPath v1.0 expression. An XPath evaluation that returns an empty value or node set MUST NOT cause a notification to be generated nor will the message be visible to the receiving system. For an XPath expression that use namespaces, multiple namespace prefixes and names are added upon session creation.</p>
 					<p><span class="label label-info">Note</span> An empty result from an XPath evaluation will result in the whole message being is filtered; the message content itself is not filtered.</p>
+					<h3 id="message-expiry"><span class="secno">2.5</span>Message Expiry</h3>
+					<p>During posting of certain messages, a sender MAY specify an expiry duration for the message. A ws-ISBM Service Provider MUST hide an expired message from potential receivers unless the receiver has already read the message, in which case it will always remain visible to that particular receiver. This is to ensure the message is still available to the receiver to ensure message removal removes the correct message.</p>
+					<p>If a sender specifies a negative Expiry duration, then a ws-ISBM Service Provider MUST consider it equivalent to a blank duration.</p>
+					<p><span class="label label-info">Note</span> Responses can still be posted for an expired request message, and Consumers will still receive response notifications and be able to read and remove these responses.</p>
 					<h2 id="service-definitions"><span class="secno">3</span>Service Definitions</h2>
 					<p>All services defined in ISA 95.00.06 are defined as SOAP Web Services in this specification. The SOAP service definitions below are to be interpreted in the context of the corresponding ISA 95.00.06 service.</p>
+					<p><span class="label label-info">Note</span> ISA 95.00.06 does not define a Expire Request operation within the Consumer Request Service, but it has been specified below for a consistent message expiry model across services.</p>
+					<p>All service operations have corresponding HTTP examples shown in <a href="#example-http-flows">Example HTTP Flows</a>.</p>
 					<h3 id="terminology"><span class="secno">3.1</span>Terminology</h3>
 					<dl>
 						<dt>ChannelDescription</dt>
@@ -305,7 +313,7 @@
 							<td>
 								<p>If the ChannelURI does not exist, then a ChannelFault is returned.</p>
 								<p>If the specified channel is assigned security tokens and the provided token does not match a token assigned to the channel, then a ChannelFault is returned.</p>
-								<p>If a specified SecurityToken is already assigned to the channel, then no action is taken to maintain a distinct list.</p>
+								<p>If a specified SecurityToken is already assigned to the channel, then no further action is taken to maintain a distinct list.</p>
 							</td>
 						</tr>
 						<tr>
@@ -548,7 +556,6 @@
 							<th>Behavior</th>
 							<td>
 								<p>If the SessionID does not exist or does not correspond to a publication session, then a SessionFault is returned.</p>
-								<p>A negative Expiry duration is considered equivalent to a zero duration.</p>
 							</td>
 						</tr>
 						<tr>
@@ -568,7 +575,7 @@
 						</tr>
 						<tr>
 							<th>Description</th>
-							<td>Expires a posted publication. If an already read message subsequently expires, it is still available to the consumer to ensure a RemovePublication operation removes the correct message.</td>
+							<td>Expires a posted publication.</td>
 						</tr>
 						<tr>
 							<th>Input</th>
@@ -581,7 +588,7 @@
 							<th>Behavior</th>
 							<td>
 								<p>If the SessionID does not exist or does not correspond to a publication session, then a SessionFault is returned.</p>
-								<p>If the MessageID does not correspond with the SessionID or the corresponding message has already expired, then no action is taken.</p>
+								<p>If the MessageID does not correspond with the SessionID or the corresponding message has already expired, then no further action is taken.</p>
 								<p>The message is expired for all topics associated with the message.</p>
 							</td>
 						</tr>
@@ -678,7 +685,7 @@
 						</tr>
 						<tr>
 							<th>Description</th>
-							<td>Returns the first non-expired publication message or a previously read expired message that satisfies the session message filters. If there are no publication messages for the session, then null is returned</td>
+							<td>Returns the first non-expired publication message or a previously read expired message that satisfies the session message filters. If there are no publication messages for the session, then nothing is returned.</td>
 						</tr>
 						<tr>
 							<th>Input</th>
@@ -887,12 +894,12 @@
 							<td>
 								<p>The ws-ISBM Service Provider creates a message with the MessageContent and a MessageID that uniquely identifies message, and makes the response available to the requesting application.</p>
 								<p>If the SessionID does not exist or does not correspond to a provider request session, then a SessionFault is returned.</p>
-								<p>If there is no request message that can be matched to RequestMessageID, then no action is taken.</p>
+								<p>If there is no request message that can be matched to RequestMessageID, then no further action is taken.</p>
 							</td>
 						</tr>
 						<tr>
 							<th>Output</th>
-							<td>N/A</td>
+							<td>MessageID (xs:string) [1]</td>
 						</tr>
 						<tr>
 							<th>Faults</th>
@@ -981,6 +988,7 @@
 								<p>SessionID (xs:string) [1]</p>
 								<p>MessageContent (xs:any) [1]</p>
 								<p>Topic (xs:string) [1]</p>
+								<p>Expiry (xs:duration) [0..1]</p>
 							</td>
 						</tr>
 						<tr>
@@ -999,7 +1007,40 @@
 							<td>SessionFault</td>
 						</tr>
 					</table>
-					<h4 id="read-response"><span class="secno">3.7.3</span>Read Response</h4>
+					<h4 id="expire-request"><span class="secno">3.7.3</span>Expire Request</h4>
+					<table class="table operation">
+						<tr>
+							<th>Name</th>
+							<td>ExpireRequest</td>
+						</tr>
+						<tr>
+							<th>Description</th>
+							<td>Expires a posted request message.</td>
+						</tr>
+						<tr>
+							<th>Input</th>
+							<td>
+								<p>SessionID (xs:string) [1]</p>
+								<p>MessageID (xs:string) [1]</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Behavior</th>
+							<td>
+								<p>If the SessionID does not exist or does not correspond to a consumer request session, then a SessionFault is returned.</p>
+								<p>If the MessageID does not correspond with the SessionID or the corresponding message has already expired, then no further action is taken.</p>
+							</td>
+						</tr>
+						<tr>
+							<th>Output</th>
+							<td>N/A</td>
+						</tr>
+						<tr>
+							<th>Faults</th>
+							<td>SessionFault</td>
+						</tr>
+					</table>
+					<h4 id="read-response"><span class="secno">3.7.4</span>Read Response</h4>
 					<table class="table operation">
 						<tr>
 							<th>Name</th>
@@ -1036,7 +1077,7 @@
 							<td>SessionFault</td>
 						</tr>
 					</table>
-					<h4 id="remove-response"><span class="secno">3.7.4</span>Remove Response</h4>
+					<h4 id="remove-response"><span class="secno">3.7.5</span>Remove Response</h4>
 					<table class="table operation">
 						<tr>
 							<th>Name</th>
@@ -1057,7 +1098,7 @@
 							<th>Behavior</th>
 							<td>
 								<p>If the SessionID does not exist or does not correspond to a consumer request session, then a SessionFault is returned.</p>
-								<p>If the RequestMessageID does not correspond to a message in the message queue, then no action is taken.</p>
+								<p>If the RequestMessageID does not correspond to a message in the message queue, then no further action is taken.</p>
 							</td>
 						</tr>
 						<tr>
@@ -1069,7 +1110,7 @@
 							<td>SessionFault</td>
 						</tr>
 					</table>
-					<h4 id="close-consumer-request-session"><span class="secno">3.7.5</span>Close Consumer Request Session</h4>
+					<h4 id="close-consumer-request-session"><span class="secno">3.7.6</span>Close Consumer Request Session</h4>
 					<table class="table operation">
 						<tr>
 							<th>Name</th>
@@ -1085,7 +1126,11 @@
 						</tr>
 						<tr>
 							<th>Behavior</th>
-							<td>If the SessionID does not exist (non-existent or already closed) or does not correspond to a Request session, then a SessionFault is returned.</td>
+							<td>
+								<p>If the SessionID does not exist (non-existent or already closed) or does not correspond to a Request session, then a SessionFault is returned.</p>
+								<p>All unexpired requests that have been posted during the session will be expired.</p>
+							</td>
+							
 						</tr>
 						<tr>
 							<th>Output</th>
@@ -1105,13 +1150,13 @@
 						<li>Support for the Consumer Publication Service</li>
 						<li>Support for the Provider Request Service</li>
 						<li>Support for the Consumer Request Service</li>
-						<li>Support for SOAP 1.0 and SOAP 1.2 services</li>
+						<li>Support for SOAP 1.1 and SOAP 1.2 services</li>
 						<li>Support for Filter Expressions in an XPath 1.0 format</li>
 						<li>Support for Security Tokens using WS-Security UsernameToken</li>
 						<li>Support for other Security Tokens formats</li>
 						<li>A statement of the total conformance concerning services and security methods supported or, in case of partial conformance, a statement identifying explicitly the areas of non-conformance</li>
 					</ol>
-					<h2 id="sample-http-flows"><span class="secno">Appendix A</span>Example HTTP Flows</h2>
+					<h2 id="example-http-flows"><span class="secno">Appendix A</span>Example HTTP Flows</h2>
 					<h3 id="channel-management-example"><span class="secno">A.1</span>Channel Management Example</h3>
 					<img src="assets/channel_management_example.png" class="img-responsive" alt="Channel Management Example">
 					<h4>1. CreateChannel</h4>
@@ -2355,16 +2400,17 @@ Content-Length: 252
 										<ul class="nav">
 											<li><a href="#open-consumer-request-session"><span class="secno">3.7.1</span>Open Consumer Request Session</a></li>
 											<li><a href="#post-request"><span class="secno">3.7.2</span>Post Request</a></li>
-											<li><a href="#read-response"><span class="secno">3.7.3</span>Read Response</a></li>
-											<li><a href="#remove-response"><span class="secno">3.7.4</span>Remove Response</a></li>
-											<li><a href="#close-consumer-request-session"><span class="secno">3.7.5</span>Close Consumer Request Session</a></li>
+											<li><a href="#expire-request"><span class="secno">3.7.3</span>Expire Request</a></li>
+											<li><a href="#read-response"><span class="secno">3.7.4</span>Read Response</a></li>
+											<li><a href="#remove-response"><span class="secno">3.7.5</span>Remove Response</a></li>
+											<li><a href="#close-consumer-request-session"><span class="secno">3.7.6</span>Close Consumer Request Session</a></li>
 										</ul>
 									</li>
 								</ul>
 							</li>
 							<li><a href="#conformance"><span class="secno">4</span>Conformance</a></li>
 							<li>
-								<a href="#sample-http-flows"><span class="secno">Appendix A</span>Example HTTP Flows</a>
+								<a href="#example-http-flows"><span class="secno">Appendix A</span>Example HTTP Flows</a>
 								<ul class="nav">
 									<li><a href="#channel-management-example"><span class="secno">A.1</span>Channel Management Example</a></li>
 									<li><a href="#publish-subscribe-example"><span class="secno">A.2</span>Publish-Subscribe Example</a></li>
