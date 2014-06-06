@@ -194,13 +194,13 @@
 			<wsdl:fault name="SessionFault" message="isbm:SessionFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="ReadResponse">
-			<wsdl:documentation>Returns the first response message in the message queue for the session. Note: this service does not remove the message from the message queue.</wsdl:documentation>
+			<wsdl:documentation>Returns the first response message, if any, in the session message queue associated with the request.</wsdl:documentation>
 			<wsdl:input message="isbm:ReadResponseIn"/>
 			<wsdl:output message="isbm:ReadResponseOut"/>
 			<wsdl:fault name="SessionFault" message="isbm:SessionFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="RemoveResponse">
-			<wsdl:documentation>Deletes the first request message in the message queue for the session.</wsdl:documentation>
+			<wsdl:documentation>Deletes the first response message, if any, in the session message queue associated with the request.</wsdl:documentation>
 			<wsdl:input message="isbm:RemoveResponseIn"/>
 			<wsdl:output message="isbm:RemoveResponseOut"/>
 			<wsdl:fault name="SessionFault" message="isbm:SessionFault"/>

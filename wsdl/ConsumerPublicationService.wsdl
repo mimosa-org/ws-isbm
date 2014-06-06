@@ -169,7 +169,7 @@
 			<wsdl:fault name="OperationFault" message="isbm:OperationFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="ReadPublication">
-			<wsdl:documentation>Returns the first non-expired publication message (if any) after the specified last message (even if the specified last message has expired) for the session.</wsdl:documentation>
+			<wsdl:documentation>Returns the first non-expired publication message or a previously read expired message that satisfies the session message filters.</wsdl:documentation>
 			<wsdl:input message="isbm:ReadPublicationIn"/>
 			<wsdl:output message="isbm:ReadPublicationOut"/>
 			<wsdl:fault name="SessionFault" message="isbm:SessionFault"/>

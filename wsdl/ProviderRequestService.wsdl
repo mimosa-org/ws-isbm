@@ -181,13 +181,13 @@
 			<wsdl:fault name="OperationFault" message="isbm:OperationFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="ReadRequest">
-			<wsdl:documentation>Returns the first request message in the message queue for the session. Note: this service does not remove the message from the message queue.</wsdl:documentation>
+			<wsdl:documentation>Returns the first non-expired request message or a previously read expired message that satifies the session message filters.</wsdl:documentation>
 			<wsdl:input message="isbm:ReadRequestIn"/>
 			<wsdl:output message="isbm:ReadRequestOut"/>
 			<wsdl:fault name="SessionFault" message="isbm:SessionFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="RemoveRequest">
-			<wsdl:documentation>Deletes the first request message in the message queue for the session.</wsdl:documentation>
+			<wsdl:documentation>Deletes the first request message, if any, in the session message queue.</wsdl:documentation>
 			<wsdl:input message="isbm:RemoveRequestIn"/>
 			<wsdl:output message="isbm:RemoveRequestOut"/>
 			<wsdl:fault name="SessionFault" message="isbm:SessionFault"/>

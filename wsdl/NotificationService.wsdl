@@ -44,7 +44,7 @@
 
 	<wsdl:portType name="NotificationService">
 		<wsdl:operation name="NotifyListener">
-			<wsdl:documentation>Provides a notification of a new message being able to be read for a session. The Listener URI invoked was given when the application desiring notifications subscribed to the channel.</wsdl:documentation>
+			<wsdl:documentation>Provides a notification of a new message being able to be read for a session. The Listener URI invoked was provided when the application desiring notifications subscribed to the channel.</wsdl:documentation>
 			<wsdl:input message="isbm:NotifyListenerIn"/>
 			<wsdl:output message="isbm:NotifyListenerOut"/>
 		</wsdl:operation>

@@ -185,7 +185,7 @@
 			<wsdl:fault name="SecurityTokenFault" message="isbm:SecurityTokenFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="DeleteChannel">
-			<wsdl:documentation>Deletes an ISBM channel.</wsdl:documentation>
+			<wsdl:documentation>Deletes a channel.</wsdl:documentation>
 			<wsdl:input message="isbm:DeleteChannelIn"/>
 			<wsdl:output message="isbm:DeleteChannelOut"/>
 			<wsdl:fault name="ChannelFault" message="isbm:ChannelFault"/>
@@ -197,7 +197,7 @@
 			<wsdl:fault name="ChannelFault" message="isbm:ChannelFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="GetChannels">
-			<wsdl:documentation>Gets all ISBM channels.</wsdl:documentation>
+			<wsdl:documentation>Gets information about all channels.</wsdl:documentation>
 			<wsdl:input message="isbm:GetChannelsIn"/>
 			<wsdl:output message="isbm:GetChannelsOut"/>
 		</wsdl:operation>

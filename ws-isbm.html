@@ -470,7 +470,7 @@
 						</tr>
 						<tr>
 							<th>Description</th>
-							<td>Provides a notification of a new message being able to be read for a session. The Listener URL invoked was given when the application desiring notifications subscribed to the channel.</td>
+							<td>Provides a notification of a new message being able to be read for a session. The Listener URL invoked was provided when the application desiring notifications subscribed to the channel.</td>
 						</tr>
 						<tr>
 							<th>Input</th>
@@ -541,7 +541,7 @@
 						</tr>
 						<tr>
 							<th>Description</th>
-							<td>Posts a publication message on a channel. The ws-ISBM Service Provider creates a message with the MessageContent and a MessageID that uniquely identifies message, and makes it available for subscribers.</td>
+							<td>Posts a publication message on a channel.</td>
 						</tr>
 						<tr>
 							<th>Input</th>
@@ -556,6 +556,7 @@
 							<th>Behavior</th>
 							<td>
 								<p>If the SessionID does not exist or does not correspond to a publication session, then a SessionFault is returned.</p>
+								<p>If the channel associated with the session is assigned security tokens and the provided token does not match a token assigned to the channel, then a SessionFault is returned.</p>
 							</td>
 						</tr>
 						<tr>
@@ -588,6 +589,7 @@
 							<th>Behavior</th>
 							<td>
 								<p>If the SessionID does not exist or does not correspond to a publication session, then a SessionFault is returned.</p>
+								<p>If the channel associated with the session is assigned security tokens and the provided token does not match a token assigned to the channel, then a SessionFault is returned.</p>
 								<p>If the MessageID does not correspond with the SessionID or the corresponding message has already expired, then no further action is taken.</p>
 								<p>The message is expired for all topics associated with the message.</p>
 							</td>
@@ -619,6 +621,7 @@
 							<th>Behavior</th>
 							<td>
 								<p>If the SessionID does not exist (non-existent or already closed) or does not correspond to a publication session, then a SessionFault is returned.</p>
+								<p>If the channel associated with the session is assigned security tokens and the provided token does not match a token assigned to the channel, then a SessionFault is returned.</p>
 								<p>All unexpired messages that have been posted during the session will be expired.</p>
 							</td>
 						</tr>
@@ -685,7 +688,7 @@
 						</tr>
 						<tr>
 							<th>Description</th>
-							<td>Returns the first non-expired publication message or a previously read expired message that satisfies the session message filters. If there are no publication messages for the session, then nothing is returned.</td>
+							<td>Returns the first non-expired publication message or a previously read expired message that satisfies the session message filters.</td>
 						</tr>
 						<tr>
 							<th>Input</th>
@@ -693,7 +696,10 @@
 						</tr>
 						<tr>
 							<th>Behavior</th>
-							<td>If the SessionID does not exist or does not correspond to a subscription session, then a SessionFault is returned.</td>
+							<td>
+								<p>If the SessionID does not exist or does not correspond to a subscription session, then a SessionFault is returned.</p>
+								<p>If the channel associated with the session is assigned security tokens and the provided token does not match a token assigned to the channel, then a SessionFault is returned.</p>
+							</td>
 						</tr>
 						<tr>
 							<th>Output</th>
@@ -725,7 +731,10 @@
 						</tr>
 						<tr>
 							<th>Behavior</th>
-							<td>If the SessionID does not exist or does not correspond to a subscription session, then a SessionFault is returned.</td>
+							<td>
+								<p>If the SessionID does not exist or does not correspond to a subscription session, then a SessionFault is returned.</p>
+								<p>If the channel associated with the session is assigned security tokens and the provided token does not match a token assigned to the channel, then a SessionFault is returned.</p>
+							</td>
 						</tr>
 						<tr>
 							<th>Output</th>
@@ -752,7 +761,10 @@
 						</tr>
 						<tr>
 							<th>Behavior</th>
-							<td>If the SessionID does not exist (non-existent or already closed) or does not correspond to a publication session, then a SessionFault is returned.</td>
+							<td>
+								<p>If the SessionID does not exist (non-existent or already closed) or does not correspond to a publication session, then a SessionFault is returned.</p>
+								<p>If the channel associated with the session is assigned security tokens and the provided token does not match a token assigned to the channel, then a SessionFault is returned.</p>
+							</td>
 						</tr>
 						<tr>
 							<th>Output</th>
@@ -817,7 +829,7 @@
 						</tr>
 						<tr>
 							<th>Description</th>
-							<td>Returns the first request message in the message queue for the session. Note: this service does not remove the message from the message queue.</td>
+							<td>Returns the first non-expired request message or a previously read expired message that satifies the session message filters.</td>
 						</tr>
 						<tr>
 							<th>Input</th>
@@ -827,6 +839,7 @@
 							<th>Behavior</th>
 							<td>
 								<p>If the SessionID does not exist or does not correspond to a provider request session, then a SessionFault is returned.</p>
+								<p>If the channel associated with the session is assigned security tokens and the provided token does not match a token assigned to the channel, then a SessionFault is returned.</p>
 								<p>The returned Topic will correspond to the first topic that matched the posted request.</p>
 							</td>
 						</tr>
@@ -852,7 +865,7 @@
 						</tr>
 						<tr>
 							<th>Description</th>
-							<td>Deletes the first request message, if any, in the message queue for the session.</td>
+							<td>Deletes the first request message, if any, in the session message queue.</td>
 						</tr>
 						<tr>
 							<th>Input</th>
@@ -860,7 +873,10 @@
 						</tr>
 						<tr>
 							<th>Behavior</th>
-							<td>If the SessionID does not exist or does not correspond to a provider request session, then a SessionFault is returned.</td>
+							<td>
+								<p>If the SessionID does not exist or does not correspond to a provider request session, then a SessionFault is returned.</p>
+								<p>If the channel associated with the session is assigned security tokens and the provided token does not match a token assigned to the channel, then a SessionFault is returned.</p>
+							</td>
 						</tr>
 						<tr>
 							<th>Output</th>
@@ -892,8 +908,8 @@
 						<tr>
 							<th>Behavior</th>
 							<td>
-								<p>The ws-ISBM Service Provider creates a message with the MessageContent and a MessageID that uniquely identifies message, and makes the response available to the requesting application.</p>
 								<p>If the SessionID does not exist or does not correspond to a provider request session, then a SessionFault is returned.</p>
+								<p>If the channel associated with the session is assigned security tokens and the provided token does not match a token assigned to the channel, then a SessionFault is returned.</p>
 								<p>If there is no request message that can be matched to RequestMessageID, then no further action is taken.</p>
 							</td>
 						</tr>
@@ -922,7 +938,10 @@
 						</tr>
 						<tr>
 							<th>Behavior</th>
-							<td>If the SessionID does not exist (non-existent or already closed) or does not correspond to a Request session, then a SessionFault is returned.</td>
+							<td>
+								<p>If the SessionID does not exist (non-existent or already closed) or does not correspond to a Request session, then a SessionFault is returned.</p>
+								<p>If the channel associated with the session is assigned security tokens and the provided token does not match a token assigned to the channel, then a SessionFault is returned.</p>
+							</td>
 						</tr>
 						<tr>
 							<th>Output</th>
@@ -994,8 +1013,8 @@
 						<tr>
 							<th>Behavior</th>
 							<td>
-								<p>The ws-ISBM Service Provider creates a message with the MessageContent and a MessageID that uniquely identifies message, and makes the message available to the appropriate provider applications on the channel.</p>
 								<p>If the SessionID does not exist or does not correspond to a consumer request session, then a SessionFault is returned.</p>
+								<p>If the channel associated with the session is assigned security tokens and the provided token does not match a token assigned to the channel, then a SessionFault is returned.</p>
 							</td>
 						</tr>
 						<tr>
@@ -1028,6 +1047,7 @@
 							<th>Behavior</th>
 							<td>
 								<p>If the SessionID does not exist or does not correspond to a consumer request session, then a SessionFault is returned.</p>
+								<p>If the channel associated with the session is assigned security tokens and the provided token does not match a token assigned to the channel, then a SessionFault is returned.</p>
 								<p>If the MessageID does not correspond with the SessionID or the corresponding message has already expired, then no further action is taken.</p>
 							</td>
 						</tr>
@@ -1048,7 +1068,7 @@
 						</tr>
 						<tr>
 							<th>Description</th>
-							<td>Returns the first response message, if any, in the message queue associated with the request.</td>
+							<td>Returns the first response message, if any, in the session message queue associated with the request.</td>
 						</tr>
 						<tr>
 							<th>Input</th>
@@ -1061,6 +1081,7 @@
 							<th>Behavior</th>
 							<td>
 								<p>If the SessionID does not exist or does not correspond to a consumer request session, then a SessionFault is returned.</p>
+								<p>If the channel associated with the session is assigned security tokens and the provided token does not match a token assigned to the channel, then a SessionFault is returned.</p>
 								<p>If the RequestMessageID does not correspond to a message in the message queue, then no message is returned.</p>
 							</td>
 						</tr>
@@ -1085,7 +1106,7 @@
 						</tr>
 						<tr>
 							<th>Description</th>
-							<td>Deletes the first response message, if any, in the message queue associated with the request.</td>
+							<td>Deletes the first response message, if any, in the session message queue associated with the request.</td>
 						</tr>
 						<tr>
 							<th>Input</th>
@@ -1098,6 +1119,7 @@
 							<th>Behavior</th>
 							<td>
 								<p>If the SessionID does not exist or does not correspond to a consumer request session, then a SessionFault is returned.</p>
+								<p>If the channel associated with the session is assigned security tokens and the provided token does not match a token assigned to the channel, then a SessionFault is returned.</p>
 								<p>If the RequestMessageID does not correspond to a message in the message queue, then no further action is taken.</p>
 							</td>
 						</tr>
@@ -1128,6 +1150,7 @@
 							<th>Behavior</th>
 							<td>
 								<p>If the SessionID does not exist (non-existent or already closed) or does not correspond to a Request session, then a SessionFault is returned.</p>
+								<p>If the channel associated with the session is assigned security tokens and the provided token does not match a token assigned to the channel, then a SessionFault is returned.</p>
 								<p>All unexpired requests that have been posted during the session will be expired.</p>
 							</td>
 							
