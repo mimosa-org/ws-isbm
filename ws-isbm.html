@@ -158,7 +158,8 @@
 									</li>
 								</ul>
 							</li>
-							<li><a href="#conformance"><span class="secno">4</span>Conformance</a></li>
+							<li><a href="#xml-data-structures"><span class="secno">4</span>XML Data Structures</a></li>
+							<li><a href="#conformance"><span class="secno">5</span>Conformance</a></li>
 							<li>
 								<a href="#example-http-flows"><span class="secno">Appendix A</span>Example HTTP Flows</a>
 								<ul class="toc">
@@ -209,6 +210,7 @@
 					
 					<h4 id="soap-faults"><span class="secno">2.3.1</span>SOAP Faults</h4>
 					<p>SOAP Faults MUST have an accompanying human readable explanation. For a SOAP 1.1 implementation this is provided through the SOAP <code>faultstring</code> element (see <a href="http://www.w3.org/TR/soap11/#_Toc478383507">SOAP 1.1, SOAP Fault</a>). For a SOAP 1.2 implementation this is provided through the SOAP <code>Reason</code> element (see <a href="http://www.w3.org/TR/soap12-part1/#faultstringelement">SOAP 1.2, SOAP Reason Element</a>).</p>
+					<p><span class="label label-info">Note</span> The declared SOAP Faults specified by the services and WSDLs do not have any elements or attributes defined. This is because the sender can interpret the fault based on the supplied parameters and/or the operation behavior. For example, a <code>ChannelFault</code> returned by the <code>DeleteChannel</code> operation means that the <code>ChannelURI</code> provided by the sender did not exist.</p>
 					<h4 id="parameter-faults"><span class="secno">2.3.2</span>Parameter Faults</h4>
 					<p>If any parameter for an operation is malformed or not optional and blank, then a ws-ISBM Service Provider MUST return a SOAP Fault and SHOULD include undeclared <code>isbm:ParameterFault</code> element in the fault details to aid senders in determining the type of error. The fault MUST carry the offending parameter name/s.</p>
 					<h4 id="invalid-notification-url"><span class="secno">2.3.3</span>Invalid Notification URL</h4>
@@ -268,10 +270,10 @@
 						<tr>
 							<th>Input</th>
 							<td>
-								<p>ChannelURI (xs:string) [1]</p>
-								<p>ChannelType (isbm:ChannelType) [1]</p>
-								<p>ChannelDescription (xs:string) [0..1]</p>
-								<p>SecurityToken (xs:any) [0..*]</p>
+								<p>ChannelURI (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</p>
+								<p>ChannelType (<a href="#channel-type-xml">isbm:ChannelType</a>) [1]</p>
+								<p>ChannelDescription (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [0..1]</p>
+								<p>SecurityToken (<a href="#security-token-xml">isbm:SecurityToken</a>) [0..*]</p>
 							</td>
 						</tr>
 						<tr>
@@ -304,8 +306,8 @@
 						<tr>
 							<th>Input</th>
 							<td>
-								<p>ChannelURI (xs:string) [1]</p>
-								<p>SecurityToken (xs:any) [1..*]</p>
+								<p>ChannelURI (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</p>
+								<p>SecurityToken (<a href="#security-token-xml">isbm:SecurityToken</a>) [1..*]</p>
 							</td>
 						</tr>
 						<tr>
@@ -338,8 +340,8 @@
 						<tr>
 							<th>Input</th>
 							<td>
-								<p>ChannelURI (xs:string) [1]</p>
-								<p>SecurityToken (xs:any) [1..*]</p>
+								<p>ChannelURI (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</p>
+								<p>SecurityToken (<a href="#security-token-xml">isbm:SecurityToken</a>) [1..*]</p>
 							</td>
 						</tr>
 						<tr>
@@ -374,7 +376,7 @@
 						</tr>
 						<tr>
 							<th>Input</th>
-							<td>ChannelURI (xs:string) [1]</td>
+							<td>ChannelURI (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</td>
 						</tr>
 						<tr>
 							<th>Behavior</th>
@@ -405,7 +407,7 @@
 						</tr>
 						<tr>
 							<th>Input</th>
-							<td>ChannelURI (xs:string) [1]</td>
+							<td>ChannelURI (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</td>
 						</tr>
 						<tr>
 							<th>Behavior</th>
@@ -417,10 +419,10 @@
 						<tr>
 							<th>Output</th>
 							<td>
-								<p>Channel (isbm:Channel) [1], composed of:</p>
-								<p>&nbsp;&nbsp;&nbsp;&nbsp;ChannelURI (xs:string) [1]</p>
-								<p>&nbsp;&nbsp;&nbsp;&nbsp;ChannelType (isbm:ChannelType) [1]</p>
-								<p>&nbsp;&nbsp;&nbsp;&nbsp;ChannelDescription (xs:string) [0..1]</p>
+								<p>Channel (<a href="#channel-xml">isbm:Channel</a>) [1], composed of:</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;ChannelURI (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;ChannelType (<a href="#channel-type-xml">isbm:ChannelType</a>) [1]</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;ChannelDescription (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [0..1]</p>
 							</td>
 						</tr>
 						<tr>
@@ -449,10 +451,10 @@
 						<tr>
 							<th>Output</th>
 							<td>
-								<p>Channel (isbm:Channel) [0..*], composed of:</p>
-								<p>&nbsp;&nbsp;&nbsp;&nbsp;ChannelURI (xs:string) [1]</p>
-								<p>&nbsp;&nbsp;&nbsp;&nbsp;ChannelType (isbm:ChannelType) [1]</p>
-								<p>&nbsp;&nbsp;&nbsp;&nbsp;ChannelDescription (xs:string) [0..1]</p>
+								<p>Channel (<a href="#channel-xml">isbm:Channel</a>) [0..*], composed of:</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;ChannelURI (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;ChannelType (<a href="#channel-type-xml">isbm:ChannelType</a>) [1]</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;ChannelDescription (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [0..1]</p>
 							</td>
 						</tr>
 						<tr>
@@ -475,10 +477,10 @@
 						<tr>
 							<th>Input</th>
 							<td>
-								<p>SessionID (xs:string) [1]</p>
-								<p>MessageID (xs:string) [1]</p>
-								<p>Topic (xs:string) [0..*]</p>
-								<p>RequestMessageID (xs:string) [0..1]</p>
+								<p>SessionID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</p>
+								<p>MessageID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</p>
+								<p>Topic (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [0..*]</p>
+								<p>RequestMessageID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [0..1]</p>
 							</td>
 						</tr>
 						<tr>
@@ -511,7 +513,7 @@
 						</tr>
 						<tr>
 							<th>Input</th>
-							<td>ChannelURI (xs:string) [1]</td>
+							<td>ChannelURI (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</td>
 						</tr>
 						<tr>
 							<th>Behavior</th>
@@ -523,7 +525,7 @@
 						</tr>
 						<tr>
 							<th>Output</th>
-							<td>SessionID (xs:string) [1]</td>
+							<td>SessionID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</td>
 						</tr>
 						<tr>
 							<th>Faults</th>
@@ -546,10 +548,10 @@
 						<tr>
 							<th>Input</th>
 							<td>
-								<p>SessionID (xs:string) [1]</p>
-								<p>MessageContent (xs:any) [1]</p>
-								<p>Topic (xs:string) [1..*]</p>
-								<p>Expiry (xs:duration) [0..1]</p>
+								<p>SessionID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</p>
+								<p>MessageContent (<a href="#message-content-xml">isbm:MessageContent</a>) [1]</p>
+								<p>Topic (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1..*]</p>
+								<p>Expiry (<a href="http://www.w3.org/TR/xmlschema-2/#duration">xs:duration</a>) [0..1]</p>
 							</td>
 						</tr>
 						<tr>
@@ -561,7 +563,7 @@
 						</tr>
 						<tr>
 							<th>Output</th>
-							<td>MessageID (xs:string) [1]</td>
+							<td>MessageID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</td>
 						</tr>
 						<tr>
 							<th>Faults</th>
@@ -581,8 +583,8 @@
 						<tr>
 							<th>Input</th>
 							<td>
-								<p>SessionID (xs:string) [1]</p>
-								<p>MessageID (xs:string) [1]</p>
+								<p>SessionID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</p>
+								<p>MessageID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</p>
 							</td>
 						</tr>
 						<tr>
@@ -615,7 +617,7 @@
 						</tr>
 						<tr>
 							<th>Input</th>
-							<td>SessionID (xs:string) [1]</td>
+							<td>SessionID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</td>
 						</tr>
 						<tr>
 							<th>Behavior</th>
@@ -649,13 +651,13 @@
 						<tr>
 							<th>Input</th>
 							<td>
-								<p>ChannelURI (xs:string) [1]</p>
-								<p>Topic (xs:string) [1..*]</p>
-								<p>ListenerURL (xs:string) [0..1]</p>
-								<p>XPathExpression (xs:string) [0..1]</p>
-								<p>XPathNamespace (isbm:Namespace) [0..*], composed of:</p>
-								<p>&nbsp;&nbsp;&nbsp;&nbsp;NamespacePrefix (xs:string) [1]</p>
-								<p>&nbsp;&nbsp;&nbsp;&nbsp;NamespaceName (xs:string) [1]</p>
+								<p>ChannelURI (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</p>
+								<p>Topic (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1..*]</p>
+								<p>ListenerURL (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [0..1]</p>
+								<p>XPathExpression (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [0..1]</p>
+								<p>XPathNamespace (<a href="#namespace-xml">isbm:Namespace</a>) [0..*], composed of:</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;NamespacePrefix (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;NamespaceName (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</p>
 							</td>
 						</tr>
 						<tr>
@@ -669,7 +671,7 @@
 						</tr>
 						<tr>
 							<th>Output</th>
-							<td>SessionID (xs:string) [1]</td>
+							<td>SessionID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</td>
 						</tr>
 						<tr>
 							<th>Faults</th>
@@ -692,7 +694,7 @@
 						</tr>
 						<tr>
 							<th>Input</th>
-							<td>SessionID (xs:string) [1]</td>
+							<td>SessionID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</td>
 						</tr>
 						<tr>
 							<th>Behavior</th>
@@ -704,10 +706,10 @@
 						<tr>
 							<th>Output</th>
 							<td>
-								<p>PublicationMessage (isbm:PublicationMessage) [0..1], composed of:</p>
-								<p>&nbsp;&nbsp;&nbsp;&nbsp;MessageID (xs:string) [1]</p>
-								<p>&nbsp;&nbsp;&nbsp;&nbsp;MessageContent (xs:any) [1]</p>
-								<p>&nbsp;&nbsp;&nbsp;&nbsp;Topic (xs:string) [1..*]</p>
+								<p>PublicationMessage (<a href="#publication-message-xml">isbm:PublicationMessage</a>) [0..1], composed of:</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;MessageID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;MessageContent (<a href="#message-content-xml">isbm:MessageContent</a>) [1]</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;Topic (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1..*]</p>
 							</td>
 						</tr>
 						<tr>
@@ -727,7 +729,7 @@
 						</tr>
 						<tr>
 							<th>Input</th>
-							<td>SessionID (xs:string) [1]</td>
+							<td>SessionID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</td>
 						</tr>
 						<tr>
 							<th>Behavior</th>
@@ -757,7 +759,7 @@
 						</tr>
 						<tr>
 							<th>Input</th>
-							<td>SessionID (xs:string) [1]</td>
+							<td>SessionID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</td>
 						</tr>
 						<tr>
 							<th>Behavior</th>
@@ -790,13 +792,13 @@
 						<tr>
 							<th>Input</th>
 							<td>
-								<p>ChannelURI (xs:string) [1]</p>
-								<p>Topic (xs:string) [1..*]</p>
-								<p>ListenerURL (xs:string) [0..1]</p>
-								<p>XPathExpression (xs:string) [0..1]</p>
-								<p>XPathNamespace (isbm:Namespace) [0..*], composed of:</p>
-								<p>&nbsp;&nbsp;&nbsp;&nbsp;NamespacePrefix (xs:string) [1]</p>
-								<p>&nbsp;&nbsp;&nbsp;&nbsp;NamespaceName (xs:string) [1]</p>
+								<p>ChannelURI (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</p>
+								<p>Topic (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1..*]</p>
+								<p>ListenerURL (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [0..1]</p>
+								<p>XPathExpression (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [0..1]</p>
+								<p>XPathNamespace (<a href="#namespace-xml">isbm:Namespace</a>) [0..*], composed of:</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;NamespacePrefix (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;NamespaceName (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</p>
 							</td>
 						</tr>
 						<tr>
@@ -810,7 +812,7 @@
 						</tr>
 						<tr>
 							<th>Output</th>
-							<td>SessionID (xs:string) [1]</td>
+							<td>SessionID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</td>
 						</tr>
 						<tr>
 							<th>Faults</th>
@@ -833,7 +835,7 @@
 						</tr>
 						<tr>
 							<th>Input</th>
-							<td>SessionID (xs:string) [1]</td>
+							<td>SessionID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</td>
 						</tr>
 						<tr>
 							<th>Behavior</th>
@@ -846,10 +848,10 @@
 						<tr>
 							<th>Output</th>
 							<td>
-								<p>RequestMessage (isbm:RequestMessage) [0..1], composed of:</p>
-								<p>&nbsp;&nbsp;&nbsp;&nbsp;MessageID (xs:string) [1]</p>
-								<p>&nbsp;&nbsp;&nbsp;&nbsp;MessageContent (xs:any) [1]</p>
-								<p>&nbsp;&nbsp;&nbsp;&nbsp;Topic (xs:string) [1]</p>
+								<p>RequestMessage (<a href="#request-message-xml">isbm:RequestMessage</a>) [0..1], composed of:</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;MessageID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;MessageContent (<a href="#message-content-xml">isbm:MessageContent</a>) [1]</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;Topic (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</p>
 							</td>
 						</tr>
 						<tr>
@@ -869,7 +871,7 @@
 						</tr>
 						<tr>
 							<th>Input</th>
-							<td>SessionID (xs:string) [1]</td>
+							<td>SessionID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</td>
 						</tr>
 						<tr>
 							<th>Behavior</th>
@@ -900,9 +902,9 @@
 						<tr>
 							<th>Input</th>
 							<td>
-								<p>SessionID (xs:string) [1]</p>
-								<p>RequestMessageID (xs:string) [1]</p>
-								<p>MessageContent (xs:any) [1]</p>
+								<p>SessionID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</p>
+								<p>RequestMessageID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</p>
+								<p>MessageContent (<a href="#message-content-xml">isbm:MessageContent</a>) [1]</p>
 							</td>
 						</tr>
 						<tr>
@@ -915,7 +917,7 @@
 						</tr>
 						<tr>
 							<th>Output</th>
-							<td>MessageID (xs:string) [1]</td>
+							<td>MessageID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</td>
 						</tr>
 						<tr>
 							<th>Faults</th>
@@ -934,7 +936,7 @@
 						</tr>
 						<tr>
 							<th>Input</th>
-							<td>SessionID (xs:string) [1]</td>
+							<td>SessionID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</td>
 						</tr>
 						<tr>
 							<th>Behavior</th>
@@ -967,8 +969,8 @@
 						<tr>
 							<th>Input</th>
 							<td>
-								<p>ChannelURI (xs:string) [1]</p>
-								<p>ListenerURL (xs:string) [0..1]</p>
+								<p>ChannelURI (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</p>
+								<p>ListenerURL (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [0..1]</p>
 							</td>
 						</tr>
 						<tr>
@@ -981,7 +983,7 @@
 						</tr>
 						<tr>
 							<th>Output</th>
-							<td>SessionID (xs:string) [1]</td>
+							<td>SessionID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</td>
 						</tr>
 						<tr>
 							<th>Faults</th>
@@ -1004,10 +1006,10 @@
 						<tr>
 							<th>Input</th>
 							<td>
-								<p>SessionID (xs:string) [1]</p>
-								<p>MessageContent (xs:any) [1]</p>
-								<p>Topic (xs:string) [1]</p>
-								<p>Expiry (xs:duration) [0..1]</p>
+								<p>SessionID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</p>
+								<p>MessageContent (<a href="#message-content-xml">isbm:MessageContent</a>) [1]</p>
+								<p>Topic (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</p>
+								<p>Expiry (<a href="http://www.w3.org/TR/xmlschema-2/#duration">xs:duration</a>) [0..1]</p>
 							</td>
 						</tr>
 						<tr>
@@ -1019,7 +1021,7 @@
 						</tr>
 						<tr>
 							<th>Output</th>
-							<td>MessageID (xs:string) [1]</td>
+							<td>MessageID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</td>
 						</tr>
 						<tr>
 							<th>Faults</th>
@@ -1039,8 +1041,8 @@
 						<tr>
 							<th>Input</th>
 							<td>
-								<p>SessionID (xs:string) [1]</p>
-								<p>MessageID (xs:string) [1]</p>
+								<p>SessionID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</p>
+								<p>MessageID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</p>
 							</td>
 						</tr>
 						<tr>
@@ -1073,8 +1075,8 @@
 						<tr>
 							<th>Input</th>
 							<td>
-								<p>SessionID (xs:string) [1]</p>
-								<p>RequestMessageID (xs:string) [1]</p>
+								<p>SessionID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</p>
+								<p>RequestMessageID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</p>
 							</td>
 						</tr>
 						<tr>
@@ -1088,9 +1090,9 @@
 						<tr>
 							<th>Output</th>
 							<td>
-								<p>ResponseMessage (isbm:ResponseMessage) [0..1], composed of:</p>
-								<p>&nbsp;&nbsp;&nbsp;&nbsp;MessageID (xs:string) [1]</p>
-								<p>&nbsp;&nbsp;&nbsp;&nbsp;MessageContent (xs:any) [1]</p>
+								<p>ResponseMessage (<a href="#response-message-xml">isbm:ResponseMessage</a>) [0..1], composed of:</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;MessageID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</p>
+								<p>&nbsp;&nbsp;&nbsp;&nbsp;MessageContent (<a href="#message-content-xml">isbm:MessageContent</a>) [1]</p>
 							</td>
 						</tr>
 						<tr>
@@ -1111,8 +1113,8 @@
 						<tr>
 							<th>Input</th>
 							<td>
-								<p>SessionID (xs:string) [1]</p>
-								<p>RequestMessageID (xs:string) [1]</p>
+								<p>SessionID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</p>
+								<p>RequestMessageID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</p>
 							</td>
 						</tr>
 						<tr>
@@ -1144,7 +1146,7 @@
 						</tr>
 						<tr>
 							<th>Input</th>
-							<td>SessionID (xs:string) [1]</td>
+							<td>SessionID (<a href="http://www.w3.org/TR/xmlschema-2/#string">xs:string</a>) [1]</td>
 						</tr>
 						<tr>
 							<th>Behavior</th>
@@ -1164,7 +1166,82 @@
 							<td>SessionFault</td>
 						</tr>
 					</table>
-					<h2 id="conformance"><span class="secno">4</span>Conformance</h2>
+					<h2 id="xml-data-structures"><span class="secno">4</span>XML Data Structures</h2>
+					<p>The following data structures are used by the services defined in <a href="#service-definitions">Service Definitions</a> and are defined using XML Schema. All types have a target namespace of <code>http://www.openoandm.org/ws-isbm/</code>.</p>
+					<h4 id="channel-xml">Channel</h4>
+<pre>
+<span class="nt">&lt;xs:complexType</span> <span class="na">name=</span><span class="s">&quot;Channel&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;xs:sequence&gt;</span>
+    <span class="nt">&lt;xs:element</span> <span class="na">minOccurs=</span><span class="s">&quot;1&quot;</span> <span class="na">maxOccurs=</span><span class="s">&quot;1&quot;</span> <span class="na">name=</span><span class="s">&quot;ChannelURI&quot;</span> <span class="na">type=</span><span class="s">&quot;xs:string&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;xs:element</span> <span class="na">minOccurs=</span><span class="s">&quot;1&quot;</span> <span class="na">maxOccurs=</span><span class="s">&quot;1&quot;</span> <span class="na">name=</span><span class="s">&quot;ChannelType&quot;</span> <span class="na">type=</span><span class="s">&quot;isbm:ChannelType&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;xs:element</span> <span class="na">minOccurs=</span><span class="s">&quot;0&quot;</span> <span class="na">maxOccurs=</span><span class="s">&quot;1&quot;</span> <span class="na">name=</span><span class="s">&quot;ChannelDescription&quot;</span> <span class="na">type=</span><span class="s">&quot;xs:string&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/xs:sequence&gt;</span>
+<span class="nt">&lt;/xs:complexType&gt;</span>
+</pre>
+					<h4 id="channel-type-xml">ChannelType</h4>
+<pre>
+<span class="nt">&lt;xs:simpleType</span> <span class="na">name=</span><span class="s">&quot;ChannelType&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;xs:restriction</span> <span class="na">base=</span><span class="s">&quot;xs:string&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;xs:enumeration</span> <span class="na">value=</span><span class="s">&quot;Publication&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;xs:enumeration</span> <span class="na">value=</span><span class="s">&quot;Request&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/xs:restriction&gt;</span>
+<span class="nt">&lt;/xs:simpleType&gt;</span>
+</pre>
+					<h4 id="message-content-xml">MessageContent</h4>
+<pre>
+<span class="nt">&lt;xs:complexType</span> <span class="na">name=</span><span class="s">&quot;MessageContent&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;xs:sequence&gt;</span>
+    <span class="nt">&lt;xs:any</span> <span class="na">minOccurs=</span><span class="s">&quot;1&quot;</span> <span class="na">maxOccurs=</span><span class="s">&quot;1&quot;</span> <span class="na">namespace=</span><span class="s">&quot;##any&quot;</span> <span class="na">processContents=</span><span class="s">&quot;lax&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/xs:sequence&gt;</span>
+<span class="nt">&lt;/xs:complexType&gt;</span>
+</pre>
+					<h4 id="namespace-xml">Namespace</h4>
+<pre>
+<span class="nt">&lt;xs:complexType</span> <span class="na">name=</span><span class="s">&quot;Namespace&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;xs:sequence&gt;</span>
+    <span class="nt">&lt;xs:element</span> <span class="na">minOccurs=</span><span class="s">&quot;1&quot;</span> <span class="na">maxOccurs=</span><span class="s">&quot;1&quot;</span> <span class="na">name=</span><span class="s">&quot;NamespacePrefix&quot;</span> <span class="na">type=</span><span class="s">&quot;xs:string&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;xs:element</span> <span class="na">minOccurs=</span><span class="s">&quot;1&quot;</span> <span class="na">maxOccurs=</span><span class="s">&quot;1&quot;</span> <span class="na">name=</span><span class="s">&quot;NamespaceName&quot;</span> <span class="na">type=</span><span class="s">&quot;xs:string&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/xs:sequence&gt;</span>
+<span class="nt">&lt;/xs:complexType&gt;</span>
+</pre>
+					<h4 id="publication-message-xml">PublicationMessage</h4>
+<pre>
+<span class="nt">&lt;xs:complexType</span> <span class="na">name=</span><span class="s">&quot;PublicationMessage&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;xs:sequence&gt;</span>
+    <span class="nt">&lt;xs:element</span> <span class="na">minOccurs=</span><span class="s">&quot;1&quot;</span> <span class="na">maxOccurs=</span><span class="s">&quot;1&quot;</span> <span class="na">name=</span><span class="s">&quot;MessageID&quot;</span> <span class="na">type=</span><span class="s">&quot;xs:string&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;xs:element</span> <span class="na">minOccurs=</span><span class="s">&quot;1&quot;</span> <span class="na">maxOccurs=</span><span class="s">&quot;1&quot;</span> <span class="na">name=</span><span class="s">&quot;MessageContent&quot;</span> <span class="na">type=</span><span class="s">&quot;isbm:MessageContent&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;xs:element</span> <span class="na">minOccurs=</span><span class="s">&quot;1&quot;</span> <span class="na">maxOccurs=</span><span class="s">&quot;unbounded&quot;</span> <span class="na">name=</span><span class="s">&quot;Topic&quot;</span> <span class="na">type=</span><span class="s">&quot;xs:string&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/xs:sequence&gt;</span>
+<span class="nt">&lt;/xs:complexType&gt;</span>
+</pre>
+					<h4 id="request-message-xml">RequestMessage</h4>
+<pre>
+<span class="nt">&lt;xs:complexType</span> <span class="na">name=</span><span class="s">&quot;RequestMessage&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;xs:sequence&gt;</span>
+    <span class="nt">&lt;xs:element</span> <span class="na">minOccurs=</span><span class="s">&quot;1&quot;</span> <span class="na">maxOccurs=</span><span class="s">&quot;1&quot;</span> <span class="na">name=</span><span class="s">&quot;MessageID&quot;</span> <span class="na">type=</span><span class="s">&quot;xs:string&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;xs:element</span> <span class="na">minOccurs=</span><span class="s">&quot;1&quot;</span> <span class="na">maxOccurs=</span><span class="s">&quot;1&quot;</span> <span class="na">name=</span><span class="s">&quot;MessageContent&quot;</span> <span class="na">type=</span><span class="s">&quot;isbm:MessageContent&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;xs:element</span> <span class="na">minOccurs=</span><span class="s">&quot;1&quot;</span> <span class="na">maxOccurs=</span><span class="s">&quot;1&quot;</span> <span class="na">name=</span><span class="s">&quot;Topic&quot;</span> <span class="na">type=</span><span class="s">&quot;xs:string&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/xs:sequence&gt;</span>
+<span class="nt">&lt;/xs:complexType&gt;</span>
+</pre>
+					<h4 id="response-message-xml">ResponseMessage</h4>
+<pre>
+<span class="nt">&lt;xs:complexType</span> <span class="na">name=</span><span class="s">&quot;ResponseMessage&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;xs:sequence&gt;</span>
+    <span class="nt">&lt;xs:element</span> <span class="na">minOccurs=</span><span class="s">&quot;1&quot;</span> <span class="na">maxOccurs=</span><span class="s">&quot;1&quot;</span> <span class="na">name=</span><span class="s">&quot;MessageID&quot;</span> <span class="na">type=</span><span class="s">&quot;xs:string&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;xs:element</span> <span class="na">minOccurs=</span><span class="s">&quot;1&quot;</span> <span class="na">maxOccurs=</span><span class="s">&quot;1&quot;</span> <span class="na">name=</span><span class="s">&quot;MessageContent&quot;</span> <span class="na">type=</span><span class="s">&quot;isbm:MessageContent&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/xs:sequence&gt;</span>
+<span class="nt">&lt;/xs:complexType&gt;</span>
+</pre>
+					<h4 id="security-token-xml">SecurityToken</h4>
+<pre>
+<span class="nt">&lt;xs:complexType</span> <span class="na">name=</span><span class="s">&quot;SecurityToken&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;xs:sequence&gt;</span>
+    <span class="nt">&lt;xs:any</span> <span class="na">minOccurs=</span><span class="s">&quot;1&quot;</span> <span class="na">maxOccurs=</span><span class="s">&quot;1&quot;</span> <span class="na">namespace=</span><span class="s">&quot;##any&quot;</span> <span class="na">processContents=</span><span class="s">&quot;lax&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/xs:sequence&gt;</span>
+<span class="nt">&lt;/xs:complexType&gt;</span>
+</pre>
+					<h2 id="conformance"><span class="secno">5</span>Conformance</h2>
 					<p>Any assessment of conformance of a ws-ISBM implementation MUST be qualified by the following:</p>
 					<ol>
 						<li>Support for the Channel Management Service</li>
@@ -2435,7 +2512,8 @@ Content-Length: 252
 									</li>
 								</ul>
 							</li>
-							<li><a href="#conformance"><span class="secno">4</span>Conformance</a></li>
+							<li><a href="#xml-data-structures"><span class="secno">4</span>XML Data Structures</a></li>
+							<li><a href="#conformance"><span class="secno">5</span>Conformance</a></li>
 							<li>
 								<a href="#example-http-flows"><span class="secno">Appendix A</span>Example HTTP Flows</a>
 								<ul class="nav">

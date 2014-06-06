@@ -19,17 +19,15 @@
 	<wsdl:types>
 		<xs:schema elementFormDefault="qualified" targetNamespace="http://www.openoandm.org/ws-isbm/">
 			<!-- Types -->
-			<xs:element name="MessageContent">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:any minOccurs="1" maxOccurs="1" namespace="##any" processContents="lax"/>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
+			<xs:complexType name="MessageContent">
+				<xs:sequence>
+					<xs:any minOccurs="1" maxOccurs="1" namespace="##any" processContents="lax"/>
+				</xs:sequence>
+			</xs:complexType>
 			<xs:complexType name="PublicationMessage">
 				<xs:sequence>
 					<xs:element minOccurs="1" maxOccurs="1" name="MessageID" type="xs:string"/>
-					<xs:element minOccurs="1" maxOccurs="1" ref="isbm:MessageContent"/>
+					<xs:element minOccurs="1" maxOccurs="1" name="MessageContent" type="isbm:MessageContent"/>
 					<xs:element minOccurs="1" maxOccurs="unbounded" name="Topic" type="xs:string"/>
 				</xs:sequence>
 			</xs:complexType>
