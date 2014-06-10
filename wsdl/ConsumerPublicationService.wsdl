@@ -138,23 +138,11 @@
 	<wsdl:message name="NamespaceFault">
 		<wsdl:part name="parameters" element="isbm:NamespaceFault"/>
 	</wsdl:message>
-	<wsdl:message name="InvalidListenerURLFault">
-		<wsdl:part name="parameters" element="isbm:InvalidListenerURLFault"/>
-	</wsdl:message>
 	<wsdl:message name="OperationFault">
 		<wsdl:part name="parameters" element="isbm:OperationFault"/>
 	</wsdl:message>
 	<wsdl:message name="SessionFault">
 		<wsdl:part name="parameters" element="isbm:SessionFault"/>
-	</wsdl:message>
-	<wsdl:message name="InvalidTopicFault">
-		<wsdl:part name="parameters" element="isbm:InvalidTopicFault"/>
-	</wsdl:message>
-	<wsdl:message name="InvalidXPathExpressionFault">
-		<wsdl:part name="parameters" element="isbm:InvalidXPathExpressionFault"/>
-	</wsdl:message>
-	<wsdl:message name="InvalidXPathNamespaceFault">
-		<wsdl:part name="parameters" element="isbm:InvalidXPathNamespaceFault"/>
 	</wsdl:message>
 
 	<wsdl:portType name="ConsumerPublicationService">
