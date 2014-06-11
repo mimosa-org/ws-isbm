@@ -179,7 +179,7 @@
 			<wsdl:fault name="OperationFault" message="isbm:OperationFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="ReadRequest">
-			<wsdl:documentation>Returns the first non-expired request message or a previously read expired message that satifies the session message filters.</wsdl:documentation>
+			<wsdl:documentation>Returns the first non-expired request message or a previously read expired message that satisfies the session message filters.</wsdl:documentation>
 			<wsdl:input message="isbm:ReadRequestIn"/>
 			<wsdl:output message="isbm:ReadRequestOut"/>
 			<wsdl:fault name="SessionFault" message="isbm:SessionFault"/>
