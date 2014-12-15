@@ -1260,14 +1260,14 @@
 					<h3 id="channel-management-example"><span class="secno">A.1</span>Channel Management Example</h3>
 					<img src="assets/channel_management_example.png" class="img-responsive" alt="Channel Management Example">
 					<h4>1. CreateChannel</h4>
-					<p>The Application creates a channel on the ISBM Service Provider and assigns a HTTP Basic Authentication security token.</p>
+					<p>The Application creates a channel on the ISBM Service Provider and assigns a WS-Security security token.</p>
 					<p><span class="label label-info">Note</span> XML special characters must be escaped, as seen with the <b>&lt;</b> character in the <code>Password</code> element.
 					<h5>HTTP Request</h5>
 <pre>
 POST /ChannelManagementService HTTP/1.1
 Host: ws-isbm.example.com
 Content-Type: text/xml; charset=utf-8
-Content-Length: 598
+Content-Length: 705
 SOAPAction: "http://www.openoandm.org/ws-isbm/CreateChannel"
 
 <span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
@@ -1277,10 +1277,10 @@ SOAPAction: "http://www.openoandm.org/ws-isbm/CreateChannel"
       <span class="nt">&lt;isbm:ChannelURI&gt;</span>/Enterprise/Site/Area/WorkCenter<span class="nt">&lt;/isbm:ChannelURI&gt;</span>
       <span class="nt">&lt;isbm:ChannelType&gt;</span>Publication<span class="nt">&lt;/isbm:ChannelType&gt;</span>
       <span class="nt">&lt;isbm:SecurityToken&gt;</span>
-        <span class="nt">&lt;isbm:BasicAuth&gt;</span>
-          <span class="nt">&lt;isbm:UserID&gt;</span>Application1<span class="nt">&lt;/isbm:UserID&gt;</span>
-          <span class="nt">&lt;isbm:Password&gt;</span><span class="ni">&amp;lt;</span>s9.vQfLDx9LgL<span class="nt">&lt;/isbm:Password&gt;</span>
-        <span class="nt">&lt;/isbm:BasicAuth&gt;</span>
+        <span class="nt">&lt;wsse:UsernameToken</span> <span class="na">xmlns:wsse=</span><span class="s">&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+          <span class="nt">&lt;wsse:Username&gt;</span>Application1<span class="nt">&lt;/wsse:Username&gt;</span>
+          <span class="nt">&lt;wsse:Password&gt;</span><span class="ni">&amp;lt;</span>s9.vQfLDx9LgL<span class="nt">&lt;/wsse:Password&gt;</span>
+        <span class="nt">&lt;/wsse:UsernameToken&gt;</span>
       <span class="nt">&lt;/isbm:SecurityToken&gt;</span>
     <span class="nt">&lt;/isbm:CreateChannel&gt;</span>
   <span class="nt">&lt;/soap:Body&gt;</span>
@@ -1310,9 +1310,9 @@ Content-Length: 892
 SOAPAction: "http://www.openoandm.org/ws-isbm/AddSecurityToken"
 
 <span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
-<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span> <span class="na">xmlns:wsse=</span><span class="s">&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd&quot;</span><span class="nt">&gt;</span>
   <span class="nt">&lt;soap:Header&gt;</span>
-    <span class="nt">&lt;wsse:Security</span> <span class="na">xmlns:wsse=</span><span class="s">&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;wsse:Security</span><span class="nt">&gt;</span>
       <span class="nt">&lt;wsse:UsernameToken&gt;</span>
         <span class="nt">&lt;wsse:Username&gt;</span>Application1<span class="nt">&lt;/wsse:Username&gt;</span>
         <span class="nt">&lt;wsse:Password&gt;</span><span class="ni">&amp;lt;</span>s9.vQfLDx9LgL<span class="nt">&lt;/wsse:Password&gt;</span>
@@ -1356,9 +1356,9 @@ Content-Length: 898
 SOAPAction: "http://www.openoandm.org/ws-isbm/RemoveSecurityToken"
 
 <span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
-<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;soap:Envelope</span> <span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span> <span class="na">xmlns:wsse=</span><span class="s">&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd&quot;</span><span class="nt">&gt;</span>
   <span class="nt">&lt;soap:Header&gt;</span>
-    <span class="nt">&lt;wsse:Security</span> <span class="na">xmlns:wsse=</span><span class="s">&quot;http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;wsse:Security</span><span class="nt">&gt;</span>
       <span class="nt">&lt;wsse:UsernameToken&gt;</span>
         <span class="nt">&lt;wsse:Username&gt;</span>Application2<span class="nt">&lt;/wsse:Username&gt;</span>
         <span class="nt">&lt;wsse:Password&gt;</span>chHM?rFum{48mg<span class="nt">&lt;/wsse:Password&gt;</span>
