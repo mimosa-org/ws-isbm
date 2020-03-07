@@ -1,0 +1,330 @@
+openapi: 3.0.1
+info:
+  title: ISBM 2.0 Channel Management Service
+  version: 2.0
+  description: A prototype OpenAPI specification for the ISBM RESTful interface for Channel Management Service.
+  license:
+    name: MIMOSA License Agreement
+    url: http://www.mimosa.org/policy-charters/mimosa-license-agreement/
+  contact:
+    name: MIMOSA
+    email: info@mimosa.org
+    url: http://www.mimosa.org/
+tags:
+  - name: ChannelManagement
+    description: REST version of the ISBM 2.0 Channel Management Service.
+paths:
+  /api:
+    get:
+      operationId: getMetadata
+      summary: Get metadata from the root of the API
+      tags:
+        - Metadata
+      security: [] # disable security on retrieving the api itself
+      responses:
+        "200":
+          description: This OpenAPI document.
+          content:
+            text/plain:
+              schema:
+                type: string
+  /channels:
+    get:
+      operationId: getChannels
+      summary: Retrieve all the channels, subject to security permissions.
+      tags:
+        - ChannelManagement
+      security:
+        - username_password: []
+      responses:
+        "200":
+          description: A (possibly empty) list of Channels.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Channel'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Channel'
+    post:
+      operationId: createChannel
+      summary: Create a new channel with the specified URI path fragment.
+      tags:
+        - ChannelManagement
+      security: [] # disable security for creating channels, only operation that does not (cannot) have security 
+      requestBody:
+        description: The Channel to create on the bus
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Channel'
+            examples:
+              basicChannel:
+                summary: Simple example of Channel
+                value:
+                  uri: /my/channel/name
+                  channel_type: Publication
+                  description: The description of my Channel.
+              channelWithTokens:
+                summary: Simple example of Channel including initial SecurityTokens.
+                value:
+                  uri: /my/secure/channel
+                  channel_type: Publication
+                  description: This is a secure channel
+                  securityTokens: 
+                    - username: user001
+                      password: password001
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Channel'
+      responses: 
+        '201':
+          description: 'The newly created Channel, excluding any configured security tokens.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Channel'
+              examples:
+                basicChannelResponse:
+                  summary: Simple example of Channel
+                  value:
+                    uri: /my/channel/name
+                    channel_type: Publication
+                    description: The description of my Channel.
+                channelWithTokensResponse:
+                  summary: Simple example of Channel including initial SecurityTokens.
+                  value:
+                    uri: /my/secure/channel
+                    channel_type: Publication
+                    description: This is a secure channel
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Channel'
+        '409':
+          description: Could not create the channel, URI already exists.
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  fault: 
+                    type: string
+                    description: Human readable explanation of the error.
+                    default: Could not create the channel, URI already exists.
+                required: 
+                  - fault
+  /channels/{channel-id}:
+    parameters:
+      - name: channel-id
+        in: path
+        description: The identifier of the channel to be accessed (retrieved, deleted, modified, etc.)
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: getChannel
+      summary: Retreieve the Channel identified by 'channel-id'
+      tags:
+        - ChannelManagement
+      responses:
+        '200':
+          description: The request Channel; excluding associated SecurityTokens.
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Channel'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Channel'
+        '404':
+          description: The requested Channel does not exists.
+          content:
+            application/json: {}
+            application/xml: {}
+    delete:
+      operationId: deleteChannel
+      summary: Delete the Channel specified by 'channel-id'
+      tags:
+        - ChannelManagement
+      responses:
+        '204':
+          description: Channel successfully deleted.
+          content:
+            application/json: {}
+            application/xml: {}
+        '404':
+          description: The Channel does not exists.
+          content:
+            application/json: {}
+            application/xml: {}
+  /channels/{channel-id}/security-tokens:
+    parameters:
+      - name: channel-id
+        in: path
+        description: The identifier of the channel to be accessed (retrieved, deleted, modified, etc.)
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: addSecurityTokens
+      summary: Adds security tokens to a channel.
+      tags:
+        - ChannelManagement
+      requestBody:
+        description: The SecurityTokens to add.
+        content:
+          application/json:
+            schema:
+              type: array
+              items: 
+                $ref: '#/components/schemas/SecurityToken'
+              minItems: 1
+              uniqueItems: true
+            examples:
+              addingSecurityTokens:
+                summary: Simple example of adding security tokens to a Channel.
+                value:
+                  - username: user001
+                    password: password001
+                  - username: someOtherUser
+                    password: theirPassword
+          application/xml:
+            schema:
+              type: array
+              items: 
+                $ref: '#/components/schemas/SecurityToken'
+              minItems: 1
+              uniqueItems: true
+      responses:
+        '201':
+          description: Tokens have been added to the Channel.
+          content:
+            application/json: {}
+            application/xml: {}
+        '404':
+          description: The Channel does not exists.
+          content:
+            application/json: {}
+            application/xml: {}
+    delete:
+      operationId: removeSecurityTokens
+      summary: Removes security tokens from a channel.
+      tags:
+        - ChannelManagement
+      requestBody:
+        description: 'The security tokens to remove: the tokens must be specified in full to be removed.'
+        content:
+          application/json:
+            schema:
+              type: array
+              items: 
+                $ref: '#/components/schemas/SecurityToken'
+              minItems: 1
+              uniqueItems: true
+            examples:
+              removingSecurityTokens:
+                summary: Simple example of removing security tokens from a Channel.
+                value:
+                  - username: user001
+                    password: password001
+                  - username: someOtherUser
+                    password: theirPassword
+          application/xml:
+            schema:
+              type: array
+              items: 
+                $ref: '#/components/schemas/SecurityToken'
+              minItems: 1
+              uniqueItems: true
+      responses:
+        '204':
+          description: Security tokens successfully removed from the channel.
+          content:
+            application/json: {}
+            application/xml: {}
+        '404':
+          description: The Channel does not exists.
+          content:
+            application/json: {}
+            application/xml: {}
+        '409':
+          description: The security tokens do not match those assigned to the Channel (SecurityTokenFault).
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  fault: 
+                    type: string
+                    description: Human readable explanation of the error.
+                    default: The security tokens do not match those assigned to the Channel.
+                required: 
+                  - fault
+security:
+  - username_password: []
+# Referenced componenents, e.g., parameters, schemas, etc.
+components:
+  parameters:
+    channelIdParam:
+      name: channel-id
+      in: path
+      description: The identifier of the channel to be accessed (retrieved, deleted, modified, etc.)
+      required: true
+      schema:
+        type: string
+  securitySchemes:
+    username_password:
+      type: http
+      scheme: basic
+  responses:
+    ChannelNotFound:
+      description: The Channel does not exists.
+      content:
+        application/json: {}
+        application/xml: {}
+  schemas:
+    Channel:
+      type: object
+      properties:
+        uri:
+          type: string
+          format: uri
+        channelType:
+          $ref: "#/components/schemas/ChannelType"
+        description:
+          type: string
+        securityTokens:
+          description: This can be provided when creating a channel but should never be returned.
+          type: array
+          items:
+            $ref: "#/components/schemas/SecurityToken"
+      required:
+        - uri
+        - channelType
+    ChannelType:
+      type: string
+      enum:
+        - Publication
+        - Request
+    SecurityToken:
+      type: object
+      description: Exact security token types are implementation specific. Support must be
+        provided for at least UsernameToken.
+      anyOf:
+        - $ref: "#/components/schemas/UsernameToken"
+      additionalProperties: true
+    UsernameToken:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+          format: password
+      required:
+        - password
+        - username

@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	ISBM 2.0 Configuration Discovery Service
+
+	Copyright MIMOSA 2020. All Rights Reserved.
+	License information for this file is provided in the file "LICENSE.txt" that is provided with this download package.
+
+	For support, more information, or to report errors, please contact MIMOSA at http://www.mimosa.org/contact.
+-->
+<wsdl:definitions
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:isbm="http://www.openoandm.org/isbm/"
+	targetNamespace="http://www.openoandm.org/isbm/"
+	name="ConfigurationDiscoveryService">
+
+	<wsdl:types>
+		<xs:schema elementFormDefault="qualified" targetNamespace="http://www.openoandm.org/isbm/">
+			<!-- Types -->
+			<xs:complexType name="SupportedContentFilteringLanguages">
+			  <xs:sequence>
+			    <xs:element minOccurs="1" maxOccurs="unbounded" name="ContentFilteringLanguage" type="isbm:ContentFilteringLanguage"/>
+			  </xs:sequence>
+			</xs:complexType>
+			
+			<xs:complexType name="ContentFilteringLanguage">
+			   <xs:simpleContent>
+				 <xs:extension base="xs:string">
+				   <xs:attribute name="languageVersion" type="xs:token" use="optional"/>
+				   <xs:attribute name="applicableMediaTypes" type="isbm:MediaTypeList" use="required"/>
+				</xs:extension>
+			  </xs:simpleContent>
+			</xs:complexType>
+			
+			<xs:complexType name="TokenSchema">
+			  <xs:sequence>
+				  <xs:element minOccurs="1" maxOccurs="1" name="NamespaceName">
+				    <xs:complexType>
+						<xs:simpleContent>
+						 <xs:extension base="xs:string">
+						   <xs:attribute name="SchemaLocation" type="xs:anyURI" use="optional"/>			  
+						</xs:extension>
+					  </xs:simpleContent>
+					</xs:complexType>
+				  </xs:element>
+			  </xs:sequence>				  
+			</xs:complexType>			
+			
+			<xs:complexType name="AuthenticationScheme">
+			  <xs:sequence>
+				  <xs:element minOccurs="1" maxOccurs="1" name="SchemeName">
+				    <xs:complexType>
+						<xs:simpleContent>
+						 <xs:extension base="xs:string">
+						   <xs:attribute name="SchemeInfoUrl" type="xs:anyURI" use="optional"/>			  
+						</xs:extension>
+					  </xs:simpleContent>
+					</xs:complexType>
+				  </xs:element>
+			  </xs:sequence>				  
+			</xs:complexType>	
+			
+			<xs:complexType name="SupportedOperations">
+			  <xs:sequence>
+				<xs:element minOccurs="1" maxOccurs="1" name="IsXMLFilteringEnabled" type="xs:boolean"/>
+				<xs:element minOccurs="1" maxOccurs="1" name="IsJSONFilteringEnabled" type="xs:boolean"/>
+				<xs:element minOccurs="1" maxOccurs="1" name="SupportedContentFilteringLanguages" type="isbm:SupportedContentFilteringLanguages"/>
+				<xs:element minOccurs="1" maxOccurs="1" name="SupportedAuthentications">
+				    <xs:complexType>
+						<xs:sequence>
+							<xs:element minOccurs="0" maxOccurs="1" name="SoapSupportedTokenSchemas">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element minOccurs="1" maxOccurs="unbounded" name="TokenSchema" type="isbm:TokenSchema"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" maxOccurs="1" name="RestSupportedAuthenticationSchemes">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element minOccurs="1" maxOccurs="unbounded" name="AuthenticationScheme" type="isbm:AuthenticationScheme"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>						
+						</xs:sequence>
+					</xs:complexType>
+			    </xs:element>
+				<xs:element minOccurs="1" maxOccurs="1" name="SecurityLevelConformance" type="isbm:SecurityLevel"/>
+				<xs:element minOccurs="1" maxOccurs="1" name="IsDeadLetteringEnabled" type="xs:boolean"/>
+				<xs:element minOccurs="1" maxOccurs="1" name="IsChannelCreationEnabled" type="xs:boolean"/>
+				<xs:element minOccurs="1" maxOccurs="1" name="IsOpenChannelSecuringEnabled" type="xs:boolean"/>
+				<xs:element minOccurs="1" maxOccurs="1" name="IsWhitelistRequired" type="xs:boolean"/>
+				<xs:element minOccurs="1" maxOccurs="1" name="DefaultExpiryDuration" type="xs:duration" nillable="true"/>				
+				<xs:element minOccurs="1" maxOccurs="1" name="AdditionalInformationURL" type="xs:anyURI"/>	
+			  </xs:sequence>
+			</xs:complexType>
+			
+			<xs:complexType name="SecurityDetails">
+			  <xs:sequence>
+				<xs:element minOccurs="1" maxOccurs="1" name="IsTLSEnabled" type="xs:boolean"/>
+				<xs:element minOccurs="1" maxOccurs="1" name="IsSecurityTokenRequired" type="xs:boolean"/>
+				<xs:element minOccurs="1" maxOccurs="1" name="IsSecurityTokenEncryptionEnabled" type="xs:boolean"/>
+				<xs:element minOccurs="1" maxOccurs="1" name="IsCertificateRequired" type="xs:boolean"/>
+				<xs:element minOccurs="1" maxOccurs="1" name="IsRBACEnabled" type="xs:boolean"/>
+				<xs:element minOccurs="1" maxOccurs="1" name="IsKeyManagementServiceEnabled" type="xs:boolean"/>
+				<xs:element minOccurs="1" maxOccurs="1" name="IsEndToEndMessageEncryptionEnabled" type="xs:boolean"/>
+			  </xs:sequence>
+			</xs:complexType>
+
+			<xs:simpleType name="SecurityLevel">
+			  <xs:restriction base='xs:integer'>
+				<xs:minInclusive value='1'/>
+				<xs:maxInclusive value='4'/>
+			  </xs:restriction>
+			</xs:simpleType>
+
+			<xs:complexType name="SecurityToken">
+			  <xs:sequence>
+				<xs:any minOccurs="1" maxOccurs="1" namespace="##any" processContents="lax"/>
+			  </xs:sequence>
+			</xs:complexType>
+			
+			<xs:simpleType name="MediaTypeList">
+			  <xs:list itemType="xs:token"/>
+			</xs:simpleType>				
+
+			<!-- Parameter elements -->
+			<xs:element name="GetSupportedOperations">
+				<xs:complexType/>
+			</xs:element>
+			<xs:element name="GetSupportedOperationsResponse">
+				<xs:complexType>
+					<xs:sequence>						
+						<xs:element minOccurs="1" maxOccurs="1" name="SupportedOperations" type="isbm:SupportedOperations"/>			
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="GetSecurityDetails">
+				<xs:complexType/>
+			</xs:element>
+			<xs:element name="GetSecurityDetailsResponse">
+				<xs:complexType>
+					<xs:sequence>						
+						<xs:element minOccurs="1" maxOccurs="1" name="SecurityDetails" type="isbm:SecurityDetails"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			
+			<!-- Fault elements -->
+			<xs:element name="SecurityTokenFault">
+				<xs:complexType/>
+			</xs:element>
+		</xs:schema>
+	</wsdl:types>
+
+	<wsdl:message name="GetSupportedOperationsIn">
+		<wsdl:part name="parameters" element="isbm:GetSupportedOperations"/>
+	</wsdl:message>
+	<wsdl:message name="GetSupportedOperationsOut">
+		<wsdl:part name="parameters" element="isbm:GetSupportedOperationsResponse"/>
+	</wsdl:message>
+	<wsdl:message name="GetSecurityDetailsIn">
+		<wsdl:part name="parameters" element="isbm:GetSecurityDetails"/>
+	</wsdl:message>
+	<wsdl:message name="GetSecurityDetailsOut">
+		<wsdl:part name="parameters" element="isbm:GetSecurityDetailsResponse"/>
+	</wsdl:message>
+	<wsdl:message name="SecurityTokenFault">
+		<wsdl:part name="parameters" element="isbm:SecurityTokenFault"/>
+	</wsdl:message>
+
+	<wsdl:portType name="ConfigurationDiscoveryService">
+		<wsdl:operation name="GetSupportedOperations">
+			<wsdl:documentation>Gets information about the supported operations and features of the ISBM service provider.</wsdl:documentation>
+			<wsdl:input message="isbm:GetSupportedOperationsIn"/>
+			<wsdl:output message="isbm:GetSupportedOperationsOut"/>
+		</wsdl:operation>
+		<wsdl:operation name="GetSecurityDetails">
+			<wsdl:documentation>Gets the detailed security related information of the ISBM service provider.</wsdl:documentation>
+			<wsdl:input message="isbm:GetSecurityDetailsIn"/>
+			<wsdl:output message="isbm:GetSupportedOperationsOut"/>
+			<wsdl:fault name="SecurityTokenFault" message="isbm:SecurityTokenFault"/>
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="ConfigurationDiscoveryServiceSoap" type="isbm:ConfigurationDiscoveryService">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="GetSupportedOperations">
+			<soap:operation soapAction="http://www.openoandm.org/isbm/GetSupportedOperations" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetSecurityDetails">
+			<soap:operation soapAction="http://www.openoandm.org/isbm/GetSecurityDetails" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="SecurityTokenFault">
+				<soap:fault name="SecurityTokenFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:binding name="ConfigurationDiscoveryServiceSoap12" type="isbm:ConfigurationDiscoveryService">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="GetSupportedOperations">
+			<soap12:operation soapAction="http://www.openoandm.org/isbm/GetSupportedOperations" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="GetSecurityDetails">
+			<soap12:operation soapAction="http://www.openoandm.org/isbm/GetSecurityDetails" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="SecurityTokenFault">
+				<soap12:fault name="SecurityTokenFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="ConfigurationDiscoveryService">
+		<wsdl:port name="ConfigurationDiscoveryServiceSoap" binding="isbm:ConfigurationDiscoveryServiceSoap">
+			<soap:address location="https://example.com/ConfigurationDiscoveryServiceSoap"/>
+		</wsdl:port>
+		<wsdl:port name="ConfigurationDiscoveryServiceSoap12" binding="isbm:ConfigurationDiscoveryServiceSoap12">
+			<soap12:address location="https://example.com/ConfigurationDiscoveryServiceSoap12"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

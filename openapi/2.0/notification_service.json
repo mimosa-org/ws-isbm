@@ -1,0 +1,146 @@
+{
+   "openapi": "3.0.1",
+   "info": {
+      "title": "ISBM 2.0 Notification Service",
+      "version": "2.0",
+      "description": "A prototype OpenAPI specification for the ISBM 2.0 RESTful interface.",
+      "license": {
+         "name": "MIMOSA License Agreement",
+         "url": "http://www.mimosa.org/policy-charters/mimosa-license-agreement/"
+      },
+      "contact": {
+         "name": "MIMOSA",
+         "email": "info@mimosa.org",
+         "url": "http://www.mimosa.org/"
+      }
+   },
+   "tags": [
+      {
+         "name": "NotificationService",
+         "description": "REST version of the ISBM 2.0 Notification Service."
+      }
+   ],
+   "paths": {
+      "/notifications/{session-id}/{message-id}": {
+         "parameters": [
+            {
+               "name": "session-id",
+               "in": "path",
+               "description": "The identifier of the session at which the message was recieved.",
+               "required": true,
+               "schema": {
+                  "type": "string"
+               }
+            }
+         ],
+         "put": {
+            "operationId": "notifyListener",
+            "summary": "Provides a notification of a new message being able to be read for a session.\nThe Listener URL invoked was provided when the application desiring notifications subscribed to the channel.",
+            "tags": [
+               "NotificationService"
+            ],
+            "parameters": [
+               {
+                  "name": "message-id",
+                  "in": "path",
+                  "description": "The identifier of the posted message.",
+                  "required": true,
+                  "schema": {
+                     "type": "string"
+                  }
+               }
+            ],
+            "requestBody": {
+               "content": {
+                  "application/json": {
+                     "schema": {
+                        "type": "object",
+                        "properties": {
+                           "topic": {
+                              "type": "array",
+                              "items": {
+                                 "type": "string"
+                              }
+                           },
+                           "requestMessageId": {
+                              "type": "string"
+                           }
+                        }
+                     }
+                  }
+               }
+            },
+            "responses": {
+               "204": {
+                  "description": "Notification recieved by listener.",
+                  "content": {
+                     "application/json": {},
+                     "application/xml": {}
+                  }
+               },
+               "400": {
+                  "$ref": "#/components/responses/ParameterMalformed"
+               }
+            }
+         }
+      }
+   },
+   "components": {
+      "responses": {
+         "ParameterMalformed": {
+            "description": "A provided parameter is malformed or not optional but blank.",
+            "content": {
+               "application/json": {
+                  "schema": {
+                     "$ref": "#/components/schemas/ParameterFault"
+                  }
+               },
+               "application/xml": {
+                  "schema": {
+                     "$ref": "#/components/schemas/ParameterFault"
+                  }
+               }
+            }
+         }
+      },
+      "schemas": {
+         "Notification": {
+            "type": "object",
+            "description": "Represents a notification to a listener about a publication, request, or response message.\nTopic and RequestMessageID are mutually exclusive.",
+            "properties": {
+               "sessionId": {
+                  "type": "string"
+               },
+               "messageId": {
+                  "type": "string"
+               },
+               "topics": {
+                  "type": "array",
+                  "items": {
+                     "type": "string"
+                  }
+               },
+               "requestMessageId": {
+                  "type": "string"
+               }
+            },
+            "required": [
+               "sessionId",
+               "messageId"
+            ]
+         },
+         "ParameterFault": {
+            "type": "object",
+            "description": "Returned when any given parameter is malformed or not optional but blank.",
+            "properties": {
+               "fault": {
+                  "type": "string"
+               }
+            },
+            "required": [
+               "fault"
+            ]
+         }
+      }
+   }
+}
