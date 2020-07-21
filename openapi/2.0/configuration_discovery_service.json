@@ -274,8 +274,12 @@
       },
       "SecurityLevel": {
         "type": "number",
-        "minimum": 1,
-        "maximum": 4
+        "enum": [
+          1,
+          2,
+          3,
+          4
+        ]
       },
       "SecurityTokenFault": {
         "type": "object",

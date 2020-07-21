@@ -614,6 +614,7 @@
       },
       "Session": {
         "type": "object",
+        "description": "sessionType is implicit based on the context.",
         "properties": {
           "sessionId": {
             "type": "string"
@@ -638,10 +639,7 @@
               "$ref": "#/components/schemas/FilterExpression"
             }
           }
-        },
-        "required": [
-          "sessionId"
-        ]
+        }
       },
       "SessionType": {
         "type": "string",

@@ -2169,6 +2169,7 @@
       },
       "Session": {
         "type": "object",
+        "description": "sessionType is implicit based on the context.",
         "properties": {
           "sessionId": {
             "type": "string"
@@ -2193,10 +2194,7 @@
               "$ref": "#/components/schemas/FilterExpression"
             }
           }
-        },
-        "required": [
-          "sessionId"
-        ]
+        }
       },
       "SessionType": {
         "type": "string",
@@ -2475,8 +2473,12 @@
       },
       "SecurityLevel": {
         "type": "number",
-        "minimum": 1,
-        "maximum": 4
+        "enum": [
+          1,
+          2,
+          3,
+          4
+        ]
       }
     }
   }
