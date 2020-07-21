@@ -66,7 +66,7 @@
 	<wsdl:binding name="NotificationServiceSoap12" type="isbm:NotificationService">
 		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
 		<wsdl:operation name="NotifyListener">
-			<soap12:operation soapAction="http://www.openoandm.org/ws-isbm/ReadPublication" style="document"/>
+			<soap12:operation soapAction="http://www.openoandm.org/ws-isbm/NotifyListener" style="document"/>
 			<wsdl:input>
 				<soap12:body use="literal"/>
 			</wsdl:input>

@@ -1,7 +1,7 @@
-openapi: 3.0.1
+openapi: '3.0.1'
 info:
   title: ISBM 2.0 Channel Management Service
-  version: 2.0
+  version: '2.0'
   description: An OpenAPI specification for the ISBM RESTful interface for Channel Management Service.
   license:
     name: MIMOSA License Agreement
@@ -10,6 +10,20 @@ info:
     name: MIMOSA
     email: info@mimosa.org
     url: http://www.mimosa.org/
+servers:
+  - url: '{proto}://{host}:{port}/{basePath}'
+    variables:
+      proto:
+        default: 'http'
+        enum:
+          - http
+          - https
+      host:
+        default: 'localhost'
+      port:
+        default: '80'
+      basePath:
+        default: ''
 tags:
   - name: ChannelManagement
     description: REST version of the ISBM 2.0 Channel Management Service.
@@ -22,12 +36,12 @@ paths:
         - Metadata
       security: [] # disable security on retrieving the api itself
       responses:
-        "200":
-          description: This OpenAPI document.
+        '200':
+          description: The OpenAPI document for the full suite of services available at this endpoint.
           content:
-            text/plain:
+            application/json:
               schema:
-                type: string
+                type: object
   /channels:
     get:
       operationId: getChannels
@@ -37,7 +51,7 @@ paths:
       security:
         - username_password: []
       responses:
-        "200":
+        '200':
           description: A (possibly empty) list of Channels.
           content:
             application/json:
@@ -57,7 +71,7 @@ paths:
         - ChannelManagement
       security: [] # disable security for creating channels, only operation that does not (cannot) have security 
       requestBody:
-        description: The Channel to create on the bus
+        description: The Channel to create
         content:
           application/json:
             schema:
@@ -109,17 +123,13 @@ paths:
           content: 
             application/json:
               schema:
-                type: object
-                properties:
-                  fault: 
-                    type: string
-                    description: Human readable explanation of the error.
-                    default: Could not create the channel, URI already exists.
-                required: 
-                  - fault
-  /channels/{channel-id}:
+                $ref: '#/components/schemas/ChannelFault'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ChannelFault'
+  /channels/{channel-uri}:
     parameters:
-      - name: channel-id
+      - name: channel-uri
         in: path
         description: The identifier of the channel to be accessed (retrieved, deleted, modified, etc.)
         required: true
@@ -127,7 +137,7 @@ paths:
           type: string
     get:
       operationId: getChannel
-      summary: Retreieve the Channel identified by 'channel-id'
+      summary: Retrieve the Channel identified by 'channel-uri'
       tags:
         - ChannelManagement
       responses:
@@ -141,13 +151,17 @@ paths:
               schema:
                 $ref: '#/components/schemas/Channel'
         '404':
-          description: The requested Channel does not exists.
+          description: The requested Channel does not exist.
           content:
-            application/json: {}
-            application/xml: {}
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChannelFault'
+            application/xml: 
+              schema:
+                $ref: '#/components/schemas/ChannelFault'
     delete:
       operationId: deleteChannel
-      summary: Delete the Channel specified by 'channel-id'
+      summary: Delete the Channel specified by 'channel-uri'
       tags:
         - ChannelManagement
       responses:
@@ -157,13 +171,17 @@ paths:
             application/json: {}
             application/xml: {}
         '404':
-          description: The Channel does not exists.
+          description: The requested Channel does not exist.
           content:
-            application/json: {}
-            application/xml: {}
-  /channels/{channel-id}/security-tokens:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChannelFault'
+            application/xml: 
+              schema:
+                $ref: '#/components/schemas/ChannelFault'
+  /channels/{channel-uri}/security-tokens:
     parameters:
-      - name: channel-id
+      - name: channel-uri
         in: path
         description: The identifier of the channel to be accessed (retrieved, deleted, modified, etc.)
         required: true
@@ -206,17 +224,30 @@ paths:
             application/json: {}
             application/xml: {}
         '404':
-          description: The Channel does not exists.
+          description: The requested Channel does not exist.
           content:
-            application/json: {}
-            application/xml: {}
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChannelFault'
+            application/xml: 
+              schema:
+                $ref: '#/components/schemas/ChannelFault'
+        '409':
+          description: The requested Channel has no security tokens and must not be assigned any.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationFault'
+            application/xml: 
+              schema:
+                $ref: '#/components/schemas/OperationFault'
     delete:
       operationId: removeSecurityTokens
       summary: Removes security tokens from a channel.
       tags:
         - ChannelManagement
       requestBody:
-        description: 'The security tokens to remove: the tokens must be specified in full to be removed.'
+        description: 'The security tokens to remove: each token must be specified in full to be removed, i.e., specifying only the username of a UsernamePassword token is insufficient.'
         content:
           application/json:
             schema:
@@ -247,45 +278,31 @@ paths:
             application/json: {}
             application/xml: {}
         '404':
-          description: The Channel does not exists.
-          content:
-            application/json: {}
-            application/xml: {}
-        '409':
-          description: The security tokens do not match those assigned to the Channel (SecurityTokenFault).
+          description: The requested Channel does not exist.
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  fault: 
-                    type: string
-                    description: Human readable explanation of the error.
-                    default: The security tokens do not match those assigned to the Channel.
-                required: 
-                  - fault
+                $ref: '#/components/schemas/ChannelFault'
+            application/xml: 
+              schema:
+                $ref: '#/components/schemas/ChannelFault'
+        '409':
+          description: The security tokens do not match those assigned to the Channel.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityTokenFault'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/SecurityTokenFault'
 security:
   - username_password: []
 # Referenced componenents, e.g., parameters, schemas, etc.
 components:
-  parameters:
-    channelIdParam:
-      name: channel-id
-      in: path
-      description: The identifier of the channel to be accessed (retrieved, deleted, modified, etc.)
-      required: true
-      schema:
-        type: string
   securitySchemes:
     username_password:
       type: http
       scheme: basic
-  responses:
-    ChannelNotFound:
-      description: The Channel does not exists.
-      content:
-        application/json: {}
-        application/xml: {}
   schemas:
     Channel:
       type: object
@@ -294,14 +311,14 @@ components:
           type: string
           format: uri
         channelType:
-          $ref: "#/components/schemas/ChannelType"
+          $ref: '#/components/schemas/ChannelType'
         description:
           type: string
         securityTokens:
-          description: This can be provided when creating a channel but should never be returned.
+          description: This can be provided when creating a channel but must never be returned.
           type: array
           items:
-            $ref: "#/components/schemas/SecurityToken"
+            $ref: '#/components/schemas/SecurityToken'
       required:
         - uri
         - channelType
@@ -314,11 +331,11 @@ components:
       type: object
       description: Exact security token types are implementation specific. Support must be
         provided for at least UsernameToken.
-      anyOf:
-        - $ref: "#/components/schemas/UsernameToken"
       additionalProperties: true
     UsernameToken:
       type: object
+      allOf: 
+        - $ref: '#/components/schemas/SecurityToken'
       properties:
         username:
           type: string
@@ -328,3 +345,36 @@ components:
       required:
         - password
         - username
+    ChannelFault:
+      type: object
+      properties:
+        fault: 
+          type: string
+          description: Human readable explanation of the error.
+      required: 
+        - fault
+    OperationFault:
+      type: object
+      properties:
+        fault:
+          type: string
+          description: Human readable explanation of the error.
+      required:
+        - fault
+    ParameterFault:
+      type: object
+      description: Returned when any given parameter is malformed or not optional but blank. The HTTP response status must be 400.
+      properties:
+        fault:
+          type: string
+          description: Human readable explanation of the error.
+      required:
+        - fault
+    SecurityTokenFault:
+      type: object
+      properties:
+        fault: 
+          type: string
+          description: Human readable explanation of the error.
+      required: 
+        - fault

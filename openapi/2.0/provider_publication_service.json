@@ -1,575 +1,663 @@
 {
-   "openapi": "3.0.1",
-   "info": {
-      "title": "ISBM 2.0 Provider Publication Service",
-      "version": "2.0",
-      "description": "An OpenAPI specification for the ISBM 2.0 RESTful interface.",
-      "license": {
-         "name": "MIMOSA License Agreement",
-         "url": "http://www.mimosa.org/policy-charters/mimosa-license-agreement/"
-      },
-      "contact": {
-         "name": "MIMOSA",
-         "email": "info@mimosa.org",
-         "url": "http://www.mimosa.org/"
+  "openapi": "3.0.1",
+  "info": {
+    "title": "ISBM 2.0 Provider Publication Service",
+    "version": "2.0",
+    "description": "An OpenAPI specification for the ISBM 2.0 RESTful interface.",
+    "license": {
+      "name": "MIMOSA License Agreement",
+      "url": "http://www.mimosa.org/policy-charters/mimosa-license-agreement/"
+    },
+    "contact": {
+      "name": "MIMOSA",
+      "email": "info@mimosa.org",
+      "url": "http://www.mimosa.org/"
+    }
+  },
+  "servers": [
+    {
+      "url": "{proto}://{host}:{port}/{basePath}",
+      "variables": {
+        "proto": {
+          "default": "http",
+          "enum": [
+            "http",
+            "https"
+          ]
+        },
+        "host": {
+          "default": "localhost"
+        },
+        "port": {
+          "default": "80"
+        },
+        "basePath": {
+          "default": ""
+        }
       }
-   },
-   "tags": [
-      {
-         "name": "Provider Publication Service",
-         "description": "REST version of the ISBM 2.0 Provider Publication Service."
+    }
+  ],
+  "tags": [
+    {
+      "name": "ProviderPublicationService",
+      "description": "REST version of the ISBM 2.0 Provider Publication Service."
+    }
+  ],
+  "paths": {
+    "/api": {
+      "get": {
+        "operationId": "getMetadata",
+        "summary": "Get metadata from the root of the API",
+        "tags": [
+          "Metadata"
+        ],
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "The OpenAPI document for the full suite of services available at this endpoint.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
       }
-   ],
-   "paths": {
-      "/api": {
-         "get": {
-            "operationId": "getMetadata",
-            "summary": "Get metadata from the root of the API",
-            "tags": [
-               "Metadata"
-            ],
-            "security": [],
-            "responses": {
-               "200": {
-                  "description": "This OpenAPI document.",
-                  "content": {
-                     "text/plain": {
-                        "schema": {
-                           "type": "string"
-                        }
-                     }
-                  }
-               }
-            }
-         }
-      },
-      "/channels/{channel-id}/publication-sessions": {
-         "parameters": [
-            {
-               "name": "channel-id",
-               "in": "path",
-               "description": "The identifier of the channel to be accessed (retrieved, deleted, modified, etc.)",
-               "required": true,
-               "schema": {
-                  "type": "string"
-               }
-            }
-         ],
-         "post": {
-            "operationId": "openPublicationSession",
-            "summary": "Opens a publication session for a channel.",
-            "tags": [
-               "ProviderPublicationService"
-            ],
-            "responses": {
-               "201": {
-                  "description": "The publication session has been successfully opened on the channel. Only the SessionID is to be returned.",
-                  "content": {
-                     "application/json": {
-                        "schema": {
-                           "$ref": "#/components/schemas/Session"
-                        },
-                        "example": {
-                           "sessionId": "ac0ee730-ca88-421a-b348-ce0a1babdb1c"
-                        }
-                     },
-                     "application/xml": {
-                        "schema": {
-                           "$ref": "#/components/schemas/Session"
-                        }
-                     }
-                  },
-                  "headers": {
-                     "Location": {
-                        "description": "The URL at which the session can be accessed, deleted, etc.",
-                        "required": true,
-                        "schema": {
-                           "type": "string",
-                           "format": "uri"
-                        }
-                     }
-                  }
-               },
-               "404": {
-                  "$ref": "#/components/responses/ChannelNotFound"
-               },
-               "422": {
-                  "$ref": "#/components/responses/ChannelNotPublication"
-               }
-            }
-         }
-      },
-      "/sessions/{session-id}": {
-         "parameters": [
-            {
-               "name": "session-id",
-               "in": "path",
-               "description": "The identifier of the session to be accessed (retrieved, deleted, modified, etc.)",
-               "required": true,
-               "schema": {
-                  "type": "string"
-               }
-            }
-         ],
-         "delete": {
-            "operationId": "closeSession",
-            "summary": "Closes a session.",
-            "description": "Closes a session of any type.\n**Note** this diverges from the SOAP API in that it provides a single path for sessions of all types.\nThe type of session is still known upon creation and the different operations can still only be performed\non sessions of the correct type.\n\nAll unexpired messages that have been posted during the session will be expired.",
-            "tags": [
-               "ProviderPublicationService",
-               "ConsumerPublicationService",
-               "ProviderRequestService",
-               "ConsumerRequestService"
-            ],
-            "responses": {
-               "204": {
-                  "description": "Session is successfully closed",
-                  "content": {
-                     "application/json": {},
-                     "application/xml": {}
-                  }
-               },
-               "404": {
-                  "$ref": "#/components/responses/SessionNotFound"
-               },
-               "410": {
-                  "description": "The session is closed. This is optional, 404 could be returned instead.",
-                  "content": {
-                     "application/json": {},
-                     "application/xml": {}
-                  }
-               }
-            }
-         }
-      },
-      "/sessions/{session-id}/publications": {
-         "parameters": [
-            {
-               "name": "session-id",
-               "in": "path",
-               "description": "The identifier of the session to which the message will/is posted.",
-               "required": true,
-               "schema": {
-                  "type": "string"
-               }
-            }
-         ],
-         "post": {
-            "operationId": "postPublication",
-            "summary": "Posts a publication message on a channel.",
-            "tags": [
-               "ProviderPublicationService"
-            ],
-            "requestBody": {
-               "description": "The Message. All ISBM service providers MUST support JSON and XML content types.\nISBM service providers MAY support arbitrary content types.\nOnly MessageContent, Topic, and Expiry are allowed in the request body.",
-               "content": {
-                  "application/json": {
-                     "schema": {
-                        "$ref": "#/components/schemas/Message"
-                     },
-                     "example": {
-                        "topic": null
-                     }
-                  },
-                  "application/xml": {
-                     "schema": {
-                        "$ref": "#/components/schemas/Message"
-                     }
-                  }
-               }
-            },
-            "responses": {
-               "201": {
-                  "description": "The message has been successfully posted to the channel. Returns only the ID of the message.",
-                  "content": {
-                     "application/json": {
-                        "schema": {
-                           "$ref": "#/components/schemas/Message"
-                        },
-                        "example": {
-                           "messageId": "8007a3fa-70e3-4e90-a2b9-d8469cae2e5a"
-                        }
-                     },
-                     "application/xml": {
-                        "schema": {
-                           "$ref": "#/components/schemas/Message"
-                        }
-                     }
-                  }
-               },
-               "404": {
-                  "$ref": "#/components/responses/SessionNotFound"
-               },
-               "422": {
-                  "$ref": "#/components/responses/SessionNotPublicationProviderType"
-               }
-            }
-         }
-      },
-      "/sessions/{session-id}/publications/{message-id}": {
-         "parameters": [
-            {
-               "name": "session-id",
-               "in": "path",
-               "description": "The identifier of the session to which the publication was posted.",
-               "required": true,
-               "schema": {
-                  "type": "string"
-               }
-            },
-            {
-               "name": "message-id",
-               "in": "path",
-               "description": "The identifier of the posted publication.",
-               "required": true,
-               "schema": {
-                  "type": "string"
-               }
-            }
-         ],
-         "delete": {
-            "operationId": "expirePublication",
-            "summary": "Expires a posted publication.",
-            "tags": [
-               "ProviderPublicationService"
-            ],
-            "responses": {
-               "204": {
-                  "description": "Publication has been expired.\nIf the MessageID does not correspond with the SessionID or the corresponding \nmessage has already expired, then no further action is taken.\n\nThe message is expired for all topics associated with the message.",
-                  "content": {
-                     "application/json": {},
-                     "application/xml": {}
-                  }
-               },
-               "404": {
-                  "$ref": "#/components/responses/SessionNotFound"
-               },
-               "422": {
-                  "$ref": "#/components/responses/SessionNotPublicationProviderType"
-               }
-            }
-         }
-      }
-   },
-   "components": {
-      "parameters": {
-         "channelIdParam": {
-            "name": "channel-id",
-            "in": "path",
-            "description": "The identifier of the channel to be accessed (retrieved, deleted, modified, etc.)",
-            "required": true,
-            "schema": {
-               "type": "string"
-            }
-         }
-      },
-      "securitySchemes": {
-         "username_password": {
-            "type": "http",
-            "scheme": "basic"
-         }
-      },
-      "responses": {
-         "ChannelNotFound": {
-            "description": "The Channel does not exists.",
+    },
+    "/channels/{channel-uri}/publication-sessions": {
+      "parameters": [
+        {
+          "name": "channel-uri",
+          "in": "path",
+          "description": "The identifier of the channel to be accessed (retrieved, deleted, modified, etc.)",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "operationId": "openPublicationSession",
+        "summary": "Opens a publication session for a channel.",
+        "tags": [
+          "ProviderPublicationService"
+        ],
+        "responses": {
+          "201": {
+            "description": "The publication session has been successfully opened on the channel. Only the SessionID is to be returned.",
             "content": {
-               "application/json": {},
-               "application/xml": {}
-            }
-         },
-         "ChannelNotPublication": {
-            "description": "The Channel is not of type Publication.",
-            "content": {
-               "application/json": {
-                  "schema": {
-                     "$ref": "#/components/schemas/OperationFault"
-                  },
-                  "example": {
-                     "fault": "The channel type must be the Publication type"
-                  }
-               },
-               "application/xml": {
-                  "schema": {
-                     "$ref": "#/components/schemas/OperationFault"
-                  }
-               }
-            }
-         },
-         "ParameterMalformed": {
-            "description": "A provided parameter is malformed or not optional but blank.",
-            "content": {
-               "application/json": {
-                  "schema": {
-                     "$ref": "#/components/schemas/ParameterFault"
-                  }
-               },
-               "application/xml": {
-                  "schema": {
-                     "$ref": "#/components/schemas/ParameterFault"
-                  }
-               }
-            }
-         },
-         "SessionNotFound": {
-            "description": "The session does not exist or has been closed.",
-            "content": {
-               "application/json": {},
-               "application/xml": {}
-            }
-         },
-         "SessionNotPublicationProviderType": {
-            "description": "The Session is not of type Publication Provider",
-            "content": {
-               "application/json": {
-                  "schema": {
-                     "$ref": "#/components/schemas/SessionFault"
-                  },
-                  "example": {
-                     "fault": "The session type must be Publication Provider for this operation"
-                  }
-               },
-               "application/xml": {
-                  "schema": {
-                     "$ref": "#/components/schemas/SessionFault"
-                  }
-               }
-            }
-         }
-      },
-      "schemas": {
-         "ChannelType": {
-            "type": "string",
-            "enum": [
-               "Publication",
-               "Request"
-            ]
-         },
-         "Namespace": {
-            "type": "object",
-            "properties": {
-               "prefix": {
-                  "type": "string"
-               },
-               "name": {
-                  "type": "string"
-               }
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Session"
+                },
+                "example": {
+                  "sessionId": "ac0ee730-ca88-421a-b348-ce0a1babdb1c"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Session"
+                }
+              }
             },
-            "required": [
-               "prefix",
-               "name"
-            ]
-         },
-         "MediaTypeList": {
-            "type": "array",
-            "items": {
-               "type": "string"
-            }
-         },
-         "FilterExpression": {
-            "type": "object",
-            "description": "content filtering expression that may be applied to messages on a channel",
-            "properties": {
-               "applicableMediaTypes": {
-                  "$ref": "#/components/schemas/MediaTypeList"
-               },
-               "expressionString": {
-                  "type": "object",
-                  "properties": {
-                     "expression": {
-                        "type": "string"
-                     },
-                     "language": {
-                        "type": "string"
-                     },
-                     "languageVersion": {
-                        "type": "string"
-                     }
-                  },
-                  "required": [
-                     "expression",
-                     "language"
-                  ]
-               },
-               "namespaces": {
-                  "type": "array",
-                  "items": {
-                     "$ref": "#/components/schemas/Namespace"
-                  }
-               }
-            },
-            "required": [
-               "expressionString"
-            ]
-         },
-         "SecurityToken": {
-            "type": "object",
-            "description": "Exact security token types are implementation specific. Support must be\nprovided for at least UsernameToken.",
-            "anyOf": [
-               {
-                  "$ref": "#/components/schemas/UsernameToken"
-               }
-            ],
-            "additionalProperties": true
-         },
-         "UsernameToken": {
-            "type": "object",
-            "properties": {
-               "username": {
-                  "type": "string"
-               },
-               "password": {
-                  "type": "string",
-                  "format": "password"
-               }
-            },
-            "required": [
-               "password",
-               "username"
-            ]
-         },
-         "Session": {
-            "type": "object",
-            "properties": {
-               "sessionId": {
-                  "type": "string"
-               },
-               "sessionType": {
-                  "$ref": "#/components/schemas/SessionType"
-               },
-               "listenerUrl": {
+            "headers": {
+              "Location": {
+                "description": "The URL at which the session can be accessed, deleted, etc.",
+                "required": true,
+                "schema": {
                   "type": "string",
                   "format": "uri"
-               },
-               "topics": {
-                  "type": "array",
-                  "items": {
-                     "type": "string"
-                  },
-                  "minItems": 1
-               },
-               "filterExpressions": {
-                  "type": "array",
-                  "items": {
-                     "$ref": "#/components/schemas/FilterExpression"
-                  }
-               }
-            },
-            "required": [
-               "sessionId"
-            ]
-         },
-         "SessionType": {
-            "type": "string",
-            "enum": [
-               "PublicationProvider",
-               "PublicationConsumer",
-               "RequestProvider",
-               "RequestConsumer"
-            ]
-         },
-         "Message": {
-            "type": "object",
-            "description": "Message Content may be XML, JSON, or possibly an arbitrary type.\nHowever, XML and JSON must be supported.\n\nWhen receiving a Message object as the result of a POST, MUST only include the\nmessage ID confirming the creation of the Message.\n\nThe message type is implicit based on the context and MUST NOT appear in \nrequest/response bodies.",
-            "properties": {
-               "messageId": {
-                  "type": "string"
-               },
-               "messageType": {
-                  "$ref": "#/components/schemas/MessageType"
-               },
-               "messageContent": {
-                  "$ref": "#/components/schemas/MessageContent"
-               },
-               "topics": {
-                  "description": "The Topic(s) to which the message will be posted.",
-                  "type": "array",
-                  "items": {
-                     "type": "string"
-                  },
-                  "minItems": 1
-               },
-               "expiry": {
-                  "type": "string",
-                  "format": "duration",
-                  "description": "The duration after which the message will be automatically expired. Negative duration is no duration.\nDuration as defined by XML Schema xs:duration, http://w3c.org/TR/xmlschema-2/#duration",
-                  "pattern": "[-]?P([0-9]+Y)?([0-9]+M)?([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+([.][0-9]+)?S)?)?"
-               },
-               "requestMessageId": {
-                  "type": "string",
-                  "description": "Only valid for Response messages; refers to the original Request message."
-               }
+                }
+              }
             }
-         },
-         "MessageContent": {
-            "type": "object",
-            "properties": {
-               "mediaType": {
-                  "type": "string",
-                  "description": "The MIME type of the content. If not present, it is assumed to be the\nsame as the Content-Type of the request/response body."
-               },
-               "content": {
-                  "type": "object",
-                  "additionalProperties": true
-               }
-            },
-            "required": [
-               "content"
-            ]
-         },
-         "MessageType": {
-            "type": "string",
-            "enum": [
-               "Request",
-               "Response",
-               "Publication"
-            ]
-         },
-         "OperationFault": {
-            "type": "object",
-            "description": "Returned when attempting to open a Session on a Channel of the wrong ChannelType.",
-            "properties": {
-               "fault": {
-                  "type": "string",
-                  "enum": [
-                     "The channel type must be the Publication type",
-                     "The channel type must be the Request type"
-                  ]
-               }
-            },
-            "required": [
-               "fault"
-            ]
-         },
-         "ParameterFault": {
-            "type": "object",
-            "description": "Returned when any given parameter is malformed or not optional but blank.",
-            "properties": {
-               "fault": {
-                  "type": "string"
-               }
-            },
-            "required": [
-               "fault"
-            ]
-         },
-         "SessionFault": {
-            "type": "object",
-            "description": "Returned when attempting to access a Session of the wrong SessionType.",
-            "properties": {
-               "fault": {
-                  "type": "string",
-                  "enum": [
-                     "The session type must be Publication Provider for this operation",
-                     "The session type must be Publication Consumer for this operation",
-                     "The session type must be Request Provider for this operation",
-                     "The session type must be Request Consumer for this operation"
-                  ]
-               }
-            },
-            "required": [
-               "fault"
-            ]
-         }
+          },
+          "400": {
+            "description": "Error in the provided parameters (e.g., ChannelURI not a valid URI).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParameterFault"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParameterFault"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The Channel does not exists.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChannelFault"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChannelFault"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The Channel is not of type Publication.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationFault"
+                },
+                "example": {
+                  "fault": "The channel type must be the Publication type"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/OperationFault"
+                }
+              }
+            }
+          }
+        }
       }
-   }
+    },
+    "/sessions/{session-id}": {
+      "parameters": [
+        {
+          "name": "session-id",
+          "in": "path",
+          "description": "The identifier of the session to be accessed (retrieved, deleted, modified, etc.)",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "delete": {
+        "operationId": "closeSession",
+        "summary": "Closes a session.",
+        "description": "Closes a session of any type. All unexpired messages that have been posted during the session will be expired.\n***Note*** This interface is shared by Close Publication Session, Close Subscription Session, Close Provider Request Session, and Close Consumer Request Session.",
+        "tags": [
+          "ProviderPublicationService",
+          "ConsumerPublicationService",
+          "ProviderRequestService",
+          "ConsumerRequestService"
+        ],
+        "responses": {
+          "204": {
+            "description": "Session is successfully closed",
+            "content": {
+              "application/json": {},
+              "application/xml": {}
+            }
+          },
+          "404": {
+            "description": "The session does not exist or has been closed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionFault"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionFault"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sessions/{session-id}/publications": {
+      "parameters": [
+        {
+          "name": "session-id",
+          "in": "path",
+          "description": "The identifier of the session to which the message will be posted.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "operationId": "postPublication",
+        "summary": "Posts a publication message on a channel.",
+        "tags": [
+          "ProviderPublicationService"
+        ],
+        "requestBody": {
+          "description": "The Message to be published Only MessageContent, Topic, and Expiry are allowed in the request body.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Message"
+              },
+              "example": {
+                "messageContent": {
+                  "mediaType": "text/plain",
+                  "content": "Simple text message"
+                },
+                "topics": [
+                  "Text"
+                ],
+                "expiry": "PT24H"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Message"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The message has been successfully posted to the channel. Returns only the MessageID.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Message"
+                },
+                "example": {
+                  "messageId": "8007a3fa-70e3-4e90-a2b9-d8469cae2e5a"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Message"
+                }
+              }
+            },
+            "headers": {
+              "Location": {
+                "description": "The URL at which the message can be accessed, expired, etc.",
+                "required": true,
+                "schema": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Error in the provided parameters (e.g., no Topic provided, Expiry in invalid format).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParameterFault"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParameterFault"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The session does not exist (or has been closed).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionFault"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionFault"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The Session is not of type Publication Consumer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionFault"
+                },
+                "example": {
+                  "fault": "The session type must be Publication Provider for this operation"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionFault"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/sessions/{session-id}/publications/{message-id}": {
+      "parameters": [
+        {
+          "name": "session-id",
+          "in": "path",
+          "description": "The identifier of the session to which the publication was posted.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "message-id",
+          "in": "path",
+          "description": "The identifier of the posted publication.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "delete": {
+        "operationId": "expirePublication",
+        "summary": "Expires a posted publication.",
+        "tags": [
+          "ProviderPublicationService"
+        ],
+        "responses": {
+          "204": {
+            "description": "Publication has been expired.\nIf the MessageID does not correspond with the SessionID or the corresponding message has already expired, then no further action is taken.\nThe message is expired for all topics associated with the message.",
+            "content": {
+              "application/json": {},
+              "application/xml": {}
+            }
+          },
+          "404": {
+            "description": "The session does not exist (or has been closed).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionFault"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionFault"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "The Session is not of type Publication Consumer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionFault"
+                },
+                "example": {
+                  "fault": "The session type must be Publication Provider for this operation"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionFault"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "username_password": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "username_password": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    },
+    "schemas": {
+      "FilterExpression": {
+        "type": "object",
+        "description": "content filtering expression that may be applied to messages on a channel",
+        "properties": {
+          "applicableMediaTypes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "expressionString": {
+            "type": "object",
+            "properties": {
+              "expression": {
+                "type": "string"
+              },
+              "language": {
+                "type": "string"
+              },
+              "languageVersion": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "expression",
+              "language"
+            ]
+          },
+          "namespaces": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Namespace"
+            }
+          }
+        },
+        "required": [
+          "expressionString"
+        ]
+      },
+      "Message": {
+        "type": "object",
+        "description": "Message Content may be XML, JSON, or possibly an arbitrary type. However, XML and JSON must be supported.\nWhen receiving a Message object as the result of a POST, MUST only include the message ID confirming the creation of the Message.\nThe message type is implicit based on the context and MUST NOT appear in request/response bodies.",
+        "properties": {
+          "messageId": {
+            "type": "string"
+          },
+          "messageType": {
+            "$ref": "#/components/schemas/MessageType"
+          },
+          "messageContent": {
+            "$ref": "#/components/schemas/MessageContent"
+          },
+          "topics": {
+            "description": "The Topic(s) to which the message will be posted.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          },
+          "expiry": {
+            "type": "string",
+            "format": "duration",
+            "description": "The duration after which the message will be automatically expired. Negative duration is no duration. Duration as defined by XML Schema xs:duration, http://w3c.org/TR/xmlschema-2/#duration",
+            "pattern": "[-]?P([0-9]+Y)?([0-9]+M)?([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+([.][0-9]+)?S)?)?"
+          },
+          "requestMessageId": {
+            "type": "string",
+            "description": "Only valid for Response messages; refers to the original Request message."
+          }
+        }
+      },
+      "MessageContent": {
+        "type": "object",
+        "properties": {
+          "mediaType": {
+            "type": "string",
+            "description": "The MIME type of the content. If not present, it is assumed to be the same as the Content-Type of the HTTP request/response body."
+          },
+          "contentEncoding": {
+            "type": "string",
+            "description": "Indicates the encoding type used for binary content."
+          },
+          "content": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "additionalProperties": true
+              }
+            ]
+          }
+        },
+        "required": [
+          "content"
+        ]
+      },
+      "MessageType": {
+        "type": "string",
+        "enum": [
+          "Request",
+          "Response",
+          "Publication"
+        ]
+      },
+      "Namespace": {
+        "type": "object",
+        "properties": {
+          "prefix": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "prefix",
+          "name"
+        ]
+      },
+      "SecurityToken": {
+        "type": "object",
+        "description": "Exact security token types are implementation specific. Support must be provided for at least UsernameToken.",
+        "additionalProperties": true
+      },
+      "Session": {
+        "type": "object",
+        "properties": {
+          "sessionId": {
+            "type": "string"
+          },
+          "sessionType": {
+            "$ref": "#/components/schemas/SessionType"
+          },
+          "listenerUrl": {
+            "type": "string",
+            "format": "uri"
+          },
+          "topics": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          },
+          "filterExpressions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FilterExpression"
+            }
+          }
+        },
+        "required": [
+          "sessionId"
+        ]
+      },
+      "SessionType": {
+        "type": "string",
+        "enum": [
+          "PublicationProvider",
+          "PublicationConsumer",
+          "RequestProvider",
+          "RequestConsumer"
+        ]
+      },
+      "UsernameToken": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SecurityToken"
+          }
+        ],
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string",
+            "format": "password"
+          }
+        },
+        "required": [
+          "password",
+          "username"
+        ]
+      },
+      "OperationFault": {
+        "type": "object",
+        "properties": {
+          "fault": {
+            "type": "string",
+            "description": "Human readable explanation of the error."
+          }
+        },
+        "required": [
+          "fault"
+        ]
+      },
+      "ChannelFault": {
+        "type": "object",
+        "properties": {
+          "fault": {
+            "type": "string",
+            "description": "Human readable explanation of the error."
+          }
+        },
+        "required": [
+          "fault"
+        ]
+      },
+      "ParameterFault": {
+        "type": "object",
+        "description": "Returned when any given parameter is malformed or not optional but blank. The HTTP response status must be 400.",
+        "properties": {
+          "fault": {
+            "type": "string",
+            "description": "Human readable explanation of the error."
+          }
+        },
+        "required": [
+          "fault"
+        ]
+      },
+      "SessionFault": {
+        "type": "object",
+        "description": "Returned when attempting to access a Session of the wrong SessionType.",
+        "properties": {
+          "fault": {
+            "type": "string",
+            "description": "Human readable explanation of the error."
+          }
+        },
+        "required": [
+          "fault"
+        ]
+      }
+    }
+  }
 }

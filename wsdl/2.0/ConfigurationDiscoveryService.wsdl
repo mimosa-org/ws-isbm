@@ -21,7 +21,7 @@
 			<!-- Types -->
 			<xs:complexType name="SupportedContentFilteringLanguages">
 			  <xs:sequence>
-			    <xs:element minOccurs="1" maxOccurs="unbounded" name="ContentFilteringLanguage" type="isbm:ContentFilteringLanguage"/>
+			    <xs:element minOccurs="0" maxOccurs="unbounded" name="ContentFilteringLanguage" type="isbm:ContentFilteringLanguage"/>
 			  </xs:sequence>
 			</xs:complexType>
 			
@@ -180,7 +180,7 @@
 		<wsdl:operation name="GetSecurityDetails">
 			<wsdl:documentation>Gets the detailed security related information of the ISBM service provider.</wsdl:documentation>
 			<wsdl:input message="isbm:GetSecurityDetailsIn"/>
-			<wsdl:output message="isbm:GetSupportedOperationsOut"/>
+			<wsdl:output message="isbm:GetSecurityDetailsOut"/>
 			<wsdl:fault name="SecurityTokenFault" message="isbm:SecurityTokenFault"/>
 		</wsdl:operation>
 	</wsdl:portType>
@@ -237,10 +237,10 @@
 
 	<wsdl:service name="ConfigurationDiscoveryService">
 		<wsdl:port name="ConfigurationDiscoveryServiceSoap" binding="isbm:ConfigurationDiscoveryServiceSoap">
-			<soap:address location="https://example.com/ConfigurationDiscoveryServiceSoap"/>
+			<soap:address location="https://example.com/ConfigurationDiscoveryService"/>
 		</wsdl:port>
 		<wsdl:port name="ConfigurationDiscoveryServiceSoap12" binding="isbm:ConfigurationDiscoveryServiceSoap12">
-			<soap12:address location="https://example.com/ConfigurationDiscoveryServiceSoap12"/>
+			<soap12:address location="https://example.com/ConfigurationDiscoveryService12"/>
 		</wsdl:port>
 	</wsdl:service>
 </wsdl:definitions>

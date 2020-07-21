@@ -1,7 +1,7 @@
-openapi: 3.0.1
+openapi: '3.0.1'
 info:
-  title: ws-ISBM
-  version: 2.0
+  title: ISBM 2.0
+  version: '2.0'
   description: An OpenAPI specification for the ISBM 2.0 RESTful interface.
   license:
     name: MIMOSA License Agreement
@@ -10,9 +10,33 @@ info:
     name: MIMOSA
     email: info@mimosa.org
     url: http://www.mimosa.org/
+servers:
+  - url: '{proto}://{host}:{port}/{basePath}'
+    variables:
+      proto:
+        default: 'http'
+        enum:
+          - http
+          - https
+      host:
+        default: 'localhost'
+      port:
+        default: '80'
+      basePath:
+        default: ''
 tags:
   - name: ChannelManagement
     description: REST version of the ISBM 2.0 Channel Management Service.
+  - name: ConsumerPublicationService
+    description: REST version of the ISBM 2.0 Consumer Publication Service.
+  - name: ConsumerRequestService
+    description: REST version of the ISBM 2.0 Consumer Request Service.
+  - name: ProviderPublicationService
+    description: REST version of the ISBM 2.0 Provider Publication Service.
+  - name: ProviderRequestService
+    description: REST version of the ISBM 2.0 Provider Request Service.
+  - name: ConfigurationDiscoveryService
+    description: REST version of the ISBM 2.0 Configuration Discovery Service.
 paths:
   /api:
     get:
@@ -22,12 +46,12 @@ paths:
         - Metadata
       security: [] # disable security on retrieving the api itself
       responses:
-        "200":
-          description: This OpenAPI document.
+        '200':
+          description: The OpenAPI document for the full suite of services available at this endpoint.
           content:
-            text/plain:
+            application/json:
               schema:
-                type: string
+                type: object
   /channels:
     get:
       operationId: getChannels
@@ -37,7 +61,7 @@ paths:
       security:
         - username_password: []
       responses:
-        "200":
+        '200':
           description: A (possibly empty) list of Channels.
           content:
             application/json:
@@ -57,7 +81,7 @@ paths:
         - ChannelManagement
       security: [] # disable security for creating channels, only operation that does not (cannot) have security 
       requestBody:
-        description: The Channel to create on the bus
+        description: The Channel to create
         content:
           application/json:
             schema:
@@ -109,17 +133,13 @@ paths:
           content: 
             application/json:
               schema:
-                type: object
-                properties:
-                  fault: 
-                    type: string
-                    description: Human readable explanation of the error.
-                    default: Could not create the channel, URI already exists.
-                required: 
-                  - fault
-  /channels/{channel-id}:
+                $ref: '#/components/schemas/ChannelFault'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ChannelFault'
+  /channels/{channel-uri}:
     parameters:
-      - name: channel-id
+      - name: channel-uri
         in: path
         description: The identifier of the channel to be accessed (retrieved, deleted, modified, etc.)
         required: true
@@ -127,7 +147,7 @@ paths:
           type: string
     get:
       operationId: getChannel
-      summary: Retreieve the Channel identified by 'channel-id'
+      summary: Retrieve the Channel identified by 'channel-uri'
       tags:
         - ChannelManagement
       responses:
@@ -141,13 +161,17 @@ paths:
               schema:
                 $ref: '#/components/schemas/Channel'
         '404':
-          description: The requested Channel does not exists.
+          description: The requested Channel does not exist.
           content:
-            application/json: {}
-            application/xml: {}
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChannelFault'
+            application/xml: 
+              schema:
+                $ref: '#/components/schemas/ChannelFault'
     delete:
       operationId: deleteChannel
-      summary: Delete the Channel specified by 'channel-id'
+      summary: Delete the Channel specified by 'channel-uri'
       tags:
         - ChannelManagement
       responses:
@@ -157,13 +181,17 @@ paths:
             application/json: {}
             application/xml: {}
         '404':
-          description: The Channel does not exists.
+          description: The requested Channel does not exist.
           content:
-            application/json: {}
-            application/xml: {}
-  /channels/{channel-id}/security-tokens:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChannelFault'
+            application/xml: 
+              schema:
+                $ref: '#/components/schemas/ChannelFault'
+  /channels/{channel-uri}/security-tokens:
     parameters:
-      - name: channel-id
+      - name: channel-uri
         in: path
         description: The identifier of the channel to be accessed (retrieved, deleted, modified, etc.)
         required: true
@@ -206,17 +234,30 @@ paths:
             application/json: {}
             application/xml: {}
         '404':
-          description: The Channel does not exists.
+          description: The requested Channel does not exist.
           content:
-            application/json: {}
-            application/xml: {}
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChannelFault'
+            application/xml: 
+              schema:
+                $ref: '#/components/schemas/ChannelFault'
+        '409':
+          description: The requested Channel has no security tokens and must not be assigned any.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationFault'
+            application/xml: 
+              schema:
+                $ref: '#/components/schemas/OperationFault'
     delete:
       operationId: removeSecurityTokens
       summary: Removes security tokens from a channel.
       tags:
         - ChannelManagement
       requestBody:
-        description: 'The security tokens to remove: the tokens must be specified in full to be removed.'
+        description: 'The security tokens to remove: each token must be specified in full to be removed, i.e., specifying only the username of a UsernamePassword token is insufficient.'
         content:
           application/json:
             schema:
@@ -247,26 +288,26 @@ paths:
             application/json: {}
             application/xml: {}
         '404':
-          description: The Channel does not exists.
-          content:
-            application/json: {}
-            application/xml: {}
-        '409':
-          description: The security tokens do not match those assigned to the Channel (SecurityTokenFault).
+          description: The requested Channel does not exist.
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  fault: 
-                    type: string
-                    description: Human readable explanation of the error.
-                    default: The security tokens do not match those assigned to the Channel.
-                required: 
-                  - fault
-  /channels/{channel-id}/publication-sessions:
+                $ref: '#/components/schemas/ChannelFault'
+            application/xml: 
+              schema:
+                $ref: '#/components/schemas/ChannelFault'
+        '409':
+          description: The security tokens do not match those assigned to the Channel.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityTokenFault'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/SecurityTokenFault'
+  /channels/{channel-uri}/publication-sessions:
     parameters:
-      - name: channel-id
+      - name: channel-uri
         in: path
         description: The identifier of the channel to be accessed (retrieved, deleted, modified, etc.)
         required: true
@@ -296,13 +337,38 @@ paths:
               schema:
                 type: string
                 format: uri
+        '400':
+          description: Error in the provided parameters (e.g., ChannelURI not a valid URI). 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParameterFault'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ParameterFault'
         '404':
-          $ref: '#/components/responses/ChannelNotFound'
+          description: The Channel does not exists.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChannelFault'
+            application/xml: 
+              schema:
+                $ref: '#/components/schemas/ChannelFault'
         '422':
-          $ref: '#/components/responses/ChannelNotPublication'
-  /channels/{channel-id}/subscription-sessions:
+          description: The Channel is not of type Publication.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationFault'
+              example:
+                fault: The channel type must be the Publication type
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/OperationFault'
+  /channels/{channel-uri}/subscription-sessions:
     parameters:
-      - name: channel-id
+      - name: channel-uri
         in: path
         description: The identifier of the channel to be accessed (retrieved, deleted, modified, etc.)
         required: true
@@ -314,15 +380,18 @@ paths:
       tags:
         - ConsumerPublicationService
       requestBody:
-        description: The configuration of the subscription session, i.e., topic filtering, content-filtering, and notication listener address
+        description: The configuration of the subscription session, i.e., topic filtering, content-filtering, and notication listener address. Only the Topics, ListenerURL, and FilterExpressions are to be provided.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Session'
-            example:
-              topics: 
-                - Text
-              listenerUrl: http://consumer.example.com/rest/NotificationService
+            examples:
+              basicSessionWithListenerUrl:
+                summary: Simple session including the optional listener url.
+                value:
+                  topics: 
+                    - Text
+                  listenerUrl: http://consumer.example.com/rest/NotificationService
           application/xml:
             schema:
               $ref: '#/components/schemas/Session'
@@ -346,7 +415,7 @@ paths:
                 type: string
                 format: uri
         '400':
-          description: Error in the provided parameters (e.g., ListenerURL not a valid URI) or duplicate namespaces prefixes in the Namespace list. 
+          description: Error in the provided parameters (e.g., ListenerURL not a valid URI) or duplicate namespaces prefixes in the NamespaceNames list of the FilterExpression. 
           content:
             application/json:
               schema:
@@ -359,67 +428,28 @@ paths:
                   - $ref: '#/components/schemas/ParameterFault'
                   - $ref: '#/components/schemas/NamespaceFault'
         '404':
-          $ref: '#/components/responses/ChannelNotFound'
-        '422':
-          $ref: '#/components/responses/ChannelNotPublication'
-      callbacks:
-        messagePosted:
-          $ref: '#/components/callbacks/NotificationListenerCallback'
-  /channels/{channel-id}/consumer-request-sessions:
-    parameters:
-      - name: channel-id
-        in: path
-        description: The identifier of the channel to be accessed (retrieved, deleted, modified, etc.)
-        required: true
-        schema:
-          type: string
-    post:
-      operationId: openConsumerRequestSession
-      summary: Opens a consumer request session for a channel for posting requests and reading responses.
-      tags:
-        - ConsumerRequestService
-      requestBody:
-        description: The configuration of the consumer request session, i.e., optional notication listener address
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Session'
-            example:
-              listenerUrl: http://consumer.example.com/rest/NotificationService
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Session'
-      responses:
-        '201':
-          description: The session has been successfully opened on the channel. Only the SessionID is to be returned.
+          description: The Channel does not exists.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Session'
-              example: 
-                sessionId: 'a9b5c71a-d1b5-4fc8-81d1-ba1fee3af0df'
+                $ref: '#/components/schemas/ChannelFault'
+            application/xml: 
+              schema:
+                $ref: '#/components/schemas/ChannelFault'
+        '422':
+          description: The Channel is not of type Publication.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationFault'
+              example:
+                fault: The channel type must be the Publication type
             application/xml:
               schema:
-                $ref: '#/components/schemas/Session'
-          headers:
-            Location:
-              description: The URL at which the session can be accessed, deleted, etc.
-              required: true
-              schema:
-                type: string
-                format: uri
-        '400':
-          $ref: '#/components/responses/ParameterMalformed'
-        '404':
-          $ref: '#/components/responses/ChannelNotFound'
-        '422':
-          $ref: '#/components/responses/ChannelNotRequest'
-      callbacks:
-        messagePosted:
-          $ref: '#/components/callbacks/NotificationListenerCallback'
-  /channels/{channel-id}/provider-request-sessions:
+                $ref: '#/components/schemas/OperationFault'
+  /channels/{channel-uri}/provider-request-sessions:
     parameters:
-      - name: channel-id
+      - name: channel-uri
         in: path
         description: The identifier of the channel to be accessed (retrieved, deleted, modified, etc.)
         required: true
@@ -431,15 +461,18 @@ paths:
       tags:
         - ProviderRequestService
       requestBody:
-        description: The configuration of the session, i.e., topic filtering, content-filtering, and notication listener address
+        description: The configuration of the session, i.e., topic filtering, content-filtering, and notication listener address. Only the Topics, ListenerURL, and FilterExpressions are to be provided.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Session'
-            example:
-              topics: 
-                - Text
-              listenerUrl: http://provider.example.com/rest/NotificationService
+            examples:
+              basicSessionWithListenerUrl:
+                summary: Simple session including the optional listener url.
+                value:
+                  topics: 
+                    - Text
+                  listenerUrl: http://provider.example.com/rest/NotificationService
           application/xml:
             schema:
               $ref: '#/components/schemas/Session'
@@ -463,7 +496,7 @@ paths:
                 type: string
                 format: uri
         '400':
-          description: Error in the provided parameters (e.g., ListenerURL not a valid URI) or duplicate namespaces prefixes in the Namespace list. 
+          description: Error in the provided parameters (e.g., ListenerURL not a valid URI) or duplicate namespaces prefixes in the NamespaceNames list of the FilterExpression. 
           content:
             application/json:
               schema:
@@ -476,12 +509,102 @@ paths:
                   - $ref: '#/components/schemas/ParameterFault'
                   - $ref: '#/components/schemas/NamespaceFault'
         '404':
-          $ref: '#/components/responses/ChannelNotFound'
+          description: The Channel does not exists.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChannelFault'
+            application/xml: 
+              schema:
+                $ref: '#/components/schemas/ChannelFault'
         '422':
-          $ref: '#/components/responses/ChannelNotRequest'
-      callbacks:
-        messagePosted:
-          $ref: '#/components/callbacks/NotificationListenerCallback'
+          description: The Channel is not of type Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationFault'
+              example:
+                fault: The channel type must be the Request type
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/OperationFault'
+  /channels/{channel-uri}/consumer-request-sessions:
+    parameters:
+      - name: channel-uri
+        in: path
+        description: The identifier of the channel to be accessed (retrieved, deleted, modified, etc.)
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: openConsumerRequestSession
+      summary: Opens a consumer request session for a channel for posting requests and reading responses.
+      tags:
+        - ConsumerRequestService
+      requestBody:
+        description: 
+          The configuration of the consumer request session, i.e., optional notication listener address.
+          Only the ListenerURL is to be provided (if desired).
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Session'
+            examples:
+              basicSessionWithListenerUrl:
+                summary: Simple session including the optional listener url.
+                value:
+                  listenerUrl: http://consumer.example.com/rest/NotificationService
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Session'
+      responses:
+        '201':
+          description: The session has been successfully opened on the channel. Only the SessionID is to be returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+              example: 
+                sessionId: 'a9b5c71a-d1b5-4fc8-81d1-ba1fee3af0df'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Session'
+          headers:
+            Location:
+              description: The URL at which the session can be accessed, deleted, etc.
+              required: true
+              schema:
+                type: string
+                format: uri
+        '400':
+          description: Error in the provided parameters (e.g., ChannelURI not a valid URI, ListenerURL is provided but not a valid URL). 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParameterFault'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ParameterFault'
+        '404':
+          description: The Channel does not exists.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChannelFault'
+            application/xml: 
+              schema:
+                $ref: '#/components/schemas/ChannelFault'
+        '422':
+          description: The Channel is not of type Request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OperationFault'
+              example:
+                fault: The channel type must be the Request type
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/OperationFault'
   /sessions/{session-id}:
     parameters:
       - name: session-id
@@ -494,11 +617,9 @@ paths:
       operationId: closeSession
       summary: Closes a session.
       description: Closes a session of any type. 
-        **Note** this diverges from the SOAP API in that it provides a single path for sessions of all types.
-        The type of session is still known upon creation and the different operations can still only be performed
-        on sessions of the correct type.
-        
         All unexpired messages that have been posted during the session will be expired.
+        
+        ***Note*** This interface is shared by Close Publication Session, Close Subscription Session, Close Provider Request Session, and Close Consumer Request Session.
       tags:
         - ProviderPublicationService
         - ConsumerPublicationService
@@ -511,17 +632,108 @@ paths:
             application/json: {}
             application/xml: {}
         '404':
-          $ref: '#/components/responses/SessionNotFound'
-        '410':
-          description: The session is closed. This is optional, 404 could be returned instead.
+          description: The session does not exist or has been closed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionFault'
+            application/xml: 
+              schema:
+                $ref: '#/components/schemas/SessionFault'
+  /sessions/{session-id}/publication:
+    parameters:
+      - name: session-id
+        in: path
+        description: The identifier of the session to which the publication was posted.
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: readPublication
+      summary: Returns the first non-expired publication message or a previously read expired message that satisfies the session message filters.
+      tags:
+        - ConsumerPublicationService
+      responses:
+        '200':
+          description: Returns the first non-expired publication message or a previously read expired message that satisfies the session message filters.
+
+            Only MessageID, MessageContent, and Topic are allowed in the response.
+
+            **Note:** In contrast to the SOAP web-service, no message is returned as a 404 rather than an "empty" message.
+            This maps better the a RESTful API that is based on the idea of resources. If there are no messages on the queue,
+            the resource does not exist and, hence, 404 should be returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+                example:
+                  messageId: 'f72841f2-59ca-4da0-a903-79914c0f8735'
+                  messageContent: 
+                    mediaType: 'text/plain'
+                    content: 'Simple text message'
+                  topics: 
+                    - Text
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Message'
+        '404':
+          description: The session does not exist (or has been closed) or there are no messages to retrieve.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionFault'
+            application/xml: 
+              schema:
+                $ref: '#/components/schemas/SessionFault'
+        '422':
+          description: The Session is not of type Publication Consumer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionFault'
+              example:
+                fault: The session type must be Publication Consumer for this operation
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/SessionFault'
+    delete:
+      operationId: removePublication
+      summary: Removes the first, if any, publication message in the subscription queue.
+      tags:
+        - ConsumerPublicationService
+      responses:
+        '204':
+          description: Publication message has been removed from the subscription queue.
+
+            **Note:** This response applies even if no messages are in the queue.
           content:
             application/json: {}
             application/xml: {}
+        '404':
+          description: The session does not exist (or has been closed) or there are no messages to retrieve.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionFault'
+            application/xml: 
+              schema:
+                $ref: '#/components/schemas/SessionFault'
+        '422':
+          description: The Session is not of type Publication Consumer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionFault'
+              example:
+                fault: The session type must be Publication Consumer for this operation
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/SessionFault'
   /sessions/{session-id}/publications:
     parameters:
       - name: session-id
         in: path
-        description: The identifier of the session to which the message will/is posted.
+        description: The identifier of the session to which the message will be posted.
         required: true
         schema:
           type: string
@@ -531,23 +743,25 @@ paths:
       tags:
         - ProviderPublicationService
       requestBody:
-        description: The Message. All ISBM service providers MUST support JSON and XML content types.
-          ISBM service providers MAY support arbitrary content types.
-
+        description: The Message to be published 
           Only MessageContent, Topic, and Expiry are allowed in the request body.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Message'
             example:
-              topic: 
+              messageContent: 
+                mediaType: 'text/plain'
+                content: 'Simple text message'
+              topics: 
+                - Text
+              expiry: 'PT24H'
           application/xml:
-            # XML namespace http://www.openoandm.org/isbm/
             schema:
               $ref: '#/components/schemas/Message'
       responses:
         '201':
-          description: The message has been successfully posted to the channel. Returns only the ID of the message.
+          description: The message has been successfully posted to the channel. Returns only the MessageID.
           content:
             application/json:
               schema:
@@ -557,10 +771,42 @@ paths:
             application/xml:
               schema:
                 $ref: '#/components/schemas/Message'
+          headers:
+            Location:
+              description: The URL at which the message can be accessed, expired, etc.
+              required: true
+              schema:
+                type: string
+                format: uri
+        '400':
+          description: Error in the provided parameters (e.g., no Topic provided, Expiry in invalid format). 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParameterFault'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ParameterFault'
         '404':
-          $ref: '#/components/responses/SessionNotFound'
+          description: The session does not exist (or has been closed).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionFault'
+            application/xml: 
+              schema:
+                $ref: '#/components/schemas/SessionFault'
         '422':
-          $ref: '#/components/responses/SessionNotPublicationProviderType'
+          description: The Session is not of type Publication Consumer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionFault'
+              example:
+                fault: The session type must be Publication Provider for this operation
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/SessionFault'
   /sessions/{session-id}/publications/{message-id}:
     parameters:
       - name: session-id
@@ -592,30 +838,46 @@ paths:
             application/json: {}
             application/xml: {}
         '404':
-          $ref: '#/components/responses/SessionNotFound'
+          description: The session does not exist (or has been closed).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionFault'
+            application/xml: 
+              schema:
+                $ref: '#/components/schemas/SessionFault'
         '422':
-          $ref: '#/components/responses/SessionNotPublicationProviderType'
-  /sessions/{session-id}/publication:
+          description: The Session is not of type Publication Consumer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionFault'
+              example:
+                fault: The session type must be Publication Provider for this operation
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/SessionFault'
+  /sessions/{session-id}/request:
     parameters:
       - name: session-id
         in: path
-        description: The identifier of the session to which the publication was posted.
+        description: The identifier of the session to which the request message was posted.
         required: true
         schema:
           type: string
     get:
-      operationId: readPublication
-      summary: Returns the first non-expired publication message or a previously read expired message that satisfies the session message filters.
+      operationId: readRequest
+      summary: Returns the first non-expired request message or a previously read expired message that satisfies the session message filters.
       tags:
-        - ConsumerPublicationService
+        - ProviderRequestService
       responses:
         '200':
-          description: The first non-expired publication message or previously read expired message.
-            
-            All ISBM service providers MUST support JSON and XML content types within the MessageContent.
-            ISBM service providers MAY support arbitrary content types.
+          description:
+            Returns the first non-expired request message or previously read expired message that satisfies the session message filters.
 
             Only MessageID, MessageContent, and Topic are allowed in the response.
+
+            Although `topics` is an array, it will only contain 1 value in the context of a request.
 
             **Note:** In contrast to the SOAP web-service, no message is returned as a 404 rather than an "empty" message.
             This maps better the a RESTful API that is based on the idea of resources. If there are no messages on the queue,
@@ -624,33 +886,69 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Message'
+                example:
+                  messageId: 'f72841f2-59ca-4da0-a903-79914c0f8735'
+                  messageContent: 
+                    mediaType: 'text/plain'
+                    content: 'Simple text message'
+                  topics: 
+                    - Text
             application/xml:
               schema:
                 $ref: '#/components/schemas/Message'
         '404':
           description: The session does not exist (or has been closed) or there are no messages to retrieve.
           content:
-            application/json: {}
-            application/xml: {}
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionFault'
+            application/xml: 
+              schema:
+                $ref: '#/components/schemas/SessionFault'
         '422':
-          $ref: '#/components/responses/SessionNotPublicationConsumerType'
+          description: The Session is not of type Request Provider
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionFault'
+              example:
+                fault: The session type must be Request Provider for this operation
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/SessionFault'
     delete:
-      operationId: removePublication
-      summary: Removes the first, if any, publication message in the subscription queue.
+      operationId: removeRequest
+      summary: Deletes the first request message, if any, in the session message queue.
       tags:
-        - ConsumerPublicationService
+        - ProviderRequestService
       responses:
         '204':
-          description: Publication message has been removed from the subscription queue.
+          description: Request message has been removed from the session message queue.
 
             **Note:** This response applies even if no messages are in the queue.
           content:
             application/json: {}
             application/xml: {}
         '404':
-          $ref: '#/components/responses/SessionNotFound'
+          description: The session does not exist (or has been closed) or there are no messages to retrieve.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionFault'
+            application/xml: 
+              schema:
+                $ref: '#/components/schemas/SessionFault'
         '422':
-          $ref: '#/components/responses/SessionNotPublicationConsumerType'
+          description: The Session is not of type Request Provider
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionFault'
+              example:
+                fault: The session type must be Request Provider for this operation
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/SessionFault'
   /sessions/{session-id}/requests:
     parameters:
       - name: session-id
@@ -665,20 +963,25 @@ paths:
       tags:
         - ConsumerRequestService
       requestBody:
-        description: The Message. All ISBM service providers MUST support JSON and XML content types.
-          ISBM service providers MAY support arbitrary content types.
-
-          Only MessageContent, Topic, and Expiry are allowed in the request body.
+        description: The Message to be published
+          Only MessageContent, Topic, and Expiry are allowed in the request body. Although `topics` is an array, at most 1 value is allowed.
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Message'
+            example:
+              messageContent: 
+                mediaType: 'text/plain'
+                content: 'Simple text message'
+              topics: 
+                - Text
+              expiry: 'PT24H'
           application/xml:
             schema:
               $ref: '#/components/schemas/Message'
       responses:
         '201':
-          description: The message has been successfully posted to the channel. Returns only the ID of the message.
+          description: The message has been successfully posted to the channel. Returns only the MessageID.
           content:
             application/json:
               schema:
@@ -695,10 +998,35 @@ paths:
               schema:
                 type: string
                 format: uri
+        '400':
+          description: Error in the provided parameters (e.g., no Topic provided, more than 1 topic provided, Expiry in invalid format). 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParameterFault'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ParameterFault'
         '404':
-          $ref: '#/components/responses/SessionNotFound'
+          description: The session does not exist (or has been closed).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionFault'
+            application/xml: 
+              schema:
+                $ref: '#/components/schemas/SessionFault'
         '422':
-          $ref: '#/components/responses/SessionNotRequestConsumerType'
+          description: The Session is not of type Request Consumer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionFault'
+              example:
+                fault: The session type must be Request Consumer for this operation
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/SessionFault'
   /sessions/{session-id}/requests/{message-id}:
     parameters:
       - name: session-id
@@ -728,121 +1056,25 @@ paths:
             application/json: {}
             application/xml: {}
         '404':
-          $ref: '#/components/responses/SessionNotFound'
-        '422':
-          $ref: '#/components/responses/SessionNotRequestConsumerType'
-  /sessions/{session-id}/request:
-    parameters:
-      - name: session-id
-        in: path
-        description: The identifier of the session to which the request message was posted.
-        required: true
-        schema:
-          type: string
-    get:
-      operationId: readRequest
-      summary: Returns the first non-expired request message or a previously read expired message that satisfies the session message filters.
-      tags:
-        - ProviderRequestService
-      responses:
-        '200':
-          description: The first non-expired request message or previously read expired message.
-            
-            All ISBM service providers MUST support JSON and XML content types.
-            ISBM service providers MAY support arbitrary content types.
-
-            Only MessageID, MessageContent, and Topic are allowed in the response.
-
-            **Note:** In contrast to the SOAP web-service, no message is returned as a 404 rather than an "empty" message.
-            This maps better the a RESTful API that is based on the idea of resources. If there are no messages on the queue,
-            the resource does not exist and, hence, 404 should be returned.
+          description: The session does not exist (or has been closed).
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Message'
-            application/xml:
+                $ref: '#/components/schemas/SessionFault'
+            application/xml: 
               schema:
-                $ref: '#/components/schemas/Message'
-        '404':
-          description: The session does not exist (or has been closed) or there are no messages to retrieve.
-          content:
-            application/json: {}
-            application/xml: {}
+                $ref: '#/components/schemas/SessionFault'
         '422':
-          $ref: '#/components/responses/SessionNotRequestProviderType'
-    delete:
-      operationId: removeRequest
-      summary: Deletes the first request message, if any, in the session message queue.
-      tags:
-        - ProviderRequestService
-      responses:
-        '204':
-          description: Request message has been removed from the session message queue.
-
-            **Note:** This response applies even if no messages are in the queue.
-          content:
-            application/json: {}
-            application/xml: {}
-        '404':
-          $ref: '#/components/responses/SessionNotFound'
-        '422':
-          $ref: '#/components/responses/SessionNotRequestProviderType'
-  /sessions/{session-id}/requests/{request-id}/responses:
-    parameters:
-      - name: session-id
-        in: path
-        description: The identifier of the session to which the message will/is posted.
-        required: true
-        schema:
-          type: string
-      - name: request-id
-        in: path
-        description: The identifier of the origianal request for the response.
-        required: true
-        schema:
-          type: string
-    post:
-      operationId: postResponse
-      summary: Posts a response message on a channel.
-      tags:
-        - ProviderRequestService
-      requestBody:
-        description: The Message. All ISBM service providers MUST support JSON and XML content types.
-          ISBM service providers MAY support arbitrary content types.
-
-          Only RequestMessageID and MessageContent are allowed in the response.
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Message'
-          application/xml:
-            schema:
-              $ref: '#/components/schemas/Message'
-      responses:
-        '201':
-          description: The message has been successfully posted to the channel. Returns only the ID of the message.
-
-            If there is no request message that can be matched to RequestMessageID, then no further action is taken.
+          description: The Session is not of type Request Consumer
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Message'
+                $ref: '#/components/schemas/SessionFault'
               example:
-                messageId: af250a33-d5af-4c25-bb57-56802d8fea79
+                fault: The session type must be Request Consumer for this operation
             application/xml:
               schema:
-                $ref: '#/components/schemas/Message'
-          headers:
-            Location:
-              description: The URL at which the message can be accessed, expired, etc.
-              required: true
-              schema:
-                type: string
-                format: uri
-        '404':
-          $ref: '#/components/responses/SessionNotFound'
-        '422':
-          $ref: '#/components/responses/SessionNotRequestProviderType'
+                $ref: '#/components/schemas/SessionFault'
   /sessions/{session-id}/requests/{request-id}/response:
     parameters:
       - name: session-id
@@ -864,10 +1096,8 @@ paths:
         - ConsumerRequestService
       responses:
         '200':
-          description: The first response message associated with the request.
-            
-            All ISBM service providers MUST support JSON and XML content types.
-            ISBM service providers MAY support arbitrary content types.
+          description:
+            The first response message associated with the request.
 
             Only MessageID and MessageContent are allowed in the response.
 
@@ -878,16 +1108,34 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Message'
+                example:
+                  messageId: 'f72841f2-59ca-4da0-a903-79914c0f8735'
+                  messageContent: 
+                    mediaType: 'text/plain'
+                    content: 'Simple text message'
             application/xml:
               schema:
                 $ref: '#/components/schemas/Message'
         '404':
           description: The session does not exist (or has been closed) or there are no messages to retrieve.
           content:
-            application/json: {}
-            application/xml: {}
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionFault'
+            application/xml: 
+              schema:
+                $ref: '#/components/schemas/SessionFault'
         '422':
-          $ref: '#/components/responses/SessionNotRequestConsumerType'
+          description: The Session is not of type Request Consumer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionFault'
+              example:
+                fault: The session type must be Request Consumer for this operation
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/SessionFault'
     delete:
       operationId: removeResponse
       summary: Deletes the first response message, if any, in the session message queue associated with the request.
@@ -902,9 +1150,101 @@ paths:
             application/json: {}
             application/xml: {}
         '404':
-          $ref: '#/components/responses/SessionNotFound'
+          description: The session does not exist (or has been closed) or there are no messages to retrieve.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionFault'
+            application/xml: 
+              schema:
+                $ref: '#/components/schemas/SessionFault'
         '422':
-          $ref: '#/components/responses/SessionNotRequestConsumerType'
+          description: The Session is not of type Request Consumer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionFault'
+              example:
+                fault: The session type must be Request Consumer for this operation
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/SessionFault'
+  /sessions/{session-id}/requests/{request-id}/responses:
+    parameters:
+      - name: session-id
+        in: path
+        description: The identifier of the session to which the message will/is posted.
+        required: true
+        schema:
+          type: string
+      - name: request-id
+        in: path
+        description: The identifier of the origianal request for the response.
+        required: true
+        schema:
+          type: string
+    post:
+      operationId: postResponse
+      summary: Posts a response message on a channel.
+      tags:
+        - ProviderRequestService
+      requestBody:
+        description:
+          The Message to be published.
+
+          Only MessageContent is allowed in the request body.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Message'
+            example:
+              messageContent: 
+                mediaType: 'text/plain'
+                content: 'Simple text message'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Message'
+      responses:
+        '201':
+          description: The message has been successfully posted to the channel. Returns only the MessageID.
+
+            If there is no request message that can be matched to RequestMessageID, then no further action is taken.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+              example:
+                messageId: af250a33-d5af-4c25-bb57-56802d8fea79
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Message'
+          headers:
+            Location:
+              description: The URL at which the message can be accessed, expired, etc.
+              required: true
+              schema:
+                type: string
+                format: uri
+        '404':
+          description: The session does not exist (or has been closed) or there are no messages to retrieve.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionFault'
+            application/xml: 
+              schema:
+                $ref: '#/components/schemas/SessionFault'
+        '422':
+          description: The Session is not of type Request Provider
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionFault'
+              example:
+                fault: The session type must be Request Provider for this operation
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/SessionFault'
   /configuration/supported-operations:
     get: 
       operationId: getSupportedOperations
@@ -912,9 +1252,10 @@ paths:
                The purpose of this operation is to allow an application to be configured appropriately to communicate successfully with the service provider.
       tags: 
         - ConfigurationDiscoveryService
+      security: [] # disable security on retrieving the genearal configuration
       responses: 
         '200': 
-          description: Operations suuported by the ISBM service provider.
+          description: Operations supported by the ISBM service provider.
           content:
             application/json:
               schema:
@@ -945,116 +1286,18 @@ paths:
           content: 
             application/json:
               schema:
-                type: object
-                properties:
-                  fault: 
-                    type: string
-                    description: Human readable explanation of the error.
-                    default: The security tokens do not match those assigned to the application.
-                required: 
-                  - fault         
+                $ref: '#/components/schemas/SecurityTokenFault'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/SecurityTokenFault'
 security:
   - username_password: []
 # Referenced componenents, e.g., parameters, schemas, etc.
 components:
-  parameters:
-    channelIdParam:
-      name: channel-id
-      in: path
-      description: The identifier of the channel to be accessed (retrieved, deleted, modified, etc.)
-      required: true
-      schema:
-        type: string
   securitySchemes:
     username_password:
       type: http
       scheme: basic
-  responses:
-    ChannelNotFound:
-      description: The Channel does not exists.
-      content:
-        application/json: {}
-        application/xml: {}
-    ChannelNotPublication:
-      description: The Channel is not of type Publication.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OperationFault'
-          example:
-            fault: The channel type must be the Publication type
-        application/xml:
-          schema:
-            $ref: '#/components/schemas/OperationFault'
-    ChannelNotRequest:
-      description: The Channel is not of type Request.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/OperationFault'
-          example:
-            fault: The channel type must be the Request type
-        application/xml:
-          schema:
-            $ref: '#/components/schemas/OperationFault'
-    ParameterMalformed:
-      description: A provided parameter is malformed or not optional but blank.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ParameterFault'
-        application/xml:
-          schema:
-            $ref: '#/components/schemas/ParameterFault'
-    SessionNotFound:
-      description: The session does not exist or has been closed.
-      content:
-        application/json: {}
-        application/xml: {}
-    SessionNotPublicationProviderType:
-      description: The Session is not of type Publication Provider
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/SessionFault'
-          example:
-            fault: The session type must be Publication Provider for this operation
-        application/xml:
-          schema:
-            $ref: '#/components/schemas/SessionFault'
-    SessionNotPublicationConsumerType:
-      description: The Session is not of type Publication Consumer
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/SessionFault'
-          example:
-            fault: The session type must be Publication Consumer for this operation
-        application/xml:
-          schema:
-            $ref: '#/components/schemas/SessionFault'
-    SessionNotRequestConsumerType:
-      description: The Session is not of type Request Consumer
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/SessionFault'
-          example:
-            fault: The session type must be Request Consumer for this operation
-        application/xml:
-          schema:
-            $ref: '#/components/schemas/SessionFault'
-    SessionNotRequestProviderType:
-      description: The Session is not of type Request Provider
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/SessionFault'
-          example:
-            fault: The session type must be Request Provider for this operation
-        application/xml:
-          schema:
-            $ref: '#/components/schemas/SessionFault'
   schemas:
     Channel:
       type: object
@@ -1063,14 +1306,14 @@ components:
           type: string
           format: uri
         channelType:
-          $ref: "#/components/schemas/ChannelType"
+          $ref: '#/components/schemas/ChannelType'
         description:
           type: string
         securityTokens:
-          description: This can be provided when creating a channel but should never be returned.
+          description: This can be provided when creating a channel but must never be returned.
           type: array
           items:
-            $ref: "#/components/schemas/SecurityToken"
+            $ref: '#/components/schemas/SecurityToken'
       required:
         - uri
         - channelType
@@ -1079,26 +1322,14 @@ components:
       enum:
         - Publication
         - Request
-    Namespace:
-      type: object
-      properties:
-        prefix:
-          type: string
-        name:
-          type: string
-      required:
-        - prefix
-        - name
-    MediaTypeList:
-      type: array
-      items:
-        type: string
     FilterExpression:
       type: object
       description: content filtering expression that may be applied to messages on a channel
       properties:
         applicableMediaTypes:
-          $ref: "#/components/schemas/MediaTypeList" 
+          type: array
+          items:
+            type: string
         expressionString:
           type: object
           properties:
@@ -1114,55 +1345,9 @@ components:
         namespaces:
           type: array
           items:
-            $ref: "#/components/schemas/Namespace" 
+            $ref: '#/components/schemas/Namespace' 
       required:
-        - expressionString       
-    SecurityToken:
-      type: object
-      description: Exact security token types are implementation specific. Support must be
-        provided for at least UsernameToken.
-      anyOf:
-        - $ref: "#/components/schemas/UsernameToken"
-      additionalProperties: true
-    UsernameToken:
-      type: object
-      properties:
-        username:
-          type: string
-        password:
-          type: string
-          format: password
-      required:
-        - password
-        - username
-    Session:
-      type: object
-      properties:
-        sessionId:
-          type: string
-        sessionType:
-          $ref: "#/components/schemas/SessionType"
-        listenerUrl:
-          type: string
-          format: uri
-        topics:
-          type: array
-          items:
-            type: string
-          minItems: 1
-        filterExpressions:
-          type: array
-          items:
-            $ref: "#/components/schemas/FilterExpression"
-      required:
-        - sessionId
-    SessionType:
-      type: string
-      enum:
-        - PublicationProvider
-        - PublicationConsumer
-        - RequestProvider
-        - RequestConsumer
+        - expressionString
     Message:
       type: object
       description: Message Content may be XML, JSON, or possibly an arbitrary type. 
@@ -1177,7 +1362,7 @@ components:
         messageId:
           type: string
         messageType:
-          $ref: "#/components/schemas/MessageType"
+          $ref: '#/components/schemas/MessageType'
         messageContent:
           $ref: '#/components/schemas/MessageContent'
         topics:
@@ -1189,7 +1374,7 @@ components:
         expiry:
           type: string
           format: duration
-          description: The duration after which the message will be automatically expired. Negative duration is no duration.
+          description: The duration after which the message will be automatically expired. Negative duration is no duration. 
             Duration as defined by XML Schema xs:duration, http://w3c.org/TR/xmlschema-2/#duration
           # this is not a strict regexp, just a quick definition. The full regex would enforce at least one component.
           pattern: '[-]?P([0-9]+Y)?([0-9]+M)?([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+([.][0-9]+)?S)?)?'
@@ -1202,10 +1387,15 @@ components:
         mediaType: 
           type: string
           description: The MIME type of the content. If not present, it is assumed to be the 
-            same as the Content-Type of the request/response body.  
+            same as the Content-Type of the HTTP request/response body.
+        contentEncoding:
+          type: string
+          description: Indicates the encoding type used for binary content.
         content:
-          type: object
-          additionalProperties: true
+          oneOf:
+            - type: string
+            - type: object
+              additionalProperties: true
       required: ['content']
     MessageType:
       type: string
@@ -1213,53 +1403,103 @@ components:
         - Request
         - Response
         - Publication
-    Notification:
+    Namespace:
       type: object
-      description: Represents a notification to a listener about a publication, request, or response message.
-
-        Topic and RequestMessageID are mutually exclusive.
-      properties: 
-        sessionId: 
+      properties:
+        prefix:
           type: string
-        messageId:
+        name:
           type: string
-        topics: 
+      required:
+        - prefix
+        - name
+    SecurityToken:
+      type: object
+      description: Exact security token types are implementation specific. Support must be
+        provided for at least UsernameToken.
+      additionalProperties: true
+    Session:
+      type: object
+      properties:
+        sessionId:
+          type: string
+        sessionType:
+          $ref: '#/components/schemas/SessionType'
+        listenerUrl:
+          type: string
+          format: uri
+        topics:
           type: array
-          items: 
+          items:
             type: string
-        requestMessageId:
-          type: string
+          minItems: 1
+        filterExpressions:
+          type: array
+          items:
+            $ref: '#/components/schemas/FilterExpression'
       required:
         - sessionId
-        - messageId
+    SessionType:
+      type: string
+      enum:
+        - PublicationProvider
+        - PublicationConsumer
+        - RequestProvider
+        - RequestConsumer
+    UsernameToken:
+      type: object
+      allOf: 
+        - $ref: '#/components/schemas/SecurityToken'
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+          format: password
+      required:
+        - password
+        - username
+    ChannelFault:
+      type: object
+      properties:
+        fault: 
+          type: string
+          description: Human readable explanation of the error.
+      required: 
+        - fault
     NamespaceFault:
       type: object
-      description: Returned when duplicate namespace prefixes occur in the Namespace parameters.
+      description: Returned when duplicate namespace prefixes occur in Namespace parameters.
       properties:
-        fault:
+        fault: 
           type: string
-          enum: 
-            - Namespaces prefixes must be unique.
-      required:
+          description: Human readable explanation of the error.
+      required: 
         - fault
     OperationFault:
       type: object
-      description: Returned when attempting to open a Session on a Channel of the wrong ChannelType.
       properties:
         fault:
           type: string
-          enum: 
-            - The channel type must be the Publication type
-            - The channel type must be the Request type
+          description: Human readable explanation of the error.
       required:
         - fault
     ParameterFault:
       type: object
-      description: Returned when any given parameter is malformed or not optional but blank.
+      description: Returned when any given parameter is malformed or not optional but blank. The HTTP response status must be 400.
       properties:
         fault:
           type: string
+          description: Human readable explanation of the error.
       required:
+        - fault
+    SecurityTokenFault:
+      type: object
+      properties:
+        fault: 
+          type: string
+          description: Human readable explanation of the error.
+      required: 
         - fault
     SessionFault:
       type: object
@@ -1267,11 +1507,7 @@ components:
       properties:
         fault:
           type: string
-          enum:
-            - The session type must be Publication Provider for this operation
-            - The session type must be Publication Consumer for this operation
-            - The session type must be Request Provider for this operation
-            - The session type must be Request Consumer for this operation
+          description: Human readable explanation of the error.
       required:
         - fault
     SupportedOperations:
@@ -1312,14 +1548,21 @@ components:
         isOpenChannelSecuringEnabled:
           type: boolean
         isWhitelistRequired:
-          type: boolean                    
+          type: boolean    
         defaultExpiryDuration:
-          type: [string, 'null']
+          type: string
+          nullable: true
+          # The above is equivalent to the JSON schema below.
+          # Once OpenAPI update is released and tools support it, use the following
+          # type: 
+          #   - 'null'
+          #   - string
           format: duration
           description: Duration as defined by XML Schema xs:duration, http://w3c.org/TR/xmlschema-2/#duration, or  null
           pattern: '[-]?P([0-9]+Y)?([0-9]+M)?([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+([.][0-9]+)?S)?)?'
         additionalInformationURL:
-          type: string                              
+          type: string
+          format: uri
       required:
         - isXMLFilteringEnabled
         - isJSONFilteringEnabled
@@ -1358,18 +1601,6 @@ components:
         - isRBACEnabled
         - isKeyManagementServiceEnabled
         - isEndToEndMessageEncryptionEnabled
-    ContentFilteringLanguage:
-      type: object
-      properties:
-        applicableMediaTypes:
-          $ref: '#/components/schemas/MediaTypeList'
-        languageName:
-          type: string
-        languageVersion:
-          type: string
-      required:
-        - applicableMediaTypes
-        - languageName
     AuthenticationScheme:
       type: object
       properties:
@@ -1377,9 +1608,9 @@ components:
           type: string          
         schemeInfoUrl:
           type: string
-          format: uri
+          format: uri          
       required:
-        - schemeName      
+        - schemeName
     TokenSchema:
       type: object
       properties:
@@ -1387,14 +1618,24 @@ components:
           type: string          
         schemaLocation:
           type: string
-          format: uri          
+          format: uri
       required:
         - namespaceName
+    ContentFilteringLanguage:
+      type: object
+      properties:
+        applicableMediaTypes:
+          type: array
+          items:
+            type: string
+        languageName:
+          type: string
+        languageVersion:
+          type: string
+      required:
+        - applicableMediaTypes
+        - languageName
     SecurityLevel:
       type: number
       minimum: 1
       maximum: 4
-  callbacks:
-    NotificationListenerCallback:
-      '{$request.body#/listenerUrl}/notifications/{$response.body#/sessionId}/{message-id}':
-        $ref: 'notification_service.yml#/paths/~1notifications~1%7Bsession-id%7D~1%7Bmessage-id%7D'
