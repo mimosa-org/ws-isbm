@@ -113,6 +113,9 @@
 			<xs:element name="ChannelFault">
 				<xs:complexType/>
 			</xs:element>
+			<xs:element name="OperationFault">
+				<xs:complexType/>
+			</xs:element>
 			<xs:element name="SecurityTokenFault">
 				<xs:complexType/>
 			</xs:element>
@@ -158,6 +161,9 @@
 	<wsdl:message name="ChannelFault">
 		<wsdl:part name="parameters" element="isbm:ChannelFault"/>
 	</wsdl:message>
+	<wsdl:message name="OperationFault">
+		<wsdl:part name="parameters" element="isbm:OperationFault"/>
+	</wsdl:message>
 	<wsdl:message name="SecurityTokenFault">
 		<wsdl:part name="parameters" element="isbm:SecurityTokenFault"/>
 	</wsdl:message>
@@ -174,6 +180,7 @@
 			<wsdl:input message="isbm:AddSecurityTokensIn"/>
 			<wsdl:output message="isbm:AddSecurityTokensOut"/>
 			<wsdl:fault name="ChannelFault" message="isbm:ChannelFault"/>
+			<wsdl:fault name="OperationFault" message="isbm:OperationFault"/>
 		</wsdl:operation>
 		<wsdl:operation name="RemoveSecurityTokens">
 			<wsdl:documentation>Removes security tokens from a channel.</wsdl:documentation>
@@ -225,6 +232,9 @@
 			</wsdl:output>
 			<wsdl:fault name="ChannelFault">
 				<soap:fault name="ChannelFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="OperationFault">
+				<soap:fault name="OperationFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="RemoveSecurityTokens">
@@ -301,6 +311,9 @@
 			</wsdl:output>
 			<wsdl:fault name="ChannelFault">
 				<soap12:fault name="ChannelFault" use="literal"/>
+			</wsdl:fault>
+			<wsdl:fault name="OperationFault">
+				<soap12:fault name="OperationFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
 		<wsdl:operation name="RemoveSecurityTokens">

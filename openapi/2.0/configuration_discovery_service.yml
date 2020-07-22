@@ -1,7 +1,7 @@
-openapi: 3.0.1
+openapi: '3.0.1'
 info:
   title: ISBM 2.0 Configuration Discovery Service
-  version: 2.0
+  version: '2.0'
   description: An OpenAPI specification for the ISBM 2.0 RESTful interface.
   license:
     name: MIMOSA License Agreement
@@ -39,6 +39,8 @@ paths:
                Each application may be assigned a SecurityToken out-of-band by the service provider.
       tags: 
         - ConfigurationDiscoveryService
+      security:
+        - username_password: []
       responses: 
         '200': 
           description: Detailed security related information of the ISBM service provider.
@@ -54,14 +56,10 @@ paths:
           content: 
             application/json:
               schema:
-                type: object
-                properties:
-                  fault: 
-                    type: string
-                    description: Human readable explanation of the error.
-                    default: The security tokens do not match those assigned to the application.
-                required: 
-                  - fault                
+                $ref: '#/components/schemas/SecurityTokenFault'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/SecurityTokenFault'
 # Referenced componenents, e.g., parameters, schemas, etc.
 components:
   securitySchemes:
@@ -109,12 +107,19 @@ components:
         isWhitelistRequired:
           type: boolean    
         defaultExpiryDuration:
-          type: [string, 'null']
+          type: string
+          nullable: true
+          # The above is equivalent to the JSON schema below.
+          # Once OpenAPI update is released and tools support it, use the following
+          # type: 
+          #   - 'null'
+          #   - string
           format: duration
           description: Duration as defined by XML Schema xs:duration, http://w3c.org/TR/xmlschema-2/#duration, or  null
           pattern: '[-]?P([0-9]+Y)?([0-9]+M)?([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+([.][0-9]+)?S)?)?'
         additionalInformationURL:
-          type: string                              
+          type: string
+          format: uri
       required:
         - isXMLFilteringEnabled
         - isJSONFilteringEnabled
@@ -177,7 +182,9 @@ components:
       type: object
       properties:
         applicableMediaTypes:
-          $ref: '#/components/schemas/MediaTypeList'
+          type: array
+          items:
+            type: string
         languageName:
           type: string
         languageVersion:
@@ -185,29 +192,18 @@ components:
       required:
         - applicableMediaTypes
         - languageName
-    SecurityToken:
-      type: object
-      description: Exact security token types are implementation specific. Support must be
-        provided for at least UsernameToken.
-      anyOf:
-        - $ref: "#/components/schemas/UsernameToken"
-      additionalProperties: true
-    UsernameToken:
-      type: object
-      properties:
-        username:
-          type: string
-        password:
-          type: string
-          format: password
-      required:
-        - password
-        - username
-    MediaTypeList:
-      type: array
-      items:
-        type: string
     SecurityLevel:
       type: number
-      minimum: 1
-      maximum: 4
+      enum:
+        - 1
+        - 2
+        - 3
+        - 4
+    SecurityTokenFault:
+      type: object
+      properties:
+        fault: 
+          type: string
+          description: Human readable explanation of the error.
+      required: 
+        - fault

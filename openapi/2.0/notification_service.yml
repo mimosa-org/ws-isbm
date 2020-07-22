@@ -1,7 +1,7 @@
-openapi: 3.0.1
+openapi: '3.0.1'
 info:
   title: ISBM 2.0 Notification Service
-  version: 2.0
+  version: '2.0'
   description: An OpenAPI specification for the ISBM 2.0 RESTful interface.
   license:
     name: MIMOSA License Agreement
@@ -39,13 +39,10 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                topic:
-                  type: array
-                  items: { type: string }
-                requestMessageId:
-                  type: string
+              $ref: '#/components/schemas/Notification'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Notification'
       responses: 
         '204': 
           description: Notification recieved by listener.
@@ -53,25 +50,26 @@ paths:
             application/json: {}
             application/xml: {}
         '400':
-          $ref: '#/components/responses/ParameterMalformed'
+          description: A provided parameter is malformed or not optional but blank.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParameterFault'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ParameterFault'
 # Referenced componenents, e.g., parameters, schemas, etc.
 components:
-  responses:
-    ParameterMalformed:
-      description: A provided parameter is malformed or not optional but blank.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ParameterFault'
-        application/xml:
-          schema:
-            $ref: '#/components/schemas/ParameterFault'
   schemas:
     Notification:
       type: object
-      description: Represents a notification to a listener about a publication, request, or response message.
+      description:
+        Represents a notification to a listener about a publication, request, or response message.
+        SessionID and MessageID are provided via the request URL.
 
         Topic and RequestMessageID are mutually exclusive.
+        Topic MUST NOT be used for consumer request session response notification.
+        RequestMessageID MUST only be used for consumer request session response notification.
       properties: 
         sessionId: 
           type: string
@@ -83,14 +81,12 @@ components:
             type: string
         requestMessageId:
           type: string
-      required:
-        - sessionId
-        - messageId
     ParameterFault:
       type: object
-      description: Returned when any given parameter is malformed or not optional but blank.
+      description: Returned when any given parameter is malformed or not optional but blank. The HTTP response status must be 400.
       properties:
         fault:
           type: string
+          description: Human readable explanation of the error.
       required:
         - fault
