@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "ISBM 2.0 Consumer Publication Service",
-    "version": "2.0",
+    "version": "2.0.1",
     "description": "An OpenAPI specification for the ISBM 2.0 RESTful interface.",
     "license": {
       "name": "MIMOSA License Agreement",
@@ -524,7 +524,7 @@
       },
       "Session": {
         "type": "object",
-        "description": "sessionType is implicit based on the context.",
+        "description": "`sessionType` is implicit based on the context. `topics` must contain atleast 1 item when opening a PublicationConsumer or RequestProvider session.",
         "properties": {
           "sessionId": {
             "type": "string"
@@ -540,8 +540,7 @@
             "type": "array",
             "items": {
               "type": "string"
-            },
-            "minItems": 1
+            }
           },
           "filterExpressions": {
             "type": "array",
