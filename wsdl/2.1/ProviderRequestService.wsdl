@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-	ISBM 2.0 Provider Request Service
+	ISBM 2.1 Provider Request Service
 
-	Copyright MIMOSA 2020. All Rights Reserved.
+	Copyright MIMOSA 2023. All Rights Reserved.
 	License information for this file is provided in the file "LICENSE.txt" that is provided with this download package.
 
 	For support, more information, or to report errors, please contact MIMOSA at http://www.mimosa.org/contact.
@@ -17,7 +17,7 @@
 	name="ProviderRequestService">
 
 	<wsdl:types>
-		<xs:schema elementFormDefault="qualified" targetNamespace="http://www.openoandm.org/isbm/" version="2.0">
+		<xs:schema elementFormDefault="qualified" targetNamespace="http://www.openoandm.org/isbm/" version="2.1">
 			<!-- Types -->
 			<xs:complexType name="MessageContent" abstract="true">
 			</xs:complexType>
@@ -59,6 +59,7 @@
 					<xs:element minOccurs="1" maxOccurs="1" name="MessageID" type="xs:string"/>
 					<xs:element minOccurs="1" maxOccurs="1" name="MessageContent" type="isbm:MessageContent"/>
 					<xs:element minOccurs="1" maxOccurs="1" name="Topic" type="xs:string"/>
+					<xs:element minOccurs="0" maxOccurs="1" name="OriginalMessageID" type="xs:string"/>
 				</xs:sequence>
 			</xs:complexType>
 			
@@ -99,6 +100,7 @@
 						<xs:element minOccurs="1" maxOccurs="unbounded" name="Topic" type="xs:string"/>
 						<xs:element minOccurs="0" maxOccurs="1" name="ListenerURL" type="xs:string"/>
 						<xs:element minOccurs="0" maxOccurs="unbounded" name="ContentFilterExpression" type="isbm:FilterExpression"/>
+						<xs:element minOccurs="0" maxOccurs="1" name="ExpirationListenerURL" type="xs:string"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
@@ -141,6 +143,7 @@
 						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
 						<xs:element minOccurs="1" maxOccurs="1" name="RequestMessageID" type="xs:string"/>
 						<xs:element minOccurs="1" maxOccurs="1" name="MessageContent" type="isbm:MessageContent"/>
+						<xs:element minOccurs="0" maxOccurs="1" name="OriginalMessageID" type="xs:string"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>

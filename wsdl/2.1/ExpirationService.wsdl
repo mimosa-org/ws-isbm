@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+	ISBM 2.1 Expiration Listener Service
+
+	Copyright MIMOSA 2023. All Rights Reserved.
+	License information for this file is provided in the file "LICENSE.txt" that is provided with this download package.
+
+	For support, more information, or to report errors, please contact MIMOSA at http://www.mimosa.org/contact.
+-->
+<wsdl:definitions
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:isbm="http://www.openoandm.org/isbm/"
+	targetNamespace="http://www.openoandm.org/isbm/"
+	name="ExpirationListenerService">
+
+	<wsdl:types>
+		<xs:schema elementFormDefault="qualified" targetNamespace="http://www.openoandm.org/isbm/" version="2.1">
+			<!-- Parameter elements -->
+			<xs:element name="MessageExpired">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
+						<xs:element minOccurs="1" maxOccurs="1" name="MessageID" type="xs:string"/>
+						<xs:element minOccurs="0" maxOccurs="1" name="OriginalMessageID" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="MessageExpiredResponse">
+				<xs:complexType/>
+			</xs:element>
+		</xs:schema>
+	</wsdl:types>
+
+	<wsdl:message name="MessageExpiredIn">
+		<wsdl:part name="parameters" element="isbm:MessageExpired"/>
+	</wsdl:message>
+	<wsdl:message name="MessageExpiredOut">
+		<wsdl:part name="parameters" element="isbm:MessageExpiredResponse"/>
+	</wsdl:message>
+
+	<wsdl:portType name="ExpirationListenerService">
+		<wsdl:operation name="MessageExpired">
+			<wsdl:documentation>Provides a notification of a publication or request message being explicitly expired by its source. The Expiration Listener URL invoked was provided when the application desiring expiration notifications subscribed to the channel.</wsdl:documentation>
+			<wsdl:input message="isbm:MessageExpiredIn"/>
+			<wsdl:output message="isbm:MessageExpiredOut"/>
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<wsdl:binding name="ExpirationListenerServiceSoap" type="isbm:ExpirationListenerService">
+		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="MessageExpired">
+			<soap:operation soapAction="http://www.openoandm.org/isbm/MessageExpired" style="document"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:binding name="ExpirationListenerServiceSoap12" type="isbm:ExpirationListenerService">
+		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="MessageExpired">
+			<soap12:operation soapAction="http://www.openoandm.org/isbm/MessageExpired" style="document"/>
+			<wsdl:input>
+				<soap12:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap12:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<wsdl:service name="ExpirationListenerService">
+		<wsdl:port name="MessageExpiredServiceSoap" binding="isbm:ExpirationListenerServiceSoap">
+			<soap:address location="http://example.com/ExpirationListenerService"/>
+		</wsdl:port>
+		<wsdl:port name="ExpirationListenerServiceSoap12" binding="isbm:ExpirationListenerServiceSoap12">
+			<soap12:address location="http://example.com/ExpirationListenerService12"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

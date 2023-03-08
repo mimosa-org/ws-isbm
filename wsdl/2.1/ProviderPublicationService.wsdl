@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-	ISBM 2.0 Provider Publication Service
+	ISBM 2.1 Provider Publication Service
 
-	Copyright MIMOSA 2020. All Rights Reserved.
+	Copyright MIMOSA 2023. All Rights Reserved.
 	License information for this file is provided in the file "LICENSE.txt" that is provided with this download package.
 
 	For support, more information, or to report errors, please contact MIMOSA at http://www.mimosa.org/contact.
@@ -17,7 +17,7 @@
 	name="ProviderPublicationService">
 
 	<wsdl:types>
-		<xs:schema elementFormDefault="qualified" targetNamespace="http://www.openoandm.org/isbm/" version="2.0">
+		<xs:schema elementFormDefault="qualified" targetNamespace="http://www.openoandm.org/isbm/" version="2.1">
 			<!-- Types -->
 			<xs:complexType name="MessageContent" abstract="true">
 			</xs:complexType>
@@ -76,6 +76,7 @@
 						<xs:element minOccurs="1" maxOccurs="1" name="MessageContent" type="isbm:MessageContent"/>
 						<xs:element minOccurs="1" maxOccurs="unbounded" name="Topic" type="xs:string"/>
 						<xs:element minOccurs="0" maxOccurs="1" name="Expiry" type="xs:duration"/>
+						<xs:element minOccurs="0" maxOccurs="1" name="OriginalMessageID" type="xs:string"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>

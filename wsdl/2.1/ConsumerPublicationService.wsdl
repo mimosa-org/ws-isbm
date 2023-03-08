@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-	ISBM 2.0 Provider Request Service
+	ISBM 2.1 Consumer Publication Service
 
-	Copyright MIMOSA 2020. All Rights Reserved.
+	Copyright MIMOSA 2023. All Rights Reserved.
 	License information for this file is provided in the file "LICENSE.txt" that is provided with this download package.
 
 	For support, more information, or to report errors, please contact MIMOSA at http://www.mimosa.org/contact.
@@ -14,10 +14,10 @@
 	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
 	xmlns:isbm="http://www.openoandm.org/isbm/"
 	targetNamespace="http://www.openoandm.org/isbm/"
-	name="ProviderRequestService">
+	name="ConsumerPublicationService">
 
 	<wsdl:types>
-		<xs:schema elementFormDefault="qualified" targetNamespace="http://www.openoandm.org/isbm/" version="2.0">
+		<xs:schema elementFormDefault="qualified" targetNamespace="http://www.openoandm.org/isbm/" version="2.1">
 			<!-- Types -->
 			<xs:complexType name="MessageContent" abstract="true">
 			</xs:complexType>
@@ -54,11 +54,12 @@
 			  </xs:complexContent>
 			</xs:complexType>
 
-			<xs:complexType name="RequestMessage">
+			<xs:complexType name="PublicationMessage">
 				<xs:sequence>
 					<xs:element minOccurs="1" maxOccurs="1" name="MessageID" type="xs:string"/>
 					<xs:element minOccurs="1" maxOccurs="1" name="MessageContent" type="isbm:MessageContent"/>
-					<xs:element minOccurs="1" maxOccurs="1" name="Topic" type="xs:string"/>
+					<xs:element minOccurs="1" maxOccurs="unbounded" name="Topic" type="xs:string"/>
+					<xs:element minOccurs="0" maxOccurs="1" name="OriginalMessageID" type="xs:string"/>
 				</xs:sequence>
 			</xs:complexType>
 			
@@ -79,10 +80,6 @@
 			  </xs:sequence>
 			  <xs:attribute name="applicableMediaTypes" type="isbm:MediaTypeList" use="optional"/>
 			</xs:complexType>
-
-			<xs:simpleType name="MediaTypeList">
-			  <xs:list itemType="xs:token"/>
-			</xs:simpleType>			
 			
 			<xs:complexType name="Namespace">
 				<xs:sequence>
@@ -90,75 +87,62 @@
 					<xs:element minOccurs="1" maxOccurs="1" name="NamespaceName" type="xs:string"/>
 				</xs:sequence>
 			</xs:complexType>
-
+			
+			<xs:simpleType name="MediaTypeList">
+			  <xs:list itemType="xs:token"/>
+			</xs:simpleType>
+			
 			<!-- Parameter elements -->
-			<xs:element name="OpenProviderRequestSession">
+			<xs:element name="OpenSubscriptionSession">
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="ChannelURI" type="xs:string"/>
 						<xs:element minOccurs="1" maxOccurs="unbounded" name="Topic" type="xs:string"/>
 						<xs:element minOccurs="0" maxOccurs="1" name="ListenerURL" type="xs:string"/>
 						<xs:element minOccurs="0" maxOccurs="unbounded" name="ContentFilterExpression" type="isbm:FilterExpression"/>
+						<xs:element minOccurs="0" maxOccurs="1" name="ExpirationListenerURL" type="xs:string"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
-			<xs:element name="OpenProviderRequestSessionResponse">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:sequence>
-							<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
-						</xs:sequence>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-			<xs:element name="ReadRequest">
+			<xs:element name="OpenSubscriptionSessionResponse">
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
-			<xs:element name="ReadRequestResponse">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element minOccurs="0" maxOccurs="1" name="RequestMessage" type="isbm:RequestMessage"/>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-			<xs:element name="RemoveRequest">
+			<xs:element name="ReadPublication">
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
-			<xs:element name="RemoveRequestResponse">
+			<xs:element name="ReadPublicationResponse">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="0" maxOccurs="1" name="PublicationMessage" type="isbm:PublicationMessage"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RemovePublication">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="RemovePublicationResponse">
 				<xs:complexType/>
 			</xs:element>
-			<xs:element name="PostResponse">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
-						<xs:element minOccurs="1" maxOccurs="1" name="RequestMessageID" type="xs:string"/>
-						<xs:element minOccurs="1" maxOccurs="1" name="MessageContent" type="isbm:MessageContent"/>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-			<xs:element name="PostResponseResponse">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element minOccurs="1" maxOccurs="1" name="MessageID" type="xs:string"/>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-			<xs:element name="CloseProviderRequestSession">
+			<xs:element name="CloseSubscriptionSession">
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="1" maxOccurs="1" name="SessionID" type="xs:string"/>
 					</xs:sequence>
 				</xs:complexType>
 			</xs:element>
-			<xs:element name="CloseProviderRequestSessionResponse">
+			<xs:element name="CloseSubscriptionSessionResponse">
 				<xs:complexType/>
 			</xs:element>
 
@@ -178,35 +162,29 @@
 		</xs:schema>
 	</wsdl:types>
 
-	<wsdl:message name="OpenProviderRequestSessionIn">
-		<wsdl:part name="parameters" element="isbm:OpenProviderRequestSession"/>
+	<wsdl:message name="OpenSubscriptionSessionIn">
+		<wsdl:part name="parameters" element="isbm:OpenSubscriptionSession"/>
 	</wsdl:message>
-	<wsdl:message name="OpenProviderRequestSessionOut">
-		<wsdl:part name="parameters" element="isbm:OpenProviderRequestSessionResponse"/>
+	<wsdl:message name="OpenSubscriptionSessionOut">
+		<wsdl:part name="parameters" element="isbm:OpenSubscriptionSessionResponse"/>
 	</wsdl:message>
-	<wsdl:message name="ReadRequestIn">
-		<wsdl:part name="parameters" element="isbm:ReadRequest"/>
+	<wsdl:message name="ReadPublicationIn">
+		<wsdl:part name="parameters" element="isbm:ReadPublication"/>
 	</wsdl:message>
-	<wsdl:message name="ReadRequestOut">
-		<wsdl:part name="parameters" element="isbm:ReadRequestResponse"/>
+	<wsdl:message name="ReadPublicationOut">
+		<wsdl:part name="parameters" element="isbm:ReadPublicationResponse"/>
 	</wsdl:message>
-	<wsdl:message name="RemoveRequestIn">
-		<wsdl:part name="parameters" element="isbm:RemoveRequest"/>
+	<wsdl:message name="RemovePublicationIn">
+		<wsdl:part name="parameters" element="isbm:RemovePublication"/>
 	</wsdl:message>
-	<wsdl:message name="RemoveRequestOut">
-		<wsdl:part name="parameters" element="isbm:RemoveRequestResponse"/>
+	<wsdl:message name="RemovePublicationOut">
+		<wsdl:part name="parameters" element="isbm:RemovePublicationResponse"/>
 	</wsdl:message>
-	<wsdl:message name="PostResponseIn">
-		<wsdl:part name="parameters" element="isbm:PostResponse"/>
+	<wsdl:message name="CloseSubscriptionSessionIn">
+		<wsdl:part name="parameters" element="isbm:CloseSubscriptionSession"/>
 	</wsdl:message>
-	<wsdl:message name="PostResponseOut">
-		<wsdl:part name="parameters" element="isbm:PostResponseResponse"/>
-	</wsdl:message>
-	<wsdl:message name="CloseProviderRequestSessionIn">
-		<wsdl:part name="parameters" element="isbm:CloseProviderRequestSession"/>
-	</wsdl:message>
-	<wsdl:message name="CloseProviderRequestSessionOut">
-		<wsdl:part name="parameters" element="isbm:CloseProviderRequestSessionResponse"/>
+	<wsdl:message name="CloseSubscriptionSessionOut">
+		<wsdl:part name="parameters" element="isbm:CloseSubscriptionSessionResponse"/>
 	</wsdl:message>
 	<wsdl:message name="ChannelFault">
 		<wsdl:part name="parameters" element="isbm:ChannelFault"/>
@@ -221,45 +199,39 @@
 		<wsdl:part name="parameters" element="isbm:SessionFault"/>
 	</wsdl:message>
 
-	<wsdl:portType name="ProviderRequestService">
-		<wsdl:operation name="OpenProviderRequestSession">
-			<wsdl:documentation>Opens a provider request session for a channel for reading requests and posting responses.</wsdl:documentation>
-			<wsdl:input message="isbm:OpenProviderRequestSessionIn"/>
-			<wsdl:output message="isbm:OpenProviderRequestSessionOut"/>
+	<wsdl:portType name="ConsumerPublicationService">
+		<wsdl:operation name="OpenSubscriptionSession">
+			<wsdl:documentation>Opens a subscription session for a channel.</wsdl:documentation>
+			<wsdl:input message="isbm:OpenSubscriptionSessionIn"/>
+			<wsdl:output message="isbm:OpenSubscriptionSessionOut"/>
 			<wsdl:fault name="ChannelFault" message="isbm:ChannelFault"/>
 			<wsdl:fault name="NamespaceFault" message="isbm:NamespaceFault"/>
 			<wsdl:fault name="OperationFault" message="isbm:OperationFault"/>
 		</wsdl:operation>
-		<wsdl:operation name="ReadRequest">
-			<wsdl:documentation>Returns the first non-expired request message or a previously read expired message that satisfies the session message filters.</wsdl:documentation>
-			<wsdl:input message="isbm:ReadRequestIn"/>
-			<wsdl:output message="isbm:ReadRequestOut"/>
+		<wsdl:operation name="ReadPublication">
+			<wsdl:documentation>Returns the first non-expired publication message or a previously read expired message that satisfies the session message filters.</wsdl:documentation>
+			<wsdl:input message="isbm:ReadPublicationIn"/>
+			<wsdl:output message="isbm:ReadPublicationOut"/>
 			<wsdl:fault name="SessionFault" message="isbm:SessionFault"/>
 		</wsdl:operation>
-		<wsdl:operation name="RemoveRequest">
-			<wsdl:documentation>Deletes the first request message, if any, in the session message queue.</wsdl:documentation>
-			<wsdl:input message="isbm:RemoveRequestIn"/>
-			<wsdl:output message="isbm:RemoveRequestOut"/>
+		<wsdl:operation name="RemovePublication">
+			<wsdl:documentation>Removes the first, if any, publication message in the subscription queue.</wsdl:documentation>
+			<wsdl:input message="isbm:RemovePublicationIn"/>
+			<wsdl:output message="isbm:RemovePublicationOut"/>
 			<wsdl:fault name="SessionFault" message="isbm:SessionFault"/>
 		</wsdl:operation>
-		<wsdl:operation name="PostResponse">
-			<wsdl:documentation>Posts a response message on a channel.</wsdl:documentation>
-			<wsdl:input message="isbm:PostResponseIn"/>
-			<wsdl:output message="isbm:PostResponseOut"/>
-			<wsdl:fault name="SessionFault" message="isbm:SessionFault"/>
-		</wsdl:operation>
-		<wsdl:operation name="CloseProviderRequestSession">
-			<wsdl:documentation>Closes a provider request session.</wsdl:documentation>
-			<wsdl:input message="isbm:CloseProviderRequestSessionIn"/>
-			<wsdl:output message="isbm:CloseProviderRequestSessionOut"/>
+		<wsdl:operation name="CloseSubscriptionSession">
+			<wsdl:documentation>Closes a subscription session.</wsdl:documentation>
+			<wsdl:input message="isbm:CloseSubscriptionSessionIn"/>
+			<wsdl:output message="isbm:CloseSubscriptionSessionOut"/>
 			<wsdl:fault name="SessionFault" message="isbm:SessionFault"/>
 		</wsdl:operation>
 	</wsdl:portType>
 
-	<wsdl:binding name="ProviderRequestServiceSoap" type="isbm:ProviderRequestService">
+	<wsdl:binding name="ConsumerPublicationServiceSoap" type="isbm:ConsumerPublicationService">
 		<soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
-		<wsdl:operation name="OpenProviderRequestSession">
-			<soap:operation soapAction="http://www.openoandm.org/isbm/OpenProviderRequestSession" style="document"/>
+		<wsdl:operation name="OpenSubscriptionSession">
+			<soap:operation soapAction="http://www.openoandm.org/isbm/OpenSubscriptionSession" style="document"/>
 			<wsdl:input>
 				<soap:body use="literal"/>
 			</wsdl:input>
@@ -276,8 +248,8 @@
 				<soap:fault name="OperationFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
-		<wsdl:operation name="ReadRequest">
-			<soap:operation soapAction="http://www.openoandm.org/isbm/ReadRequest" style="document"/>
+		<wsdl:operation name="ReadPublication">
+			<soap:operation soapAction="http://www.openoandm.org/isbm/ReadPublication" style="document"/>
 			<wsdl:input>
 				<soap:body use="literal"/>
 			</wsdl:input>
@@ -288,8 +260,8 @@
 				<soap:fault name="SessionFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
-		<wsdl:operation name="RemoveRequest">
-			<soap:operation soapAction="http://www.openoandm.org/isbm/RemoveRequest" style="document"/>
+		<wsdl:operation name="RemovePublication">
+			<soap:operation soapAction="http://www.openoandm.org/isbm/RemovePublication" style="document"/>
 			<wsdl:input>
 				<soap:body use="literal"/>
 			</wsdl:input>
@@ -300,20 +272,8 @@
 				<soap:fault name="SessionFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
-		<wsdl:operation name="PostResponse">
-			<soap:operation soapAction="http://www.openoandm.org/isbm/PostResponse" style="document"/>
-			<wsdl:input>
-				<soap:body use="literal"/>
-			</wsdl:input>
-			<wsdl:output>
-				<soap:body use="literal"/>
-			</wsdl:output>
-			<wsdl:fault name="SessionFault">
-				<soap:fault name="SessionFault" use="literal"/>
-			</wsdl:fault>
-		</wsdl:operation>
-		<wsdl:operation name="CloseProviderRequestSession">
-			<soap:operation soapAction="http://www.openoandm.org/isbm/CloseProviderRequestSession" style="document"/>
+		<wsdl:operation name="CloseSubscriptionSession">
+			<soap:operation soapAction="http://www.openoandm.org/isbm/CloseSubscriptionSession" style="document"/>
 			<wsdl:input>
 				<soap:body use="literal"/>
 			</wsdl:input>
@@ -326,10 +286,10 @@
 		</wsdl:operation>
 	</wsdl:binding>
 
-	<wsdl:binding name="ProviderRequestServiceSoap12" type="isbm:ProviderRequestService">
+	<wsdl:binding name="ConsumerPublicationServiceSoap12" type="isbm:ConsumerPublicationService">
 		<soap12:binding transport="http://schemas.xmlsoap.org/soap/http"/>
-		<wsdl:operation name="OpenProviderRequestSession">
-			<soap12:operation soapAction="http://www.openoandm.org/isbm/OpenProviderRequestSession" style="document"/>
+		<wsdl:operation name="OpenSubscriptionSession">
+			<soap12:operation soapAction="http://www.openoandm.org/isbm/OpenSubscriptionSession" style="document"/>
 			<wsdl:input>
 				<soap12:body use="literal"/>
 			</wsdl:input>
@@ -346,8 +306,8 @@
 				<soap12:fault name="OperationFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
-		<wsdl:operation name="ReadRequest">
-			<soap12:operation soapAction="http://www.openoandm.org/isbm/ReadRequest" style="document"/>
+		<wsdl:operation name="ReadPublication">
+			<soap12:operation soapAction="http://www.openoandm.org/isbm/ReadPublication" style="document"/>
 			<wsdl:input>
 				<soap12:body use="literal"/>
 			</wsdl:input>
@@ -358,8 +318,8 @@
 				<soap12:fault name="SessionFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
-		<wsdl:operation name="RemoveRequest">
-			<soap12:operation soapAction="http://www.openoandm.org/isbm/RemoveRequest" style="document"/>
+		<wsdl:operation name="RemovePublication">
+			<soap12:operation soapAction="http://www.openoandm.org/isbm/ReadPublication" style="document"/>
 			<wsdl:input>
 				<soap12:body use="literal"/>
 			</wsdl:input>
@@ -370,20 +330,8 @@
 				<soap12:fault name="SessionFault" use="literal"/>
 			</wsdl:fault>
 		</wsdl:operation>
-		<wsdl:operation name="PostResponse">
-			<soap12:operation soapAction="http://www.openoandm.org/isbm/PostResponse" style="document"/>
-			<wsdl:input>
-				<soap12:body use="literal"/>
-			</wsdl:input>
-			<wsdl:output>
-				<soap12:body use="literal"/>
-			</wsdl:output>
-			<wsdl:fault name="SessionFault">
-				<soap12:fault name="SessionFault" use="literal"/>
-			</wsdl:fault>
-		</wsdl:operation>
-		<wsdl:operation name="CloseProviderRequestSession">
-			<soap12:operation soapAction="http://www.openoandm.org/isbm/CloseProviderRequestSession" style="document"/>
+		<wsdl:operation name="CloseSubscriptionSession">
+			<soap12:operation soapAction="http://www.openoandm.org/isbm/CloseSubscriptionSession" style="document"/>
 			<wsdl:input>
 				<soap12:body use="literal"/>
 			</wsdl:input>
@@ -396,12 +344,12 @@
 		</wsdl:operation>
 	</wsdl:binding>
 
-	<wsdl:service name="ProviderRequestService">
-		<wsdl:port name="ProviderRequestServiceSoap" binding="isbm:ProviderRequestServiceSoap">
-			<soap:address location="https://example.com/ProviderRequestService"/>
+	<wsdl:service name="ConsumerPublicationService">
+		<wsdl:port name="ConsumerPublicationServiceSoap" binding="isbm:ConsumerPublicationServiceSoap">
+			<soap:address location="https://example.com/ConsumerPublicationService"/>
 		</wsdl:port>
-		<wsdl:port name="ProviderRequestServiceSoap12" binding="isbm:ProviderRequestServiceSoap12">
-			<soap12:address location="https://example.com/ProviderRequestService12"/>
+		<wsdl:port name="ConsumerPublicationServiceSoap12" binding="isbm:ConsumerPublicationServiceSoap12">
+			<soap12:address location="https://example.com/ConsumerPublicationService12"/>
 		</wsdl:port>
 	</wsdl:service>
 </wsdl:definitions>
