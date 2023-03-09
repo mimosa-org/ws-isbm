@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "ISBM 2.0 Provider Publication Service",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "description": "An OpenAPI specification for the ISBM 2.0 RESTful interface.",
     "license": {
       "name": "MIMOSA License Agreement",
@@ -231,7 +231,8 @@
           "ProviderPublicationService"
         ],
         "requestBody": {
-          "description": "The Message to be published Only MessageContent, Topic, and Expiry are allowed in the request body.",
+          "description": "The Message to be published\nOnly MessageContent, Topic, and Expiry are allowed in the request body.",
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
@@ -410,7 +411,8 @@
   "security": [
     {
       "username_password": []
-    }
+    },
+    {}
   ],
   "components": {
     "securitySchemes": {
@@ -605,7 +607,7 @@
           "username"
         ]
       },
-      "OperationFault": {
+      "ChannelFault": {
         "type": "object",
         "properties": {
           "fault": {
@@ -617,7 +619,7 @@
           "fault"
         ]
       },
-      "ChannelFault": {
+      "OperationFault": {
         "type": "object",
         "properties": {
           "fault": {

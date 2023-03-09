@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "ISBM 2.0 Configuration Discovery Service",
-    "version": "2.0",
+    "version": "2.0.2",
     "description": "An OpenAPI specification for the ISBM 2.0 RESTful interface.",
     "license": {
       "name": "MIMOSA License Agreement",
@@ -28,6 +28,7 @@
         "tags": [
           "ConfigurationDiscoveryService"
         ],
+        "security": [],
         "responses": {
           "200": {
             "description": "Operations supported by the ISBM service provider.",
