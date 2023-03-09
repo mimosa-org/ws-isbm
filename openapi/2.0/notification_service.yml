@@ -1,7 +1,7 @@
 openapi: '3.0.1'
 info:
   title: ISBM 2.0 Notification Service
-  version: '2.0'
+  version: '2.0.2'
   description: An OpenAPI specification for the ISBM 2.0 RESTful interface.
   license:
     name: MIMOSA License Agreement
@@ -36,6 +36,7 @@ paths:
           schema:
             type: string
       requestBody: 
+        required: true
         content:
           application/json:
             schema:

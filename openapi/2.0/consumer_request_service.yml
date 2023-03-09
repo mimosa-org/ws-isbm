@@ -1,7 +1,7 @@
 openapi: '3.0.1'
 info:
   title: ISBM 2.0 Consumer Request Service
-  version: '2.0.1'
+  version: '2.0.2'
   description: An OpenAPI specification for the ISBM 2.0 RESTful interface.
   license:
     name: MIMOSA License Agreement
@@ -58,7 +58,9 @@ paths:
       requestBody:
         description: 
           The configuration of the consumer request session, i.e., optional notication listener address.
+          
           Only the ListenerURL is to be provided (if desired).
+        required: true
         content:
           application/json:
             schema:
@@ -168,8 +170,12 @@ paths:
       tags:
         - ConsumerRequestService
       requestBody:
-        description: The Message to be published
-          Only MessageContent, Topic, and Expiry are allowed in the request body. Although `topics` is an array, at most 1 value is allowed.
+        description:
+          The Message to be published
+          
+          Only MessageContent, Topic, and Expiry are allowed in the request body.
+          Although `topics` is an array, at most 1 value is allowed.
+        required: true
         content:
           application/json:
             schema:

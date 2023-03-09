@@ -1,7 +1,7 @@
 openapi: '3.0.1'
 info:
   title: ISBM 2.0 Configuration Discovery Service
-  version: '2.0'
+  version: '2.0.2'
   description: An OpenAPI specification for the ISBM 2.0 RESTful interface.
   license:
     name: MIMOSA License Agreement
@@ -21,6 +21,7 @@ paths:
                The purpose of this operation is to allow an application to be configured appropriately to communicate successfully with the service provider.
       tags: 
         - ConfigurationDiscoveryService
+      security: [] # disable security on retrieving the genearal configuration
       responses: 
         '200': 
           description: Operations supported by the ISBM service provider.
@@ -167,7 +168,7 @@ components:
           type: string
           format: uri          
       required:
-        - schemeName      
+        - schemeName
     TokenSchema:
       type: object
       properties:
