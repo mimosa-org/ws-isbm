@@ -73,11 +73,6 @@
         "tags": [
           "ChannelManagement"
         ],
-        "security": [
-          {
-            "username_password": []
-          }
-        ],
         "responses": {
           "200": {
             "description": "A (possibly empty) list of Channels.",
@@ -475,7 +470,8 @@
   "security": [
     {
       "username_password": []
-    }
+    },
+    {}
   ],
   "components": {
     "securitySchemes": {

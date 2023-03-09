@@ -48,8 +48,6 @@ paths:
       summary: Retrieve all the channels, subject to security permissions.
       tags:
         - ChannelManagement
-      security:
-        - username_password: []
       responses:
         '200':
           description: A (possibly empty) list of Channels.
@@ -300,6 +298,7 @@ paths:
                 $ref: '#/components/schemas/SecurityTokenFault'
 security:
   - username_password: []
+  - {} # optionally no security as it depends on the channel itself
 # Referenced componenents, e.g., parameters, schemas, etc.
 components:
   securitySchemes:

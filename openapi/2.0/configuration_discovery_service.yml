@@ -21,7 +21,7 @@ paths:
                The purpose of this operation is to allow an application to be configured appropriately to communicate successfully with the service provider.
       tags: 
         - ConfigurationDiscoveryService
-      security: [] # disable security on retrieving the genearal configuration
+      security: [] # disable security on retrieving the general configuration
       responses: 
         '200': 
           description: Operations supported by the ISBM service provider.

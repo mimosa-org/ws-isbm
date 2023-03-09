@@ -386,7 +386,8 @@
   "security": [
     {
       "username_password": []
-    }
+    },
+    {}
   ],
   "components": {
     "securitySchemes": {
