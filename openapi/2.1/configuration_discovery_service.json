@@ -1,0 +1,210 @@
+openapi: '3.0.1'
+info:
+  title: ISBM 2.1 Configuration Discovery Service
+  version: '2.1'
+  description: An OpenAPI specification for the ISBM 2.1 RESTful interface.
+  license:
+    name: MIMOSA License Agreement
+    url: http://www.mimosa.org/policy-charters/mimosa-license-agreement/
+  contact:
+    name: MIMOSA
+    email: info@mimosa.org
+    url: http://www.mimosa.org/
+tags:
+  - name: ConfigurationDiscoveryService
+    description: REST version of the ISBM 2.1 Configuration Discovery Service.
+paths:
+  /configuration/supported-operations:
+    get: 
+      operationId: getSupportedOperations
+      summary: Gets information about the supported operations and features of the ISBM service provider.
+               The purpose of this operation is to allow an application to be configured appropriately to communicate successfully with the service provider.
+      tags: 
+        - ConfigurationDiscoveryService
+      security: [] # disable security on retrieving the genearal configuration
+      responses: 
+        '200': 
+          description: Operations supported by the ISBM service provider.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SupportedOperations'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/SupportedOperations'
+  /configuration/security-details:
+    get: 
+      operationId: getSecurityDetails
+      summary: Gets the detailed security related information of the ISBM service provider.
+               The security details are exposed only if the connecting application provides a valid SecurityToken.
+               Each application may be assigned a SecurityToken out-of-band by the service provider.
+      tags: 
+        - ConfigurationDiscoveryService
+      security:
+        - username_password: []
+      responses: 
+        '200': 
+          description: Detailed security related information of the ISBM service provider.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityDetails'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/SecurityDetails'
+        '401':
+          description: The security tokens do not match those assigned to the application (SecurityTokenFault).
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityTokenFault'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/SecurityTokenFault'
+# Referenced componenents, e.g., parameters, schemas, etc.
+components:
+  securitySchemes:
+    username_password:
+      type: http
+      scheme: basic
+  schemas:
+    SupportedOperations:
+      type: object
+      description: Gets information about the supported operations and features of the ISBM service provider.
+      properties:
+        isXMLFilteringEnabled:
+          type: boolean
+        isJSONFilteringEnabled:
+          type: boolean
+        supportedContentFilteringLanguages:
+          type: object
+          properties:
+            contentFilteringLanguages:
+              type: array
+              items:
+                $ref: '#/components/schemas/ContentFilteringLanguage'
+          required:
+            - contentFilteringLanguages
+        supportedAuthentications:
+          type: object
+          properties:
+            soapSupportedTokenSchemas:
+              type: array
+              items:
+                $ref: '#/components/schemas/TokenSchema'
+            restSupportedAuthenticationSchemes:
+              type: array
+              description: The scheme names must match one of the schemes mentioned in HTTP Authentication Scheme Registry [https://www.iana.org/assignments/http-authschemes/http-authschemes.xhtml].
+              items:
+                $ref: '#/components/schemas/AuthenticationScheme'            
+        securityLevelConformance:
+          $ref: '#/components/schemas/SecurityLevel'
+        isDeadLetteringEnabled:
+          type: boolean
+        isChannelCreationEnabled:
+          type: boolean          
+        isOpenChannelSecuringEnabled:
+          type: boolean
+        isWhitelistRequired:
+          type: boolean    
+        defaultExpiryDuration:
+          type: string
+          nullable: true
+          # The above is equivalent to the JSON schema below.
+          # Once OpenAPI update is released and tools support it, use the following
+          # type: 
+          #   - 'null'
+          #   - string
+          format: duration
+          description: Duration as defined by XML Schema xs:duration, http://w3c.org/TR/xmlschema-2/#duration, or  null
+          pattern: '[-]?P([0-9]+Y)?([0-9]+M)?([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+([.][0-9]+)?S)?)?'
+        additionalInformationURL:
+          type: string
+          format: uri
+      required:
+        - isXMLFilteringEnabled
+        - isJSONFilteringEnabled
+        - supportedContentFilteringLanguages
+        - supportedAuthentications
+        - securityLevelConformance
+        - isDeadLetteringEnabled
+        - isChannelCreationEnabled
+        - isOpenChannelSecuringEnabled
+        - isWhitelistRequired
+        - defaultExpiryDuration
+        - additionalInformationURL
+    SecurityDetails:
+      type: object
+      description: Gets the detailed security related information of the ISBM service provider.
+      properties:
+        isTLSEnabled:
+          type: boolean
+        isSecurityTokenRequired:
+          type: boolean
+        isSecurityTokenEncryptionEnabled:
+          type: boolean
+        isCertificateRequired:
+          type: boolean          
+        isRBACEnabled:
+          type: boolean
+        isKeyManagementServiceEnabled:
+          type: boolean                          
+        isEndToEndMessageEncryptionEnabled:
+          type: boolean                                    
+      required:
+        - isTLSEnabled
+        - isSecurityTokenRequired
+        - isSecurityTokenEncryptionEnabled
+        - isCertificateRequired
+        - isRBACEnabled
+        - isKeyManagementServiceEnabled
+        - isEndToEndMessageEncryptionEnabled
+    AuthenticationScheme:
+      type: object
+      properties:
+        schemeName:
+          type: string          
+        schemeInfoUrl:
+          type: string
+          format: uri          
+      required:
+        - schemeName
+    TokenSchema:
+      type: object
+      properties:
+        namespaceName:
+          type: string          
+        schemaLocation:
+          type: string
+          format: uri
+      required:
+        - namespaceName
+    ContentFilteringLanguage:
+      type: object
+      properties:
+        applicableMediaTypes:
+          type: array
+          items:
+            type: string
+        languageName:
+          type: string
+        languageVersion:
+          type: string
+      required:
+        - applicableMediaTypes
+        - languageName
+    SecurityLevel:
+      type: number
+      enum:
+        - 1
+        - 2
+        - 3
+        - 4
+    SecurityTokenFault:
+      type: object
+      properties:
+        fault: 
+          type: string
+          description: Human readable explanation of the error.
+      required: 
+        - fault

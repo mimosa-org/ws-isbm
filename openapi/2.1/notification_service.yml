@@ -1,0 +1,94 @@
+openapi: '3.0.1'
+info:
+  title: ISBM 2.1 Notification Service
+  version: '2.1'
+  description: An OpenAPI specification for the ISBM 2.1 RESTful interface.
+  license:
+    name: MIMOSA License Agreement
+    url: http://www.mimosa.org/policy-charters/mimosa-license-agreement/
+  contact:
+    name: MIMOSA
+    email: info@mimosa.org
+    url: http://www.mimosa.org/
+tags:
+  - name: NotificationService
+    description: REST version of the ISBM 2.1 Notification Service.
+paths:
+  /notifications/{session-id}/{message-id}:
+    parameters:
+      - name: session-id
+        in: path
+        description: The identifier of the session at which the message was recieved.
+        required: true
+        schema:
+          type: string
+    put: 
+      operationId: notifyListener
+      summary: Provides a notification of a new message being able to be read for a session.
+
+        The Listener URL invoked was provided when the application desiring notifications subscribed to the channel.
+      tags: 
+        - NotificationService
+      parameters:
+        - name: message-id
+          in: path
+          description: The identifier of the posted message.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Notification'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Notification'
+      responses: 
+        '204': 
+          description: Notification recieved by listener.
+          content:
+            application/json: {}
+            application/xml: {}
+        '400':
+          description: A provided parameter is malformed or not optional but blank.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParameterFault'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ParameterFault'
+# Referenced componenents, e.g., parameters, schemas, etc.
+components:
+  schemas:
+    Notification:
+      type: object
+      description:
+        Represents a notification to a listener about a publication, request, or response message.
+        SessionID and MessageID are provided via the request URL.
+
+        Topic and RequestMessageID are mutually exclusive.
+        Topic MUST NOT be used for consumer request session response notification.
+        RequestMessageID MUST only be used for consumer request session response notification.
+      properties: 
+        sessionId: 
+          type: string
+        messageId:
+          type: string
+        topics: 
+          type: array
+          items: 
+            type: string
+        requestMessageId:
+          type: string
+    ParameterFault:
+      type: object
+      description: Returned when any given parameter is malformed or not optional but blank. The HTTP response status must be 400.
+      properties:
+        fault:
+          type: string
+          description: Human readable explanation of the error.
+      required:
+        - fault

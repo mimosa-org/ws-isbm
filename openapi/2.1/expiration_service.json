@@ -1,0 +1,127 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "ISBM 2.1 Expiration Listener Service",
+    "version": "2.1",
+    "description": "An OpenAPI specification for the ISBM 2.1 RESTful interface.",
+    "license": {
+      "name": "MIMOSA License Agreement",
+      "url": "http://www.mimosa.org/policy-charters/mimosa-license-agreement/"
+    },
+    "contact": {
+      "name": "MIMOSA",
+      "email": "info@mimosa.org",
+      "url": "http://www.mimosa.org/"
+    }
+  },
+  "tags": [
+    {
+      "name": "ExpirationListenerService",
+      "description": "REST version of the ISBM 2.1 Notification Service."
+    }
+  ],
+  "paths": {
+    "/expirations/{session-id}/{message-id}": {
+      "parameters": [
+        {
+          "name": "session-id",
+          "in": "path",
+          "description": "The identifier of the session at which the message was recieved.",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "put": {
+        "operationId": "messageExpired",
+        "summary": "Provides a notification of a publication or request message being explicitly expired by its source. The Expiration Listener URL invoked was provided when the application desiring expiration notifications subscribed to the channel.",
+        "tags": [
+          "ExpirationListenerService"
+        ],
+        "parameters": [
+          {
+            "name": "message-id",
+            "in": "path",
+            "description": "The identifier of the message to be expired.",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Expiration"
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "$ref": "#/components/schemas/Expiration"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Expiration recieved by listener.",
+            "content": {
+              "application/json": {},
+              "application/xml": {}
+            }
+          },
+          "400": {
+            "description": "A provided parameter is malformed or not optional but blank.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParameterFault"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParameterFault"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Expiration": {
+        "type": "object",
+        "description": "SessionID and MessageID are provided via the request URL. OriginalMessageID is to be provided if the message being expired was forwarded between channels.",
+        "properties": {
+          "sessionId": {
+            "type": "string"
+          },
+          "messageId": {
+            "type": "string"
+          },
+          "originalMessageId": {
+            "type": "string"
+          }
+        }
+      },
+      "ParameterFault": {
+        "type": "object",
+        "description": "Returned when any given parameter is malformed or not optional but blank. The HTTP response status must be 400.",
+        "properties": {
+          "fault": {
+            "type": "string",
+            "description": "Human readable explanation of the error."
+          }
+        },
+        "required": [
+          "fault"
+        ]
+      }
+    }
+  }
+}
