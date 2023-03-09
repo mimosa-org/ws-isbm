@@ -1,7 +1,7 @@
 openapi: '3.0.1'
 info:
   title: ISBM 2.0
-  version: '2.0.1'
+  version: '2.0.2'
   description: An OpenAPI specification for the ISBM 2.0 RESTful interface.
   license:
     name: MIMOSA License Agreement
@@ -58,8 +58,6 @@ paths:
       summary: Retrieve all the channels, subject to security permissions.
       tags:
         - ChannelManagement
-      security:
-        - username_password: []
       responses:
         '200':
           description: A (possibly empty) list of Channels.
@@ -79,9 +77,10 @@ paths:
       summary: Create a new channel with the specified URI path fragment.
       tags:
         - ChannelManagement
-      security: [] # disable security for creating channels, only operation that does not (cannot) have security 
+      security: [] # disable security for creating channels: implementations using whitelisting may need to change as appropriate
       requestBody:
         description: The Channel to create
+        required: true
         content:
           application/json:
             schema:
@@ -204,6 +203,7 @@ paths:
         - ChannelManagement
       requestBody:
         description: The SecurityTokens to add.
+        required: true
         content:
           application/json:
             schema:
@@ -258,6 +258,7 @@ paths:
         - ChannelManagement
       requestBody:
         description: 'The security tokens to remove: each token must be specified in full to be removed, i.e., specifying only the username of a UsernamePassword token is insufficient.'
+        required: true
         content:
           application/json:
             schema:
@@ -381,6 +382,7 @@ paths:
         - ConsumerPublicationService
       requestBody:
         description: The configuration of the subscription session, i.e., topic filtering, content-filtering, and notication listener address. Only the Topics, ListenerURL, and FilterExpressions are to be provided.
+        required: true
         content:
           application/json:
             schema:
@@ -462,6 +464,7 @@ paths:
         - ProviderRequestService
       requestBody:
         description: The configuration of the session, i.e., topic filtering, content-filtering, and notication listener address. Only the Topics, ListenerURL, and FilterExpressions are to be provided.
+        required: true
         content:
           application/json:
             schema:
@@ -544,7 +547,9 @@ paths:
       requestBody:
         description: 
           The configuration of the consumer request session, i.e., optional notication listener address.
+          
           Only the ListenerURL is to be provided (if desired).
+        required: true
         content:
           application/json:
             schema:
@@ -743,8 +748,11 @@ paths:
       tags:
         - ProviderPublicationService
       requestBody:
-        description: The Message to be published 
+        description:
+          The Message to be published 
+          
           Only MessageContent, Topic, and Expiry are allowed in the request body.
+        required: true
         content:
           application/json:
             schema:
@@ -963,8 +971,12 @@ paths:
       tags:
         - ConsumerRequestService
       requestBody:
-        description: The Message to be published
-          Only MessageContent, Topic, and Expiry are allowed in the request body. Although `topics` is an array, at most 1 value is allowed.
+        description:
+          The Message to be published
+          
+          Only MessageContent, Topic, and Expiry are allowed in the request body.
+          Although `topics` is an array, at most 1 value is allowed.
+        required: true
         content:
           application/json:
             schema:
@@ -1193,6 +1205,7 @@ paths:
           The Message to be published.
 
           Only MessageContent is allowed in the request body.
+        required: true
         content:
           application/json:
             schema:
@@ -1252,7 +1265,7 @@ paths:
                The purpose of this operation is to allow an application to be configured appropriately to communicate successfully with the service provider.
       tags: 
         - ConfigurationDiscoveryService
-      security: [] # disable security on retrieving the genearal configuration
+      security: [] # disable security on retrieving the general configuration
       responses: 
         '200': 
           description: Operations supported by the ISBM service provider.
@@ -1271,6 +1284,8 @@ paths:
                Each application may be assigned a SecurityToken out-of-band by the service provider.
       tags: 
         - ConfigurationDiscoveryService
+      security:
+        - username_password: []
       responses: 
         '200': 
           description: Detailed security related information of the ISBM service provider.
@@ -1292,6 +1307,7 @@ paths:
                 $ref: '#/components/schemas/SecurityTokenFault'
 security:
   - username_password: []
+  - {} # optionally no security as it depends on the channel itself
 # Referenced componenents, e.g., parameters, schemas, etc.
 components:
   securitySchemes:
@@ -1374,7 +1390,7 @@ components:
         expiry:
           type: string
           format: duration
-          description: The duration after which the message will be automatically expired. Negative duration is no duration. 
+          description: The duration after which the message will be automatically expired. Negative duration is no duration.
             Duration as defined by XML Schema xs:duration, http://w3c.org/TR/xmlschema-2/#duration
           # this is not a strict regexp, just a quick definition. The full regex would enforce at least one component.
           pattern: '[-]?P([0-9]+Y)?([0-9]+M)?([0-9]+D)?(T([0-9]+H)?([0-9]+M)?([0-9]+([.][0-9]+)?S)?)?'
@@ -1460,10 +1476,10 @@ components:
     ChannelFault:
       type: object
       properties:
-        fault: 
+        fault:
           type: string
           description: Human readable explanation of the error.
-      required: 
+      required:
         - fault
     NamespaceFault:
       type: object

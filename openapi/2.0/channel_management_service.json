@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "ISBM 2.0 Channel Management Service",
-    "version": "2.0",
+    "version": "2.0.2",
     "description": "An OpenAPI specification for the ISBM RESTful interface for Channel Management Service.",
     "license": {
       "name": "MIMOSA License Agreement",
@@ -73,11 +73,6 @@
         "tags": [
           "ChannelManagement"
         ],
-        "security": [
-          {
-            "username_password": []
-          }
-        ],
         "responses": {
           "200": {
             "description": "A (possibly empty) list of Channels.",
@@ -111,6 +106,7 @@
         "security": [],
         "requestBody": {
           "description": "The Channel to create",
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
@@ -303,6 +299,7 @@
         ],
         "requestBody": {
           "description": "The SecurityTokens to add.",
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
@@ -389,6 +386,7 @@
         ],
         "requestBody": {
           "description": "The security tokens to remove: each token must be specified in full to be removed, i.e., specifying only the username of a UsernamePassword token is insufficient.",
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
@@ -472,7 +470,8 @@
   "security": [
     {
       "username_password": []
-    }
+    },
+    {}
   ],
   "components": {
     "securitySchemes": {

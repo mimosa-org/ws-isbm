@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "ISBM 2.0 Consumer Publication Service",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "description": "An OpenAPI specification for the ISBM 2.0 RESTful interface.",
     "license": {
       "name": "MIMOSA License Agreement",
@@ -86,6 +86,7 @@
         ],
         "requestBody": {
           "description": "The configuration of the subscription session, i.e., topic filtering, content-filtering, and notication listener address. Only the Topics, ListenerURL, and FilterExpressions are to be provided.",
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
@@ -385,7 +386,8 @@
   "security": [
     {
       "username_password": []
-    }
+    },
+    {}
   ],
   "components": {
     "securitySchemes": {

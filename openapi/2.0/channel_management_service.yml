@@ -1,7 +1,7 @@
 openapi: '3.0.1'
 info:
   title: ISBM 2.0 Channel Management Service
-  version: '2.0'
+  version: '2.0.2'
   description: An OpenAPI specification for the ISBM RESTful interface for Channel Management Service.
   license:
     name: MIMOSA License Agreement
@@ -48,8 +48,6 @@ paths:
       summary: Retrieve all the channels, subject to security permissions.
       tags:
         - ChannelManagement
-      security:
-        - username_password: []
       responses:
         '200':
           description: A (possibly empty) list of Channels.
@@ -72,6 +70,7 @@ paths:
       security: [] # disable security for creating channels, only operation that does not (cannot) have security 
       requestBody:
         description: The Channel to create
+        required: true
         content:
           application/json:
             schema:
@@ -194,6 +193,7 @@ paths:
         - ChannelManagement
       requestBody:
         description: The SecurityTokens to add.
+        required: true
         content:
           application/json:
             schema:
@@ -248,6 +248,7 @@ paths:
         - ChannelManagement
       requestBody:
         description: 'The security tokens to remove: each token must be specified in full to be removed, i.e., specifying only the username of a UsernamePassword token is insufficient.'
+        required: true
         content:
           application/json:
             schema:
@@ -297,6 +298,7 @@ paths:
                 $ref: '#/components/schemas/SecurityTokenFault'
 security:
   - username_password: []
+  - {} # optionally no security as it depends on the channel itself
 # Referenced componenents, e.g., parameters, schemas, etc.
 components:
   securitySchemes:

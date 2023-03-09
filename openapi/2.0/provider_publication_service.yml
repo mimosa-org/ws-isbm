@@ -1,7 +1,7 @@
 openapi: '3.0.1'
 info:
   title: ISBM 2.0 Provider Publication Service
-  version: '2.0.1'
+  version: '2.0.2'
   description: An OpenAPI specification for the ISBM 2.0 RESTful interface.
   license:
     name: MIMOSA License Agreement
@@ -152,8 +152,11 @@ paths:
       tags:
         - ProviderPublicationService
       requestBody:
-        description: The Message to be published 
+        description:
+          The Message to be published 
+          
           Only MessageContent, Topic, and Expiry are allowed in the request body.
+        required: true
         content:
           application/json:
             schema:
@@ -268,6 +271,7 @@ paths:
                 $ref: '#/components/schemas/SessionFault'
 security:
   - username_password: []
+  - {} # optionally no security as it depends on the channel itself
 # Referenced componenents, e.g., parameters, schemas, etc.
 components:
   securitySchemes:
@@ -410,7 +414,7 @@ components:
       required:
         - password
         - username
-    OperationFault:
+    ChannelFault:
       type: object
       properties:
         fault:
@@ -418,13 +422,13 @@ components:
           description: Human readable explanation of the error.
       required:
         - fault
-    ChannelFault:
+    OperationFault:
       type: object
       properties:
-        fault: 
+        fault:
           type: string
           description: Human readable explanation of the error.
-      required: 
+      required:
         - fault
     ParameterFault:
       type: object
