@@ -281,6 +281,7 @@ paths:
                 $ref: '#/components/schemas/SessionFault'
 security:
   - username_password: []
+  - {} # optionally no security as it depends on the channel itself
 # Referenced componenents, e.g., parameters, schemas, etc.
 components:
   securitySchemes:

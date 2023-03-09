@@ -58,8 +58,6 @@ paths:
       summary: Retrieve all the channels, subject to security permissions.
       tags:
         - ChannelManagement
-      security:
-        - username_password: []
       responses:
         '200':
           description: A (possibly empty) list of Channels.
@@ -79,7 +77,7 @@ paths:
       summary: Create a new channel with the specified URI path fragment.
       tags:
         - ChannelManagement
-      security: [] # disable security for creating channels, only operation that does not (cannot) have security 
+      security: [] # disable security for creating channels: implementations using whitelisting may need to change as appropriate
       requestBody:
         description: The Channel to create
         required: true
@@ -1286,7 +1284,7 @@ paths:
                The purpose of this operation is to allow an application to be configured appropriately to communicate successfully with the service provider.
       tags: 
         - ConfigurationDiscoveryService
-      security: [] # disable security on retrieving the genearal configuration
+      security: [] # disable security on retrieving the general configuration
       responses: 
         '200': 
           description: Operations supported by the ISBM service provider.
@@ -1305,6 +1303,8 @@ paths:
                Each application may be assigned a SecurityToken out-of-band by the service provider.
       tags: 
         - ConfigurationDiscoveryService
+      security:
+        - username_password: []
       responses: 
         '200': 
           description: Detailed security related information of the ISBM service provider.
@@ -1326,6 +1326,7 @@ paths:
                 $ref: '#/components/schemas/SecurityTokenFault'
 security:
   - username_password: []
+  - {} # optionally no security as it depends on the channel itself
 # Referenced componenents, e.g., parameters, schemas, etc.
 components:
   securitySchemes:
@@ -1503,10 +1504,10 @@ components:
     ChannelFault:
       type: object
       properties:
-        fault: 
+        fault:
           type: string
           description: Human readable explanation of the error.
-      required: 
+      required:
         - fault
     NamespaceFault:
       type: object
